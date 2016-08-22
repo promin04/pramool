@@ -2,5 +2,5 @@
 module.exports = function (app) {
   //require controllers
   var index = require('../controllers/index.controller.js');
-  app.get('/',index.render)
+  app.get('/',index.render);
 };

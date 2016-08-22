@@ -1,0 +1,20 @@
+{
+  "name": "pramool",
+  "description": "",
+  "main": "server.js",
+  "authors": [
+    "Prommin"
+  ],
+  "license": "Prommin",
+  "homepage": "https://github.com/promin04/pramool",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "^1.5.8"
+  }
+}

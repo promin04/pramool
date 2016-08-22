@@ -2,13 +2,15 @@
   "name": "pramool",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Prommin",
+  "license": "Prommin",
   "dependencies": {
+    "angular": "^1.5.8",
+    "angular-ui-router": "^0.3.1",
     "express": "^4.14.0",
     "jade": "^1.11.0",
     "mongoose": "^4.5.9",
