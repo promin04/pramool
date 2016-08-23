@@ -2,7 +2,14 @@ doctype html
 html
   head
     title Pramool
-  body
-    div(class='container')
-    <script src="./js/lib/angular/angular.min.js"></script>
-    <script src="./js/modules/application.js"></script>
+    link(rel="stylesheet" type="text/css" href="./css/style.css")
+  body(ng-app="main")
+    header
+      nav-header
+    div(class='box')
+      store(ng-controller='StoreController as store')
+
+    script(type="text/javascript",src="./lib/angular/angular.min.js")
+    script(type="text/javascript",src="./modules/header/header.js")
+    script(type="text/javascript",src="./modules/store/store.js")
+    script(type="text/javascript",src="./modules/main.js")

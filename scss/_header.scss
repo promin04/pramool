@@ -1,0 +1,35 @@
+header {
+    background-color: $grey;
+    display: flex;
+    width: 100%;
+    justify-content:center;
+}
+
+nav-header {
+    display: flex;
+    width: 900px;
+
+        ul{
+          list-style-type: none;
+          margin: 0;
+          padding: 0;
+          overflow: hidden;
+        }
+
+        li {
+            padding: 16px;
+        }
+
+}
+
+.header-menu{
+    display: flex;
+    justify-content: flex-start;
+    width: 50%;
+}
+
+.header-user{
+    display: flex;
+    justify-content: flex-end;
+    width: 50%;
+}

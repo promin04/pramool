@@ -1,0 +1,35 @@
+store {
+  width: 100%;
+}
+
+.product-box {
+  margin-top: 16px;
+  display: flex;
+  width: 100%;
+}
+
+.product-img {
+  width: 50%;
+  img {
+    float: right;
+    margin-right: 20px;
+  }
+}
+
+
+.product-detail {
+  width: 50%;
+}
+
+.product-time {
+  width: 50%;
+}
+
+.product-price {
+  width: 50%;
+}
+
+.product-auction {
+  display: flex;
+  width: 100%;
+}
