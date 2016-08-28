@@ -1,12 +1,32 @@
-div(class='product-box' ng-repeat='product in store.product')
+div(class = 'product-box' ng-repeat='product in store.product')
   div(class='product-img')
-    img(src='http://placehold.it/250x200' width='250' height='200')
-  div(class='product-detail')
+    img(src = 'http://placehold.it/250x200' width='250' height='200')
+  div(class = 'product-detail')
     h2 {{product.name}}
     h4 Description
     p {{product.description}}
-    div(class='product-auction')
-      div(class='product-time')
+    div(class = 'product-auction')
+      div(class = 'product-time')
         |{{product.time}}
-      div(class='product-price')
+      div(class = 'product-price')
         |{{product.price}} THB
+br
+br
+form(name = 'add' , ng-submit = 'store.add(mos)' , style = 'text-align:center')
+  |Product's name:
+  br
+  input(type = 'text' , name = 'name' , ng-model="mos.name")
+  br
+  |Price:
+  br
+  input(type = 'text' , name = 'price' , ng-model="mos.price")
+  br
+  |Time:
+  br
+  |days : hours
+  br
+  input(type = 'number' , name = 'hour' , ng-model="mos.time.days")
+  |:
+  input(type = 'number' , name = 'min' , ng-model="mos.time.hours")
+  br
+  input(type = 'submit' , value = 'submit')
