@@ -1,17 +1,7 @@
 "use strict"
 //database
-var mongoose = require('mongoose');
-mongoose.set('debug',true);
-var uri = 'mongodb://localhost/pramool';
-var db = mongoose.connect(uri);
-var Schema = mongoose.Schema;
-var ProductSchema = new Schema({
-    name : String,
-    price : Number,
-    createAt : Object,
-    bidEnd : Object
-});
-mongoose.model('Product',ProductSchema);
+require('./config/mongoose.js');
+require('./config/passport.js')();
 //server
 var app = require('./config/express.js')();
 

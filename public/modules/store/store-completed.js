@@ -1,31 +1,22 @@
 (function () {
-
   var app = angular.module('store');
-  app.directive('store',function () {
+  app.directive('storeCompleted',function () {
     return {
       restrict: 'A',
-      templateUrl : './modules/store/views/store.jade',
+      templateUrl : './modules/store/views/store-completed.jade',
       controller : ['$http',function ($http) {
         var that = this;
-        this.add = function (add) {
-          $http.post('/product',this.mos).then(function(response) {
 
-          });
-
-
-        this.mos =null;
-      };
         this.product =  [];
 
-            $http.get('/product').then(function(response) {
+            $http.get('/completed').then(function(response){
               var data = response.data;
               that.product=that.product.concat(data);
-
+              console.log(that.product);
             });
       }],
       controllerAs : 'store'
     };
+
   });
-
-
-})();
+})()

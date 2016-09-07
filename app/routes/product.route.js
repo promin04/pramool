@@ -4,5 +4,9 @@ module.exports = function (app) {
   app.route('/product')
      .post(product.create)
      .get(product.read)
-     .delete(product.delete);  
+     .delete(product.delete);
+
+  app.route('/completed')
+      .get(product.completed);
+
 };

@@ -1,6 +1,65 @@
 ul(class='header-menu')
     li U-Mark
+    li(ui-sref="auction") Auction
+    li(ui-sref="completed") Completed
+ul(class='header-user' ng-controller='authenticate as user')
 
-ul(class='header-user')
-    li Log in
-    li Sign in
+    li(ng-show='user.username')
+      | Hello {{user.username}}
+    li(ng-show='user.username' , ng-click='user.signout()')
+      |Log out
+    li(class="sign-up" data-toggle="modal" data-target="#signUp" ng-if='!user.username') Sign up
+    li(class="sign-in" data-toggle="modal" data-target="#signIn" ng-if='!user.username') Sign in
+
+// modal sign up
+#signUp.modal.fade(tabindex='-1', role='dialog', aria-labelledby='signUpLabel')
+    .modal-dialog(role='document')
+      .modal-content
+        .modal-header
+          button.close(type='button', data-dismiss='modal', aria-label='Close')
+            span(aria-hidden='true') ×
+          h4#signUpLabel.modal-title Sign up
+        .modal-body
+          form(name='signup' , method='POST' , action='/signup')
+            div
+              label(for='username') Username
+              input(name='username' , type='text' , placeholder='username')
+            div
+              label(for='firstname') Firstname
+              input(name='firstname' , type='text' , placeholder='firstname')
+            div
+              label(for='lastname') Lastname
+              input(name='lastname' , type='text' , placeholder='lastname')
+            div
+              label(for='email') Email
+              input(name='email' , type='email' , placeholder='youremail@email.com')
+            div
+              label(for='password') Password
+              input(name='password' , type='password' , placeholder='password')
+            div
+              input(type='submit' , value='Sign up')
+        .modal-footer
+          button.btn.btn-default(type='button', data-dismiss='modal') Close
+          button.btn.btn-primary(type='button') Save changes
+
+// modal sign in
+#signIn.modal.fade(tabindex='-1', role='dialog', aria-labelledby='signInLabel')
+    .modal-dialog(role='document')
+        .modal-content
+          .modal-header
+              button.close(type='button', data-dismiss='modal', aria-label='Close')
+                span(aria-hidden='true') ×
+              h4#signInLabel.modal-title Sign in
+          .modal-body
+          form(name='signup' , method='POST' , action='/signin')
+            div
+              label(for='username') Username
+              input(name='username' , type='text' , placeholder='username')
+            div
+              label(for='password') Firstname
+              input(name='password' , type='password' , placeholder='password')
+            div
+              input(type='submit' , value='Sign up')
+          .modal-footer
+            button.btn.btn-default(type='button', data-dismiss='modal') Close
+            button.btn.btn-primary(type='button') Save changes
