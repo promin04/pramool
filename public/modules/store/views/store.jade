@@ -8,24 +8,26 @@ div(class = 'product-box' ng-repeat='product in store.product' ui-sref='product.
     div( class = 'product-auction' )
       timer( milisec = '{{product.bidEnd}}' )
       div(class = 'product-price')
-        ||{{product.price}} THB
+        ||{{product.bider[product.bider.length-1].price}} THB
 br
 br
-form(name = 'add' , ng-submit = 'store.add(store.mos)' , style = 'text-align:center')
+form(name = 'add' , ng-submit='store.add()' , style = 'text-align:center')
   |Product's name:
   br
-  input(type = 'text' , name = 'name' , ng-model="store.mos.name")
+  input(type = 'text' , name = 'name' , ng-model="store.stuff.name")
   br
   |Price:
   br
-  input(type = 'text' , name = 'price' , ng-model="store.mos.price")
+  input(type = 'text' , name = 'price', ng-model="store.stuff.price")
   br
   |Time:
   br
   |days : hours
   br
-  input(type = 'number' , name = 'hour' , ng-model="store.mos.time.days")
+  input(type = 'number' , name = 'days', ng-model="store.stuff.time.days")
   |:
-  input(type = 'number' , name = 'min' , ng-model="store.mos.time.hours")
+  input(type = 'number' , name = 'hours', ng-model="store.stuff.time.hours")
   br
   input(type = 'submit' , value = 'submit')
+
+  button(type='button' , ng-click='store.delete()') Delete

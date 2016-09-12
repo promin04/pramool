@@ -1,3 +1,16 @@
 div
   h1 sidebar
-  button.btn.btn-danger(type='button') Danger
+
+  div
+    |Time Remaining
+    timer( milisec = '{{product.bidEnd}}' )
+  div(ng-repeat='bider in product.bider')
+    | Current price {{bider.price}} THB.
+    br
+    | By {{bider.name}} @ {{bider.time}}
+  form(name = 'add' , ng-submit='product.offer()' , style = 'text-align:center' novalidate='')
+      span(ng-show='add.price.$invalid && add.price.$touched') Price should be more than {{product.bider[product.bider.length-1].price}} .
+      br
+      input(type = 'number' , name = 'price' , ng-model = 'product.price' min='{{product.bider[product.bider.length-1].price}}' , integer='' )
+      br
+      input(type = 'submit' , value = 'submit' ,class='btn btn-info btn-block')

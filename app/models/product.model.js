@@ -3,9 +3,14 @@ var Schema = mongoose.Schema;
 
 var ProductSchema = new Schema({
     name : String,
-    price : Number,
     createAt : Object,
-    bidEnd : Object
+    bidEnd : Object,
+    creator : String,
+    bider:[{
+      name: String,
+      price: Number,
+      time: Object
+    }]
 });
 
 mongoose.model('Product',ProductSchema);
