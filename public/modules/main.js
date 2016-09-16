@@ -1,4 +1,4 @@
 (function () {
-  var app = angular.module('main',['ui.router','header','store']);
+  var app = angular.module('main',['ui.router','ngFileUpload','header','store']);
 
 })()

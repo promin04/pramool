@@ -5,11 +5,13 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 var passport = require('passport');
 
+
 module.exports = function () {
     var app = express();
     //set template engine
     app.set('view engine','jade');
     app.set('views',['./app/views','./public']);
+
 
     app.use(bodyParser.urlencoded({ extended: false }));
     app.use(bodyParser.json());

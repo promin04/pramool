@@ -8,12 +8,14 @@ module.exports = {
            createAt : moment(),
            bidEnd : moment().add(req.body.time.hours,'hours').add(req.body.time.days, 'days'),
            creator : 'mos',
+           img : req.body.img,
            bider:[{
              name: 'mos',
              price : req.body.price,
              time : moment()
            }]
          }
+         console.log(add);
          var product = new Product(add);
 
          product.save(function (err,data) {
@@ -33,7 +35,7 @@ module.exports = {
       Product.find({
           bidEnd : { $gt : time }
       },
-      'name bider bidEnd'
+      'name bider bidEnd img'
       ,
       function (err,data) {
         if(err){
@@ -56,6 +58,7 @@ module.exports = {
        if (err) {
          console.log(err);
        }
+       res.json({});
      })
    },
 

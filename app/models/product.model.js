@@ -6,10 +6,11 @@ var ProductSchema = new Schema({
     createAt : Object,
     bidEnd : Object,
     creator : String,
-    bider:[{
-      name: String,
-      price: Number,
-      time: Object
+    img : Array,
+    bider :[{
+      name : String,
+      price : Number,
+      time : Object
     }]
 });
 

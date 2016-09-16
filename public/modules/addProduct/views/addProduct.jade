@@ -1,0 +1,32 @@
+form(name = 'myForm')
+  h3 Product Register
+  br
+  |Product's name:
+  br
+  input(type = 'text' , name = 'name' , ng-model="product.stuff.name")
+  br
+  br
+  |Image (Maximum 5 image files)
+  div(ng-show="product.error==1" , ng-style="{'color':'red'}")|Maximum 5 image files
+  input(type = 'file' , name = 'file' , ngf-select="product.prepare(product.picFile)" , ng-model="product.picFile", accept="image/*" , multiple="true" , ngf-max-size="1MB" , ngf-max-files="4")
+  div(ng-show='product.picture[0]',ng-repeat='one in product.picture') | {{one.name}}
+  br
+  |Price:
+  br
+  input(type = 'number' , name = 'price', ng-model="product.stuff.price" )
+  br
+  br
+  |Time:
+  br
+  input(type = 'number' , name = 'days', ng-model="product.stuff.time.days" , ng-init="product.stuff.time.days=1" , min="0" , max="30")
+  | days
+  br
+  input(type = 'number' , name = 'hours', ng-model="product.stuff.time.hours", ng-init="product.stuff.time.hours=0"  , min="0" , max="23")
+  | hours
+  br
+  br
+  | Description
+  br
+  |Size:
+  input(type = 'number', min="0")
+  button(ng-disabled='!myForm.$valid', ng-click='product.add()') Submit

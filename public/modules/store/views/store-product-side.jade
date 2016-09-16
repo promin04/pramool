@@ -1,11 +1,13 @@
 div
-  h1 sidebar
+
 
   div
-    |Time Remaining
+    h4 Time Remaining
     timer( milisec = '{{product.bidEnd}}' )
   div(ng-repeat='bider in product.bider')
-    | Current price {{bider.price}} THB.
+    h4 Current price
+    
+    b  {{bider.price}} THB.
     br
     | By {{bider.name}} @ {{bider.time}}
   form(name = 'add' , ng-submit='product.offer()' , style = 'text-align:center' novalidate='')

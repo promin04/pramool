@@ -8,26 +8,41 @@
       controller : ['$http',function ($http) {
         var that = this;
 
-        this.add = function () {
-      
-          $http.post('/product',this.stuff);
-      };
-
       this.delete = function () {
-        $http.delete('/product');
+        var count = 0;
+        for (var i = 0; i < that.product[0].img.length; i++) {
+
+
+        $http.delete('https://api.imgur.com/3/image/'+that.product[0].img[i].deletehash,
+        {
+            headers: {
+              Authorization: 'Client-ID 18f8382f95b805f',
+            }
+        }
+      ).then(function (response) {
+          count++;
+          console.log('already done '+count);
+          if(count === that.product[0].img.length){
+            $http.delete('/product');
+          }
+
+        });
+      }
+
     };
 
-        this.product =  [];
+      this.product = [];
 
             $http.get('/product').then(function(response) {
               var data = response.data;
               that.product=that.product.concat(data);
-
+              console.log(that.product);
             });
       }],
       controllerAs : 'store'
     };
   });
+
 
 
 })();

@@ -1,8 +1,12 @@
 (function () {
-    angular.module('store',['timer','gallery'])
+    angular.module('store',['timer','gallery','addProduct'])
       .config(['$stateProvider',function ($stateProvider) {
 
           $stateProvider
+            .state('newProduct', {
+                url: '/new-product',
+                template: '<div add-product></div>' //or templateUrl: 'someFile.html'
+            })
 
             .state('product',{
               abstract: true,
@@ -26,6 +30,11 @@
                 'main': {
                   templateUrl: './modules/store/views/store-product-main.jade',
                   controller: ['product',function (product) {
+                    this.picture = product.img.reduce(function(total, value, i) {
+                          total[i] = value;
+                          return total;
+                    }, {});
+                    
                     this.name = product.name;
                     this.description ='i m  hero.';
                   }],

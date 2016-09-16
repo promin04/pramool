@@ -1,6 +1,14 @@
+br
+br
+a(ui-sref="newProduct")
+  button(type='button' , ng-click='store.add()') Add
+button(type='button' , ng-click='store.delete()') Delete
+br
+br
 div(class = 'product-box' ng-repeat='product in store.product' ui-sref='product.detail({id: product.name})')
   div(class='product-img')
-    img(src = 'http://placehold.it/250x200' width='250' height='200')
+    img(src = '{{product.img[0].link}}' width='250' height='200')
+    //img(src = 'http://placehold.it/250x200' width='250' height='200')
   div(class = 'product-detail')
     h2 {{product.name}}
     h4 Description
@@ -9,25 +17,3 @@ div(class = 'product-box' ng-repeat='product in store.product' ui-sref='product.
       timer( milisec = '{{product.bidEnd}}' )
       div(class = 'product-price')
         ||{{product.bider[product.bider.length-1].price}} THB
-br
-br
-form(name = 'add' , ng-submit='store.add()' , style = 'text-align:center')
-  |Product's name:
-  br
-  input(type = 'text' , name = 'name' , ng-model="store.stuff.name")
-  br
-  |Price:
-  br
-  input(type = 'text' , name = 'price', ng-model="store.stuff.price")
-  br
-  |Time:
-  br
-  |days : hours
-  br
-  input(type = 'number' , name = 'days', ng-model="store.stuff.time.days")
-  |:
-  input(type = 'number' , name = 'hours', ng-model="store.stuff.time.hours")
-  br
-  input(type = 'submit' , value = 'submit')
-
-  button(type='button' , ng-click='store.delete()') Delete

@@ -6,8 +6,18 @@
       templateUrl : './modules/gallery/views/gallery.jade',
       scope : {pic : '='},
       controller : function ($scope) {
+          console.log($scope.pic,'sssssssssss');
           var slideIndex = 1;
-
+          $scope.lengthPage = function () {
+            var count = 0;
+            var i;
+            for (i in $scope.pic) {
+                if ($scope.pic.hasOwnProperty(i)) {
+                    count++;
+                }
+            }
+            return count;
+          }
 
           $scope.plusSlides = function (n) {
                           $scope.showSlide(slideIndex += n);
@@ -32,8 +42,10 @@
                           slides[slideIndex-1].style.display = "block";
                           dots[slideIndex-1].className += " active";
                         }
+          angular.element(document).ready(function () {
+              $scope.showSlide(slideIndex);
+          });
 
-        $scope.showSlide(slideIndex);
     }
   }
   })

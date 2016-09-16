@@ -8,4 +8,4 @@ div(class = 'product-box' ng-repeat='product in store.product')
     div( class = 'product-auction' )
       |Completed@ {{product.bidEnd}}
       div(class = 'product-price')
-        {{product.price}} |THB
+        {{product.bider[product.bider.length-1].price}} |THB

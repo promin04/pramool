@@ -1,9 +1,20 @@
 header {
     background-color: $grey;
+
     border-bottom: 2px solid  $darkgary;
     display: flex;
     width: 100%;
     justify-content:center;
+}
+
+top-header {
+
+  h2{
+    background-color: $lightgary;
+    margin: 0;
+    padding: 20px 0 20px 0 ;
+  }
+    font-family: 'Baloo Bhai', cursive;
 }
 
 nav-header {
@@ -28,6 +39,12 @@ nav-header {
     display: flex;
     justify-content: flex-start;
     width: 50%;
+
+    li:hover {
+      cursor:pointer;
+      background-color: $lightgary;
+      transition: background-color 1s ease;
+    }
 }
 
 .header-user{

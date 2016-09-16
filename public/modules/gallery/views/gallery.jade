@@ -1,20 +1,11 @@
 .slideshow-container
-  .mySlides.fade
-    .numbertext 1 / 3
-    img(src='http://placehold.it/500x350', style='width:100%')
+  .mySlides.fade(ng-repeat='(key1, value1) in pic')
+    .numbertext {{value1.order}} / {{lengthPage()}}
+    img(src='{{value1.link}}', style='width:100%',height='auto')
     .text Caption Text
-  .mySlides.fade
-    .numbertext 2 / 3
-    img(src='http://placehold.it/400x300', style='width:100%')
-    .text Caption Two
-  .mySlides.fade
-    .numbertext 3 / 3
-    img(src='http://placehold.it/400x350', style='width:100%')
-    .text Caption Three
+
   a.prev(ng-click='plusSlides(-1)') ❮
   a.next(ng-click='plusSlides(1)') ❯
 br
 div(style='text-align:center')
-  span.dot(ng-click='currentSlide(1)')
-  span.dot(ng-click='currentSlide(2)')
-  span.dot(ng-click='currentSlide(3)')
+  img.dot(src='{{value2.link}}',style='width:25%',height='auto' , ng-click='currentSlide(value2.order)' , ng-repeat='(key2,value2) in pic')
