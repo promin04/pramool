@@ -43,6 +43,7 @@
                   controller: ['product','$http','$stateParams','$scope',
                   function (product,$http,$stateParams,$scope) {
                     var that = this;
+                    this._id = product._id
                     this.name = product.name;
                     this.description ='i m  hero.';
                     this.bidEnd = product.bidEnd;
@@ -56,19 +57,19 @@
                       }else {
                         $http.post('/product/'+$stateParams.id,{price : this.price}).then(function (response) {
                             socket.emit('offer',{
-                              data:response.data.bider,
+                              product_id: that._id,
+                              data:response.data.bider[response.data.bider.length-1],
                               name:response.data.name
                             });
 
                         })
                       }
                     }
-
+                    socket.emit('leave','');
                     socket.emit('join',that.name);
                     socket.on('offer',function (offer) {
                       console.log(offer,'client offer');
-                      that.bider.push(offer);
-
+                      that.bider.push(offer.data);
                     });
                     $scope.$on('$destroy', function (event) {
                       socket.removeAllListeners();
@@ -78,5 +79,7 @@
                 }
               }
             })
-      }])
+      }
+    ])
+    
 })()

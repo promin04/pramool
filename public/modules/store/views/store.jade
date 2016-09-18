@@ -17,3 +17,5 @@ br
         timer( milisec = '{{product.bidEnd}}' )
         div(class = 'product-price')
           |{{product.bider[product.bider.length-1].price}} THB
+          br
+          | By {{product.bider[product.bider.length-1].name}} @ {{product.bider[product.bider.length-1].time}}

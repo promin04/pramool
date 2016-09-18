@@ -3,9 +3,9 @@ module.exports =function (server) {
   var io = require('socket.io')(server);
   io.on('connection',function (socket) {
     socket.on('offer',function (offer) {
-
-      io.to(offer.name).emit('offer',offer.data[offer.data.length-1]);
-    
+      console.log(offer,'offer');
+      io.to(offer.name).emit('offer',offer);
+      io.to('store').emit('offer',offer);
     });
 
     socket.on('join',function (nameRoom) {

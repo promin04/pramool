@@ -35,7 +35,7 @@ module.exports = {
       Product.find({
           bidEnd : { $gt : time },
       },
-      'name bider bidEnd img'
+      '_id name bider bidEnd img'
       ,
       function (err,data) {
         if(err){
@@ -44,8 +44,9 @@ module.exports = {
 
           for (var i = 0; i < data.length; i++) {
             data[i].bidEnd = moment(data[i].bidEnd).diff(moment());
+            data[i].bider = data[i].bider[data[i].bider.length-1];
           }
-          console.log(data,'sad');
+          console.log(data,'sasassaa');
           res.json(data);
         }
       })
@@ -110,7 +111,7 @@ module.exports = {
                        bider : {
                          name: 'mosss',
                          price: req.body.price,
-                         time: moment()
+                         time: moment().format('lll')
                        }
              }
            };
@@ -119,6 +120,7 @@ module.exports = {
             if (err) {
               console.log(err);
             } else {
+
               res.json(data);
             }
         });

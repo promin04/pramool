@@ -14,6 +14,10 @@
               that.product=that.product.concat(data);
               console.log(that.product);
             });
+
+
+
+    
       }],
       controllerAs : 'store'
     };

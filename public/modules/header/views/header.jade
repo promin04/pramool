@@ -25,6 +25,10 @@ ul(class='header-user' ng-controller='authenticate as user')
               label(for='username') Username
               input(name='username' , type='text' , placeholder='username')
             div
+              label(for='password') Password
+              input(name='password' , type='password' , placeholder='password')
+            br
+            div
               label(for='firstname') Firstname
               input(name='firstname' , type='text' , placeholder='firstname')
             div
@@ -34,13 +38,9 @@ ul(class='header-user' ng-controller='authenticate as user')
               label(for='email') Email
               input(name='email' , type='email' , placeholder='youremail@email.com')
             div
-              label(for='password') Password
-              input(name='password' , type='password' , placeholder='password')
-            div
               input(type='submit' , value='Sign up')
         .modal-footer
-          button.btn.btn-default(type='button', data-dismiss='modal') Close
-          button.btn.btn-primary(type='button') Save changes
+
 
 // modal sign in
 #signIn.modal.fade(tabindex='-1', role='dialog', aria-labelledby='signInLabel')
@@ -61,5 +61,3 @@ ul(class='header-user' ng-controller='authenticate as user')
             div
               input(type='submit' , value='Sign up')
           .modal-footer
-            button.btn.btn-default(type='button', data-dismiss='modal') Close
-            button.btn.btn-primary(type='button') Save changes
