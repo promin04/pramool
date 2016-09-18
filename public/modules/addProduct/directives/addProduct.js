@@ -9,18 +9,22 @@
         controller : ['$http','imgur','$state',function ($http,imgur,$state) {
                 var that = this;
                 this.picFile = null;
-                this.error = null;
+                this.state = null;
                 this.picture = [];
-
+                this.processBar = 0;
+                this.picRemove = function (index) {
+                  this.picture.splice(index,1);
+                }
                 this.prepare = function (files) {
-                  if(Array.isArray(files) && files.length<5-this.picture.length){
-                    this.picture = this.picture.concat(files);
-                  } else {
-                    this.error = 1;
-                  }
-
+                  console.log(files);
+                      if(Array.isArray(files) && files.length<5-this.picture.length){
+                        this.picture = this.picture.concat(files);
+                      } else {
+                        this.state = 1; //show error gallery image
+                      }
                 };
                 this.add = function () {
+                    this.state = 10; //show complete bar&hide submit button
                     var pro = this.stuff;
                     var data ={}
                     pro.img = [];
@@ -39,7 +43,10 @@
                     });
                     }
 
-                      imgur.post(that.picture,createPro);
+                    var processBar = function (complete,total) {
+                      that.processBar = complete/total*100;
+                    }
+                      imgur.post(that.picture,processBar,createPro);
 
 
                 };

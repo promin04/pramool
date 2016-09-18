@@ -33,7 +33,7 @@ module.exports = {
 
      var time = moment()+0; // it'll be bug $gt need number but moment() is obj{} that return milisec(number) **fixed by +number
       Product.find({
-          bidEnd : { $gt : time }
+          bidEnd : { $gt : time },
       },
       'name bider bidEnd img'
       ,
@@ -45,7 +45,7 @@ module.exports = {
           for (var i = 0; i < data.length; i++) {
             data[i].bidEnd = moment(data[i].bidEnd).diff(moment());
           }
-          console.log(data);
+          console.log(data,'sad');
           res.json(data);
         }
       })
@@ -82,7 +82,8 @@ module.exports = {
    detail : function (req,res,next,id) {
      Product.findOne({
        name : id
-     },function (err,data) {
+     },
+     function (err,data) {
        if (err) {
          console.log(err);
        } else {

@@ -1,7 +1,7 @@
 (function () {
   angular.module('addProduct')
   .service('imgur',['Upload',function (Upload) {
-    this.post = function (file , callback) {
+    this.post = function (file ,processBar, callback) {
 
       console.log(file);
       var arrayData = [];
@@ -35,9 +35,10 @@
         };
 
           Upload.http(demo).then(function(response) {
-              //success;
-              arrayData.push(response.data.data);
+              //success
 
+              arrayData.push(response.data.data);
+              processBar(arrayData.length,file.length);
               if(arrayData.length === file.length){
                 arrayData.sort(function(a, b){
                   return a.title-b.title});

@@ -1,18 +1,44 @@
 .store {
   width: 100%;
 }
-
+.row {
+  margin: 0;
+}
 .product-box {
+
   margin-top: 16px;
-  display: flex;
+  padding: 16px;
+  display: block;
   width: 100%;
+  border: 1px solid $grey;
+  border-bottom: 2px solid $darkgary;
+  border-radius: 8px;
 }
 
+.product-box:hover {
+  cursor: pointer;
+  border: 1px solid #40a5e3;
+  border-bottom: 2px solid #40a5e3;
+}
+
+
+
 .product-img {
-  width: 50%;
+    position: relative;
+    width: 250px;
+    height: 200px;
+
   img {
-    float: right;
-    margin-right: 20px;
+    display: block;
+    margin: auto;
+    max-width: 250px;
+    max-height: 200px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
   }
 }
 
@@ -30,6 +56,6 @@
 }
 
 .product-auction {
-  display: flex;
+  display: block;
   width: 100%;
 }

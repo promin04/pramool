@@ -1,11 +1,11 @@
 .slideshow-container
-  .mySlides.fade(ng-repeat='(key1, value1) in pic')
+  .mySlides.fadepic(ng-repeat='(key1, value1) in pic')
     .numbertext {{value1.order}} / {{lengthPage()}}
-    img(src='{{value1.link}}', style='width:100%',height='auto')
+    img.gallery(ng-src='{{value1.link}}')
     .text Caption Text
 
   a.prev(ng-click='plusSlides(-1)') ❮
   a.next(ng-click='plusSlides(1)') ❯
 br
 div(style='text-align:center')
-  img.dot(src='{{value2.link}}',style='width:25%',height='auto' , ng-click='currentSlide(value2.order)' , ng-repeat='(key2,value2) in pic')
+  img.dot(ng-src='{{value2.link}}',style='width:25%',height='auto' , ng-click='currentSlide(value2.order)' , ng-repeat='(key2,value2) in pic')

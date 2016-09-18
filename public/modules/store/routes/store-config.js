@@ -34,9 +34,6 @@
                           total[i] = value;
                           return total;
                     }, {});
-                    
-                    this.name = product.name;
-                    this.description ='i m  hero.';
                   }],
                   controllerAs: 'product'
                 },
@@ -46,19 +43,36 @@
                   controller: ['product','$http','$stateParams','$scope',
                   function (product,$http,$stateParams,$scope) {
                     var that = this;
+                    this.name = product.name;
+                    this.description ='i m  hero.';
                     this.bidEnd = product.bidEnd;
                     this.bider = product.bider;
+
                     this.offer = function () {
 
-                      if (typeof this.price == 'undefined' || this.price<product.bider[product.bider.length-1].price) {
+                      if (typeof this.price == 'undefined' || this.price<=product.bider[product.bider.length-1].price) {
                           console.log('error');
 
                       }else {
                         $http.post('/product/'+$stateParams.id,{price : this.price}).then(function (response) {
-                            that.bider = response.data.bider
+                            socket.emit('offer',{
+                              data:response.data.bider,
+                              name:response.data.name
+                            });
+
                         })
                       }
                     }
+
+                    socket.emit('join',that.name);
+                    socket.on('offer',function (offer) {
+                      console.log(offer,'client offer');
+                      that.bider.push(offer);
+
+                    });
+                    $scope.$on('$destroy', function (event) {
+                      socket.removeAllListeners();
+                    });
                   }],
                   controllerAs: 'product'
                 }

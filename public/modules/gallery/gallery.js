@@ -6,7 +6,7 @@
       templateUrl : './modules/gallery/views/gallery.jade',
       scope : {pic : '='},
       controller : function ($scope) {
-          console.log($scope.pic,'sssssssssss');
+          
           var slideIndex = 1;
           $scope.lengthPage = function () {
             var count = 0;

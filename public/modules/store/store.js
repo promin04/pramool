@@ -38,6 +38,8 @@
               that.product=that.product.concat(data);
               console.log(that.product);
             });
+    
+      socket.emit('leave','');
       }],
       controllerAs : 'store'
     };

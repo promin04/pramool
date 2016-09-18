@@ -6,17 +6,24 @@ form(name = 'myForm')
   input(type = 'text' , name = 'name' , ng-model="product.stuff.name")
   br
   br
-  |Image (Maximum 5 image files)
-  div(ng-show="product.error==1" , ng-style="{'color':'red'}")|Maximum 5 image files
-  input(type = 'file' , name = 'file' , ngf-select="product.prepare(product.picFile)" , ng-model="product.picFile", accept="image/*" , multiple="true" , ngf-max-size="1MB" , ngf-max-files="4")
-  div(ng-show='product.picture[0]',ng-repeat='one in product.picture') | {{one.name}}
+  |Gallery image (Maximum 4 image files)
   br
-  |Price:
+  |*The first image will be a cover of your product.
+  br
+  |*recommend .jpg
+  div(ng-show="product.state==1" , ng-style="{'color':'red'}")|Maximum 4 image files
+  input(type = 'file' , name = 'file' , ngf-select="product.prepare(product.picFile)" , ng-model="product.picFile", accept="image/*" , multiple="true" , ngf-max-size="1MB" , ngf-max-files="4")
+  div(ng-show='product.picture[0]',ng-repeat='one in product.picture')
+    |{{one.name}}
+    span.glyphicon.glyphicon-remove(ng-style="{'color':'red'}",ng-click="product.picRemove($index)")
+
+  br
+  |Start price:
   br
   input(type = 'number' , name = 'price', ng-model="product.stuff.price" )
   br
   br
-  |Time:
+  |Time for auction:
   br
   input(type = 'number' , name = 'days', ng-model="product.stuff.time.days" , ng-init="product.stuff.time.days=1" , min="0" , max="30")
   | days
@@ -25,8 +32,9 @@ form(name = 'myForm')
   | hours
   br
   br
-  | Description
-  br
-  |Size:
-  input(type = 'number', min="0")
-  button(ng-disabled='!myForm.$valid', ng-click='product.add()') Submit
+
+  button.btn.btn-default.col-xs-6.btn-lg(ng-disabled='!myForm.$valid', ng-click='product.add()' , ng-hide="product.state==10" ) Submit
+
+  .progress(ng-show="product.state==10")
+    .progress-bar.progress-bar-success(role='progressbar', aria-valuenow='{{product.processBar}}', aria-valuemin='0', aria-valuemax='100', style='width:{{product.processBar}}%')
+      | {{product.processBar}}%

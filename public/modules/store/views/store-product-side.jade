@@ -2,17 +2,21 @@ div
 
 
   div
+
+    h2 {{product.name}}
+    h4 Description
+    p {{product.description}}
     h4 Time Remaining
     timer( milisec = '{{product.bidEnd}}' )
-  div(ng-repeat='bider in product.bider')
+  div
     h4 Current price
-    
-    b  {{bider.price}} THB.
+
+    b  {{product.bider[product.bider.length-1].price}} THB.
     br
-    | By {{bider.name}} @ {{bider.time}}
+    | By {{product.bider[product.bider.length-1].name}} @ {{product.bider[product.bider.length-1].time}}
   form(name = 'add' , ng-submit='product.offer()' , style = 'text-align:center' novalidate='')
       span(ng-show='add.price.$invalid && add.price.$touched') Price should be more than {{product.bider[product.bider.length-1].price}} .
       br
-      input(type = 'number' , name = 'price' , ng-model = 'product.price' min='{{product.bider[product.bider.length-1].price}}' , integer='' )
+      input(type = 'number' , name = 'price' , ng-model = 'product.price' min='{{product.bider[product.bider.length-1].price}}+1' , integer='' )
       br
       input(type = 'submit' , value = 'submit' ,class='btn btn-info btn-block')
