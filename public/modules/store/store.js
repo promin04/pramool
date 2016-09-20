@@ -40,18 +40,17 @@
               console.log(that.product);
             });
 
+
+      ////////web socket
       socket.emit('leave','');
       socket.emit('join','store');
       socket.on('offer',function (offer) {
         var id;
         var result = [];
-        console.log(offer.product_id,' offer id');
         var re = new RegExp(offer.product_id, 'i');
         for( var i = 0 ; i < that.product.length ; i++ ){
           id = that.product[i]._id;
-          console.log(id,' id');
-          result = id.match(re);
-          console.log(result);
+          result = id.match(re);    
           if(result){
             that.product[i].bider.push(offer.data);
             console.log('update completed',that.product[i]);

@@ -65,6 +65,7 @@
                         })
                       }
                     }
+                    ////////web socket
                     socket.emit('leave','');
                     socket.emit('join',that.name);
                     socket.on('offer',function (offer) {
@@ -81,5 +82,5 @@
             })
       }
     ])
-    
+
 })()

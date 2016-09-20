@@ -1,0 +1,25 @@
+.modal-header
+  button.close(type='button', ng-click='$dismiss()', aria-label='Close')
+    span(aria-hidden='true') ×
+  h4#signUpLabel.modal-title Log in
+.modal-body
+  form(name='signup' , method='POST' , action='/signup')
+    div
+      label(for='username') Username
+      input(name='username' , type='text' , placeholder='username')
+    div
+      label(for='password') Password
+      input(name='password' , type='password' , placeholder='password')
+    br
+    div
+      label(for='firstname') Firstname
+      input(name='firstname' , type='text' , placeholder='firstname')
+    div
+      label(for='lastname') Lastname
+      input(name='lastname' , type='text' , placeholder='lastname')
+    div
+      label(for='email') Email
+      input(name='email' , type='email' , placeholder='youremail@email.com')
+    div
+      input(type='submit' , value='Register')
+.modal-footer

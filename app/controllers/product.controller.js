@@ -12,7 +12,7 @@ module.exports = {
            bider:[{
              name: 'mos',
              price : req.body.price,
-             time : moment()
+             time : moment().format('lll')
            }]
          }
          console.log(add);

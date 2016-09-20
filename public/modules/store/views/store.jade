@@ -1,11 +1,11 @@
-br
-br
-a(ui-sref="newProduct")
-  button(type='button' , ng-click='store.add()') Add
-button(type='button' , ng-click='store.delete()') Delete
-br
-br
+
+
 .row
+  a(ui-sref="newProduct")
+    button(type='button' , ng-click='store.add()') Add
+  button(type='button' , ng-click='store.delete()') Delete
+  br
+  br
   div(class = 'product-box col-xs-10 col-sm-6 col-xs-offset-1 col-sm-offset-3' ng-repeat='product in store.product' ui-sref='product.detail({id: product.name})')
     div(class='product-img col-xs-6')
       img(ng-src = '{{product.img[0].link}}')

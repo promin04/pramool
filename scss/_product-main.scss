@@ -64,12 +64,14 @@
   transition: opacity 0.6s ease;
   border: 1px solid $grey;
 }
+.box{
+  .active, .dot:hover {
+    opacity: 1;
+    border: 1px solid #40a5e3;
+  }
 
-.active, .dot:hover {
-  background-color: #717171;
-  opacity: 1;
-  border: 1px solid #40a5e3;
 }
+
 
 /* Fading animation */
 .fadepic {

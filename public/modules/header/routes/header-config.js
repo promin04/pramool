@@ -12,7 +12,9 @@
         .state('completed',{
           url : '/completed',
           template : '<div store-completed class="store"></div>'
-        });
-      }]);
-    
+      })
+
+      }
+    ]);
+
 })()

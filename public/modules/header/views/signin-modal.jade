@@ -1,0 +1,23 @@
+.modal-header
+    button.close(type='button', ng-click='$dismiss()', aria-label='Close')
+      span(aria-hidden='true') ×
+    h4#signInLabel.modal-title(ng-style='{"text-align":"center"}') Authentication
+.modal-body.row
+  .login.col-xs-6(ng-style='{"border-right":"1px solid #c7c7c7"}')
+    h4(ng-style='{"text-align":"center"}')
+      |LOG IN
+    form(name='signup' , method='POST' , action='/signin')
+      div(ng-style='{"margin-bottom":"10px"}')
+
+        input(name='username' , type='text' , placeholder='username' ,ng-style='{"width":"100%"}')
+      div
+
+        input(name='password' , type='password' , placeholder='password',ng-style='{"width":"100%"}')
+      div(ng-style='{"margin-top":"30px"}')
+        input.btn.btn-primary.btn-block(type='submit' , value='Log in')
+  .register.col-xs-6
+    h4(ng-style='{"text-align":"center"}')
+      | OR
+    .btn.btn-success.btn-block(ng-click='user.signup()')
+      |Register here
+.modal-footer
