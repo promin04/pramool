@@ -22,11 +22,11 @@ top-header {
 nav-header {
     display: block;
     margin: auto;
-
+    padding: 0 !important;
         ul{
           list-style-type: none;
           margin: 0;
-          padding: 0;
+          padding: 0 !important;
 
         }
 

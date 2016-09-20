@@ -40,8 +40,8 @@
 
                 'side': {
                   templateUrl: './modules/store/views/store-product-side.jade',
-                  controller: ['product','$http','$stateParams','$scope',
-                  function (product,$http,$stateParams,$scope) {
+                  controller: ['product','$http','$stateParams','$scope','modalAuthService',
+                  function (product,$http,$stateParams,$scope,modalAuthService) {
                     var that = this;
                     this._id = product._id
                     this.name = product.name;
@@ -55,16 +55,33 @@
                           console.log('error');
 
                       }else {
-                        $http.post('/product/'+$stateParams.id,{price : this.price}).then(function (response) {
-                            socket.emit('offer',{
-                              product_id: that._id,
-                              data:response.data.bider[response.data.bider.length-1],
-                              name:response.data.name
-                            });
 
-                        })
+                                    if(window.user !== undefined || window.user){
+                                            $http.post('/product/'+$stateParams.id,{price : this.price}).then(function (response) {
+
+                                            if(response.data.error){
+                                                  //service from main module
+                                                  //open login modal
+                                                  modalAuthService.open();
+                                            } else {
+                                                  //pass data by socket io
+                                                  socket.emit('offer',{
+                                                    product_id: that._id,
+                                                    data:response.data.bider[response.data.bider.length-1],
+                                                    name:response.data.name
+                                                  });
+                                            }
+
+
+                                            });
+                                  }else {
+                                          //service from main module
+                                          //open login modal
+                                          modalAuthService.open();
+                                  }
                       }
                     }
+
                     ////////web socket
                     socket.emit('leave','');
                     socket.emit('join',that.name);

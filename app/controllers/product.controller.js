@@ -102,14 +102,17 @@ module.exports = {
    },
 
    offer : function (req,res) {
-     if(req.body.price<req.product.bider[req.product.bider.length-1].price){
+     if(req.body.price<req.product.bider[req.product.bider.length-1].price || req.user==undefined){
        console.log('Cannot be add new offer');
+       res.json({
+         error: 'You should login before take offer'
+       });
      } else {
        var condition = { _id : req.product._id },
            update = {
              $push : {
                        bider : {
-                         name: 'mosss',
+                         name: req.user.username,
                          price: req.body.price,
                          time: moment().format('lll')
                        }
