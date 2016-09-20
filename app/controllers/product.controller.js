@@ -12,7 +12,7 @@ module.exports = {
            bider:[{
              name: 'mos',
              price : req.body.price,
-             time : moment().format('lll')
+             time : moment()
            }]
          }
          console.log(add);
@@ -45,6 +45,7 @@ module.exports = {
           for (var i = 0; i < data.length; i++) {
             data[i].bidEnd = moment(data[i].bidEnd).diff(moment());
             data[i].bider = data[i].bider[data[i].bider.length-1];
+            data[i].bider[0].time = moment(data[i].bider[0].time).fromNow();
           }
           console.log(data,'sasassaa');
           res.json(data);
@@ -97,7 +98,7 @@ module.exports = {
 
    read : function (req,res) {
      req.product.bidEnd = moment(req.product.bidEnd).diff(moment());
-
+     req.product.bider[req.product.bider.length-1].time = moment(req.product.bider[req.product.bider.length-1].time).fromNow();
      res.json(req.product);
    },
 
@@ -114,7 +115,7 @@ module.exports = {
                        bider : {
                          name: req.user.username,
                          price: req.body.price,
-                         time: moment().format('lll')
+                         time: moment()
                        }
              }
            };
@@ -123,8 +124,18 @@ module.exports = {
             if (err) {
               console.log(err);
             } else {
+              var result ={
+                name : data.name,
+                bider : {
+                  time: moment(data.bider[data.bider.length-1].time).fromNow(),
+                  price:data.bider[data.bider.length-1].price,
+                  name:data.bider[data.bider.length-1].name
+                }
+              }
 
-              res.json(data);
+
+              console.log(result,'offer555');
+              res.json(result);
             }
         });
      }

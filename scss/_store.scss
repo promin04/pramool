@@ -27,12 +27,14 @@
 
 .product-img {
     position: relative;
-    width: 250px;
-    height: 200px;
+    width: auto;
+    height: 160px;
 
   img {
     display: block;
     margin: auto;
+    width: auto;
+    height: 160px;
     max-width: 216px;
     max-height: 200px;
     position: absolute;
@@ -46,15 +48,15 @@
 
 
 .product-detail {
-  width: 50%;
+
 }
 
 .product-time {
-  width: 50%;
+
 }
 
 .product-price {
-  width: 50%;
+  
 }
 
 .product-auction {

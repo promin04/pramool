@@ -10,12 +10,12 @@
     div(class='product-img col-xs-6')
       img(ng-src = '{{product.img[0].link}}')
     div(class = 'product-detail col-xs-6')
-      h2 {{product.name}}
-      h4 Description
-      p {{product.description}}
+      h4 {{product.name}}
       div( class = 'product-auction' )
         timer( milisec = '{{product.bidEnd}}' )
         div(class = 'product-price')
           |{{product.bider[product.bider.length-1].price}} THB
           br
-          | By {{product.bider[product.bider.length-1].name}} @ {{product.bider[product.bider.length-1].time}}
+          | By {{product.bider[product.bider.length-1].name}}
+          br
+          |{{product.bider[product.bider.length-1].time}}

@@ -52,11 +52,14 @@
                     this.offer = function () {
 
                       if (typeof this.price == 'undefined' || this.price<=product.bider[product.bider.length-1].price) {
-                          console.log('error');
+                          console.log(window.user !== undefined,'error');
 
+                          if(window.user == undefined){
+                            modalAuthService.open();
+                          }
                       }else {
 
-                                    if(window.user !== undefined || window.user){
+                                    if(window.user !== undefined){
                                             $http.post('/product/'+$stateParams.id,{price : this.price}).then(function (response) {
 
                                             if(response.data.error){
@@ -67,7 +70,7 @@
                                                   //pass data by socket io
                                                   socket.emit('offer',{
                                                     product_id: that._id,
-                                                    data:response.data.bider[response.data.bider.length-1],
+                                                    data:response.data.bider,
                                                     name:response.data.name
                                                   });
                                             }
