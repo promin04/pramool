@@ -3,7 +3,7 @@
       span(aria-hidden='true') ×
     h4#signInLabel.modal-title(ng-style='{"text-align":"center"}') Welcome to Showroom
 .modal-body.row
-  .login.col-xs-6(ng-style='{"border-right":"1px solid #c7c7c7"}')
+  .login.col-xs-12.col-sm-6(ng-style='{"border-right":"1px solid #c7c7c7"}')
     h4(ng-style='{"text-align":"center"}')
       |LOG IN
     form(name='signup' , method='POST' , action='/signin')
@@ -15,7 +15,7 @@
         input(name='password' , type='password' , placeholder='password',ng-style='{"width":"100%"}')
       div(ng-style='{"margin-top":"30px"}')
         input.btn.btn-primary.btn-block(type='submit' , value='Log in')
-  .register.col-xs-6
+  .register.col-xs-12.col-sm-6
     h4(ng-style='{"text-align":"center"}')
       | OR
     .btn.btn-success.btn-block(ng-click='user.signup()')

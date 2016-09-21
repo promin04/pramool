@@ -2,8 +2,11 @@
   .box {
     width: 900px !important;
   }
-  nav-header {
-    width: 900px !important;
-    float: none !important;
+
+}
+
+@media screen and (max-width: 469px) {
+  .dropdown-menu  {
+    min-width: 125px !important;
   }
 }

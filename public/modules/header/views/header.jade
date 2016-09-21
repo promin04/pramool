@@ -1,11 +1,4 @@
-ul(class='header-menu col-xs-6')
 
-    li.col-xs-6(ui-sref="auction" , ui-sref-active="active") Auction
-    li.col-xs-6(ui-sref="completed" , ui-sref-active="active") Completed
-ul(class='header-user col-xs-6' ng-controller='authenticate as user')
-
-    li.col-xs-6(ng-show='user.username')
-      | Hello {{user.username}}
-    li.col-xs-6(ng-show='user.username' , ng-click='user.signout()')
-      |Log out
-    li.col-xs-6(class="sign-in" , ng-click='user.signin()' , ng-if='!user.username') Log in
+ul.header-menu
+    li(ui-sref="auction" , ui-sref-active="active") Auction
+    li(ui-sref="completed" , ui-sref-active="active") Complete

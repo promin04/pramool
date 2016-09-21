@@ -9,7 +9,7 @@
     .directive('topHeader',function () {
     return {
       restrict: 'E',
-      template : '<h2>S H O W   R O O M</h2>'
+      templateUrl : './modules/header/views/top-header.jade'
     };
   })
     .controller('authenticate',['$http','modalAuthService','$scope',function ($http,modalAuthService,$scope) {
@@ -30,6 +30,8 @@
       this.signin = function () {
         modalAuthService.open();
       }
+
+      
 
 
 

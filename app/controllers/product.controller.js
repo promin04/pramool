@@ -7,10 +7,10 @@ module.exports = {
            name : req.body.name,
            createAt : moment(),
            bidEnd : moment().add(req.body.time.hours,'hours').add(req.body.time.days, 'days'),
-           creator : 'mos',
+           creator : req.user.name,
            img : req.body.img,
            bider:[{
-             name: 'mos',
+             name: req.user.name,
              price : req.body.price,
              time : moment()
            }]

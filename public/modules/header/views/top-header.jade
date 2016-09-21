@@ -1,0 +1,24 @@
+.logo.col-xs-4
+    |S H O W
+    br
+    span.logo-small
+      |R O O M
+.mid.col-xs-4
+  span.bell.glyphicon.glyphicon-bell
+.auth.col-xs-4(ng-controller='authenticate as user')
+
+    button.btn.btn-primary.login.col-xs-12.col-sm-3(class="sign-in" , ng-click='user.signin()' , ng-if='!user.username')
+      |Log in
+    span.col-xs-12.col-sm-6.col-md-3(uib-dropdown='')
+      a(href='', id="dropdown" , uib-dropdown-toggle='')
+        span.menu.glyphicon.glyphicon-menu-hamburger(ng-show='user.username')
+      ul.dropdown-menu(uib-dropdown-menu='', aria-labelledby='dropdown')
+        a(ui-sref='newProduct')
+          li
+            |Add Product
+        li( ng-click='user.signout()')
+          button.btn.btn-danger
+            |Log out
+    //-
+      .user.col-xs-6(ng-show='user.username')
+        | Hello {{user.username}}
