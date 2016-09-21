@@ -12,13 +12,14 @@
                      templateUrl : './modules/header/views/signup-modal.jade'
                    };
                    modalService.open(option);
+
                  }
                }],
                controllerAs : 'user'
 
              };
              modalService.open(option);
-
+             
           }
 
     }]
