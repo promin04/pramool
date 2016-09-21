@@ -41,6 +41,10 @@
             });
 
 
+          this.test = function () {
+            this.product.pop();
+            console.log('serr');
+          }
       ////////web socket
       socket.emit('leave','');
       socket.emit('join','store');
@@ -50,7 +54,7 @@
         var re = new RegExp(offer.product_id, 'i');
         for( var i = 0 ; i < that.product.length ; i++ ){
           id = that.product[i]._id;
-          result = id.match(re);    
+          result = id.match(re);
           if(result){
             that.product[i].bider.push(offer.data);
             console.log('update completed',that.product[i]);
