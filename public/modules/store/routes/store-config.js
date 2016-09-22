@@ -102,5 +102,17 @@
             })
       }
     ])
+    .run([
+      '$rootScope','$state','modalAuthService',
+      function ($rootScope,$state,modalAuthService) {
+        $rootScope.$on('$stateChangeStart',function (event, toState, toParams, fromState, fromParams) {
+
+          if ((toState.name === 'newProduct') && (window.user == undefined) ) {
+            event.preventDefault();
+            modalAuthService.open();
+          }
+        })
+      }
+    ]);
 
 })()

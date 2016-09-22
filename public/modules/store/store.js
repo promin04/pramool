@@ -46,7 +46,7 @@
             this.product.pop();
             console.log('serr');
           }
-          
+
       ////////web socket
       socket.emit('leave','');
       socket.emit('join','store');
@@ -73,6 +73,7 @@
       $timeout(function () {
         $('.grid').masonry({
           itemSelector: '.grid-item',
+          columnWidth: 204
         });
       }, 100);
       ///////

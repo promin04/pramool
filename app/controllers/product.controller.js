@@ -10,7 +10,7 @@ module.exports = {
            creator : req.user.username,
            img : req.body.img,
            bider:[{
-             name: req.user.name,
+             name: req.user.username,
              price : req.body.price,
              time : moment()
            }]
@@ -47,7 +47,7 @@ module.exports = {
             data[i].bider = data[i].bider[data[i].bider.length-1];
             data[i].bider[0].time = moment(data[i].bider[0].time).fromNow();
           }
-          console.log(data,'sasassaa');
+
           res.json(data);
         }
       })
