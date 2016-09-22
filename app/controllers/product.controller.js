@@ -7,7 +7,7 @@ module.exports = {
            name : req.body.name,
            createAt : moment(),
            bidEnd : moment().add(req.body.time.hours,'hours').add(req.body.time.days, 'days'),
-           creator : req.user.name,
+           creator : req.user.username,
            img : req.body.img,
            bider:[{
              name: req.user.name,
@@ -83,7 +83,7 @@ module.exports = {
 
    detail : function (req,res,next,id) {
      Product.findOne({
-       name : id
+       _id : id
      },
      function (err,data) {
        if (err) {

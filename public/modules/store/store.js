@@ -5,7 +5,8 @@
     return {
       restrict: 'A',
       templateUrl : './modules/store/views/store.jade',
-      controller : ['$http','$scope',function ($http,$scope) {
+      controller : ['$http','$scope','$timeout',function ($http,$scope,$timeout) {
+
         var that = this;
 
       this.delete = function () {
@@ -45,6 +46,7 @@
             this.product.pop();
             console.log('serr');
           }
+          
       ////////web socket
       socket.emit('leave','');
       socket.emit('join','store');
@@ -65,7 +67,15 @@
       $scope.$on('$destroy', function (event) {
         socket.removeAllListeners();
       });
+      ///////
 
+      //set masonry layout
+      $timeout(function () {
+        $('.grid').masonry({
+          itemSelector: '.grid-item',
+        });
+      }, 100);
+      ///////
       }],
       controllerAs : 'store'
     };

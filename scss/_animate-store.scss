@@ -14,12 +14,10 @@
 .ng-leave {
     opacity: 1;
     left: 0;
-    height: 30px;
 }
 
 .ng-leave.ng-leave-active,
 .ng-enter {
     opacity: 0;
-    left: -500px;
-    height: 0px;
+    left: -300px;
 }

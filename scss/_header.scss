@@ -38,8 +38,13 @@ top-header {
       text-align: center;
       border-bottom: 1px solid $lightgary;
 
+
   }
-  
+
+  button.login{
+    display: block;
+    margin: auto;
+  }
   .menu {
     font-size: 25px;
     margin-top: 8px;

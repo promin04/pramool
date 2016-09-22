@@ -1,15 +1,16 @@
 
 
-.row
-  a(ui-sref="newProduct")
-    button(type='button' , ng-click='') Add
-  button(type='button' , ng-click='store.test()') Delete
-  br
-  br
-  div(class = 'product-box col-xs-10 col-sm-6 col-xs-offset-1 col-sm-offset-3' ng-repeat='product in store.product' ui-sref='product.detail({id: product.name})' ng-animate="{enter: 'animate-enter', leave: 'animate-leave'}")
-    div(class='product-img col-xs-6')
+
+a(ui-sref="newProduct")
+  button(type='button' , ng-click='') Add
+button(type='button' , ng-click='store.test()') Delete
+br
+br
+.grid
+  .grid-item.product-box( ng-repeat='product in store.product' ui-sref='product.detail({id: product._id})' ng-animate="{enter: 'animate-enter', leave: 'animate-leave'}")
+    div(class='product-img ')
       img(ng-src = '{{product.img[0].link}}')
-    div(class = 'product-detail col-xs-6')
+    div(class = 'product-detail ')
       h4 {{product.name}}
       div( class = 'product-auction' )
         timer( milisec = '{{product.bidEnd}}' )
