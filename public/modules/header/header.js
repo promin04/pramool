@@ -12,26 +12,28 @@
       templateUrl : './modules/header/views/top-header.jade'
     };
   })
-    .controller('authenticate',['$http','modalAuthService','$scope',function ($http,modalAuthService,$scope) {
+    .controller('authenticate',['$http','modalAuthService','$scope','$rootScope',function ($http,modalAuthService,$scope,$rootScope) {
       var that = this;
       this.username = '';
       this.signout = function () {
         $http.get('/signout').then(function () {
           that.username = '';
-          window.user = null;
+        
+            $rootScope.user = null;
         });
       }
       $http.get('/user').then(function (response) {
 
         that.username = response.data.username;
-        window.user = response.data.username;
+
+        $rootScope.user = response.data.username;
       });
 
       this.signin = function () {
         modalAuthService.open();
       }
 
-      
+
 
 
 

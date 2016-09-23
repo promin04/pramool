@@ -71,6 +71,7 @@
 
       //set masonry layout
       $timeout(function () {
+
         $('.grid').masonry({
           itemSelector: '.grid-item',
           columnWidth: 204

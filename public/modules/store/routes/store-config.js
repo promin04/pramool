@@ -103,14 +103,20 @@
       }
     ])
     .run([
-      '$rootScope','$state','modalAuthService',
-      function ($rootScope,$state,modalAuthService) {
+      '$rootScope','$state','modalAuthService','$timeout',
+      function ($rootScope,$state,modalAuthService,$timeout) {
         $rootScope.$on('$stateChangeStart',function (event, toState, toParams, fromState, fromParams) {
+          $timeout(function () {
+              console.log($rootScope.user,'userrrrrrrrrr');
+              var closed = function () {
+                $state.go('auction');
+              }
+              if ((toState.name === 'newProduct') && ($rootScope.user == undefined) ) {
+                  event.preventDefault();
+                  modalAuthService.open(closed);
+              }
+          }, 0);
 
-          if ((toState.name === 'newProduct') && (window.user == undefined) ) {
-            event.preventDefault();
-            modalAuthService.open();
-          }
         })
       }
     ]);
