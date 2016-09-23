@@ -18,14 +18,14 @@
       this.signout = function () {
         $http.get('/signout').then(function () {
           that.username = '';
-        
+
             $rootScope.user = null;
         });
       }
       $http.get('/user').then(function (response) {
 
         that.username = response.data.username;
-
+        console.log('get user from server');
         $rootScope.user = response.data.username;
       });
 

@@ -106,6 +106,7 @@
       '$rootScope','$state','modalAuthService','$timeout',
       function ($rootScope,$state,modalAuthService,$timeout) {
         $rootScope.$on('$stateChangeStart',function (event, toState, toParams, fromState, fromParams) {
+          ///waiting for response username from server
           $timeout(function () {
               console.log($rootScope.user,'userrrrrrrrrr');
               var closed = function () {
@@ -115,7 +116,7 @@
                   event.preventDefault();
                   modalAuthService.open(closed);
               }
-          }, 0);
+          }, 300);
 
         })
       }
