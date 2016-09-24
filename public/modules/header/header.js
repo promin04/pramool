@@ -14,25 +14,23 @@
   })
     .controller('authenticate',['$http','modalAuthService','$scope','$rootScope',function ($http,modalAuthService,$scope,$rootScope) {
       var that = this;
-      this.username = '';
+      this.username = $rootScope.user;
       this.signout = function () {
         $http.get('/signout').then(function () {
-          that.username = '';
 
             $rootScope.user = null;
         });
       }
-      $http.get('/user').then(function (response) {
-
-        that.username = response.data.username;
-        console.log('get user from server');
-        $rootScope.user = response.data.username;
-      });
 
       this.signin = function () {
         modalAuthService.open();
       }
 
+      //get username when user is changed
+      $rootScope.$watch('user',function (newValue, oldValue) {
+        that.username = newValue;
+      });
+      ////
 
 
 

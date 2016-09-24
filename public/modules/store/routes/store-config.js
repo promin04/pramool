@@ -1,11 +1,11 @@
 (function () {
     angular.module('store',['timer','gallery','addProduct'])
-      .config(['$stateProvider',function ($stateProvider) {
+      .config(['$stateProvider','$urlRouterProvider',function ($stateProvider,$urlRouterProvider) {
 
           $stateProvider
             .state('newProduct', {
                 url: '/new-product',
-                template: '<div add-product></div>' //or templateUrl: 'someFile.html'
+                template: '<div add-product class="add-product"></div>' //or templateUrl: 'someFile.html'
             })
 
             .state('product',{
@@ -100,25 +100,53 @@
                 }
               }
             })
+            //defer url when use state.current (prevent from empty value)
+            $urlRouterProvider.deferIntercept();
+
       }
     ])
     .run([
-      '$rootScope','$state','modalAuthService','$timeout',
-      function ($rootScope,$state,modalAuthService,$timeout) {
+      '$rootScope','$state','modalAuthService','$http','userService','$urlRouter',
+      function ($rootScope,$state,modalAuthService,$http,userService,$urlRouter) {
         $rootScope.$on('$stateChangeStart',function (event, toState, toParams, fromState, fromParams) {
-          ///waiting for response username from server
-          $timeout(function () {
-              console.log($rootScope.user,'userrrrrrrrrr');
-              var closed = function () {
-                $state.go('auction');
-              }
-              if ((toState.name === 'newProduct') && ($rootScope.user == undefined) ) {
-                  event.preventDefault();
-                  modalAuthService.open(closed);
-              }
-          }, 300);
+          var closed = function () {
+          if($rootScope.user == undefined)
+            $state.go('auction');
+          }
 
-        })
+          if ($rootScope.user == undefined) {
+
+              userService.getUser()
+              .then(
+                //resolve can get username
+                function (res) {
+                  console.log(res,'nice');
+                },
+                //reject unlog-in username=null
+                function (reject) {
+                  console.log(reject);
+                    //check state
+                    if(toState.name === 'newProduct'){
+                        modalAuthService.open(closed);
+                    }
+                }
+              );
+
+        }
+
+      });
+
+      $rootScope.$watch('user',function (newValue, oldValue) {
+        //defer state.current url (have to use $urlRouterProvider.deferIntercept() in config before)
+        $urlRouter.sync();
+        console.log($state.current.name,'stat current');
+        if(($state.current.name !== 'auction') && !newValue && oldValue){
+          modalAuthService.open(closed);
+        }
+        //close defer state.current url (have to use $urlRouterProvider.deferIntercept() in config before)
+        $urlRouter.listen();
+      });
+
       }
     ]);
 

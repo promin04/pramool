@@ -6,18 +6,18 @@
   .login.col-xs-12.col-sm-6(ng-style='{"border-right":"1px solid #c7c7c7"}')
     h4(ng-style='{"text-align":"center"}')
       |LOG IN
-    form(name='signup' , method='POST' , action='/signin')
+    form(name='signup' , ng-submit = 'login.login()')
       div(ng-style='{"margin-bottom":"10px"}')
 
-        input#myId(name='username' , type='text' , placeholder='username' ,ng-style='{"width":"100%"}')
+        input#myId(name='username' , ng-model = 'login.user.username' , type='text' , placeholder='username' ,ng-style='{"width":"100%"}')
       div
 
-        input(name='password' , type='password' , placeholder='password',ng-style='{"width":"100%"}')
+        input(name='password' , ng-model = 'login.user.password' , type='password' , placeholder='password',ng-style='{"width":"100%"}')
       div(ng-style='{"margin-top":"30px"}')
         input.btn.btn-primary.btn-block(type='submit' , value='Log in')
   .register.col-xs-12.col-sm-6
     h4(ng-style='{"text-align":"center"}')
       | OR
-    .btn.btn-success.btn-block(ng-click='user.signup()')
+    .btn.btn-success.btn-block(ng-click='login.openSignup()')
       |Create new Account
 .modal-footer

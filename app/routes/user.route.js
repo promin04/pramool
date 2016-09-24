@@ -5,10 +5,11 @@ module.exports = function (app) {
     .post(user.signup);
 
   app.route('/signin')
-    .post(passport.authenticate('local',{
-        successRedirect: '/',
-        failureRedirect: '/'
-    }));
+    .post(passport.authenticate('local'),
+      function (req,res) {
+          res.json(req.user.username);
+      }
+  );
 
   app.route('/signout')
     .get(user.signout);
