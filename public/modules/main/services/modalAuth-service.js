@@ -19,9 +19,12 @@
                      animation : true,
                      templateUrl : './modules/header/views/signup-modal.jade',
                      controller: ['$http',function ($http) {
-
+                       var that = this ;
                        this.signup = function () {
-
+                         $http.post('/signup',that.user).then(function (response) {
+                           console.log('complete signup');
+                           $uibModalInstance.close();
+                         });
                        };
 
                      }],
