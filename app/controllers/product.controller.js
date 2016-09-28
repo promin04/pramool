@@ -8,6 +8,7 @@ module.exports = {
            createAt : moment(),
            bidEnd : moment().add(req.body.time.hours,'hours').add(req.body.time.days, 'days'),
            creator : req.user.username,
+           following: [],
            img : req.body.img,
            bider:[{
              name: req.user.username,
@@ -141,7 +142,48 @@ module.exports = {
      }
 
 
-   }
+   },
+
+   myProduct: function (req,res) {
+     var condition = {
+       creator : req.user.username
+     };
+      Product.find(
+        condition
+      ,
+      'name createAt bidEnd creator bider img'
+      ,{
+        $slice:['bider',-1]
+      },
+      function (err,data) {
+        console.log(data,'myProduct');
+        res.json(data);
+      }
+    )
+  },
+
+  following: function (req,res) {
+      var username = req.user.username;
+      var condition = {
+        $or : [
+          { 'following' : { '$in' : [username] } },
+          { 'bider.name' : username}
+        ]
+      };
+
+     Product.find(
+       condition
+       ,
+     'name createAt bidEnd creator bider img'
+     ,{
+       $slice:['bider',-1]
+     },
+     function (err,data) {
+       console.log(data,'following');
+       res.json(data);
+     }
+   )
+ }
 
 
 }

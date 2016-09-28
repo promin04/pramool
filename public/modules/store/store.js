@@ -35,18 +35,23 @@
 
       this.product = [];
 
-            $http.get('/product').then(function(response) {
-              var data = response.data;
-              that.product=that.product.concat(data);
-              console.log(that.product);
-            });
+      this.getNew = function () {
+        $http.get('/product').then(function(response) {
+          var data = response.data;
+          that.product = data;
+          console.log(that.product);
+        });
+      }
+
+
+
 
 
           this.test = function () {
             this.product.pop();
-            console.log('serr');
           }
-
+      ///init app
+          this.getNew();
       ////////web socket
       socket.emit('leave','');
       socket.emit('join','store');
@@ -65,6 +70,7 @@
         console.log(offer,'store offer');
       });
       $scope.$on('$destroy', function (event) {
+        console.log('destroy');
         socket.removeAllListeners();
       });
       ///////

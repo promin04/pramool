@@ -6,6 +6,7 @@ var ProductSchema = new Schema({
     createAt : Object,
     bidEnd : Object,
     creator : String,
+    following: Array,
     img : Array,
     bider :[{
       name : String,

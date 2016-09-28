@@ -14,4 +14,9 @@ module.exports = function (app) {
   app.route('/completed')
       .get(product.completed);
 
+  app.route('/myProduct')
+      .get(product.myProduct);
+
+  app.route('/following')
+      .get(product.following);
 };

@@ -10,8 +10,8 @@
 
       })
         .state('completed',{
-          url : '/completed'
-
+          url : '/completed',
+          template : '<div store-completed class="store-completed"></div>'
       })
 
       }
