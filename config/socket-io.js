@@ -4,13 +4,13 @@ module.exports =function (server) {
   io.on('connection',function (socket) {
     socket.on('offer',function (offer) {
       console.log(offer,'offer');
-      io.to(offer.name).emit('offer',offer);
+      io.to(offer.product_id).emit('offer',offer);
       io.to('store').emit('offer',offer);
     });
 
-    socket.on('join',function (nameRoom) {
-        socket.join(nameRoom);
-        console.log('welcome to this room',nameRoom);
+    socket.on('join',function (product_id) {
+        socket.join(product_id);
+        console.log('welcome to this room',product_id);
     });
 
     socket.on('leave',function () {

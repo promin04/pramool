@@ -40,8 +40,8 @@
 
                 'side': {
                   templateUrl: './modules/store/views/store-product-side.jade',
-                  controller: ['product','$http','$stateParams','$scope','modalAuthService',
-                  function (product,$http,$stateParams,$scope,modalAuthService) {
+                  controller: ['product','$http','$stateParams','$scope','$rootScope','modalAuthService',
+                  function (product,$http,$stateParams,$scope,$rootScope,modalAuthService) {
                     var that = this;
                     this._id = product._id
                     this.name = product.name;
@@ -52,14 +52,15 @@
                     this.offer = function () {
 
                       if (typeof this.price == 'undefined' || this.price<=product.bider[product.bider.length-1].price) {
-                          console.log(window.user !== undefined,'error');
+                          console.log($rootScope.user !== undefined,'error');
 
-                          if(window.user == undefined){
+                          if($rootScope.user == undefined){
                             modalAuthService.open();
                           }
                       }else {
 
-                                    if(window.user !== undefined){
+                                    if($rootScope.user !== undefined){
+                                    
                                             $http.post('/product/'+$stateParams.id,{price : this.price}).then(function (response) {
 
                                             if(response.data.error){
@@ -87,7 +88,7 @@
 
                     ////////web socket
                     socket.emit('leave','');
-                    socket.emit('join',that.name);
+                    socket.emit('join',that._id);
                     socket.on('offer',function (offer) {
                       console.log(offer,'client offer');
                       that.bider.push(offer.data);
