@@ -55,14 +55,11 @@ module.exports = {
    },
 
    delete : function (req,res) {
+     var condition = { _id : req.params.id };
 
-
-     Product.remove({},function (err) {
-       if (err) {
-         console.log(err);
-       }
-       res.json({});
-     })
+     Product.remove(condition,function (err,data) {
+       res.json(data);
+     });
    },
 
    completed : function (req,res) {

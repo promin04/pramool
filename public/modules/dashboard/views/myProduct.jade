@@ -1,12 +1,20 @@
 .grid
-  .grid-item.product-box( ng-repeat='product in store.product' ui-sref='product.detail({id: product._id})' )
-    div(class='product-img ')
-      img(ng-src = '{{product.img[0].link}}')
-    div(class = 'product-detail ')
-      h4 {{product.name}}
-      div( class = 'product-auction' )
-        |Completed {{product.bidEnd}}
-        div(class = 'product-price')
-          |{{product.bider[product.bider.length-1].price}} THB
-          br
-          | By {{product.bider[product.bider.length-1].name}}
+    .grid-item( ng-repeat='product in store.product' )
+        .myproduct-body(ui-sref='product.detail({id: product._id})')
+            div(class='product-img ')
+              img(ng-src = '{{product.img[0].link}}')
+            div(class = 'product-detail ')
+              h4 {{product.name}}
+              div( class = 'product-auction' )
+                  |Completed {{product.bidEnd}}
+                  div(class = 'product-price')
+                      |{{product.bider[product.bider.length-1].price}} THB
+                      br
+                      | By {{product.bider[product.bider.length-1].name}}
+          .preDelete(ng-show='preDelete')
+            .preDelete-selector
+              button.btn.btn-danger.delete(ng-click='store.removeProduct(product._id,product.img,$index)') Delete
+              button.btn.btn-default(ng-click='preDelete = !preDelete') Close
+        .myproduct-footage
+              span.glyphicon.glyphicon-wrench
+              span.glyphicon.glyphicon-remove(ng-click='preDelete = !preDelete')

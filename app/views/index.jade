@@ -6,7 +6,7 @@ html
     link(rel="stylesheet" type="text/css" href="./css/style.css")
     link(href='./lib/bootstrap/dist/css/bootstrap.min.css', rel='stylesheet')
     link(href='https://fonts.googleapis.com/css?family=Baloo+Bhai', rel='stylesheet')
-  body(ng-app="main")
+  body(ng-app="main" , ng-class = 'body')
     header(class="text-center col-xs-12")
       top-header.col-xs-12
       nav-header.col-xs-12
@@ -37,6 +37,7 @@ html
     script(type="text/javascript",src="./modules/dashboard/config/dashboard-config.js")
     script(type="text/javascript",src="./modules/dashboard/services/myProduct.js")
     script(type="text/javascript",src="./modules/dashboard/services/wonOffer.js")
+    script(type="text/javascript",src="./modules/dashboard/services/deleteProduct.js")
     script(type="text/javascript",src="./modules/timer/timer.js")
     script(type="text/javascript",src="./modules/gallery/gallery.js")
     script(type="text/javascript",src="./modules/main/main.js")

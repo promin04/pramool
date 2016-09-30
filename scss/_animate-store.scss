@@ -1,5 +1,4 @@
-.ng-enter,
-.ng-leave
+.ng-enter
 {
     -webkit-transition: 800ms cubic-bezier(0.250, 0.100, 0.250, 1.000) all;
     -moz-transition: 800ms cubic-bezier(0.250, 0.100, 0.250, 1.000) all;
@@ -7,16 +6,16 @@
     -o-transition: 800ms cubic-bezier(0.250, 0.100, 0.250, 1.000) all;
     transition: 800ms cubic-bezier(0.250, 0.100, 0.250, 1.000) all;
     position: relative;
-    display: block;
+
 }
 
 .ng-enter.ng-enter-active,
-.ng-leave {
+ {
     opacity: 1;
     left: 0;
 }
 
-.ng-leave.ng-leave-active,
+
 .ng-enter {
     opacity: 0;
     left: -300px;

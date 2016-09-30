@@ -1,0 +1,64 @@
+.myproduct-footage {
+  background-color : #c7c7c7;
+  height: 44px;
+  width: 220px;
+  padding: 0 16px;
+  border-bottom: 2px solid $darkgary;
+  border-radius: 0 0 8px 8px;
+
+
+  .glyphicon-wrench{
+    padding: 12.5px 30px;
+    color: yellow;
+    font-size: 16px;
+  }
+  .glyphicon-wrench,
+  .glyphicon-remove:hover {
+    cursor: pointer;
+  }
+
+
+  .glyphicon-remove{
+    padding: 12.5px 30px;
+    font-size: 16px;
+    color: red;
+    float: right;
+  }
+
+}
+
+.myproduct-body {
+  position: relative;
+  width: 220px;
+  padding: 16px 16px 16px 16px;
+  border-top : 1px solid $grey;
+  border-left: 1px solid $grey;
+  border-right: 1px solid $grey;
+  border-radius: 8px 8px 0 0;
+}
+
+.myproduct-body:hover {
+  cursor: pointer;
+  border-top : 1px solid #40a5e3;
+  border-left: 1px solid #40a5e3;
+  border-right: 1px solid #40a5e3;
+  opacity: 0.6;
+}
+
+.preDelete{
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color:rgba(255, 255, 255, 0.6);
+  width: 100%;
+  height: 100%;
+}
+
+.preDelete-selector{
+  position: absolute;
+  top: 40%;
+  left: 15%;
+  .delete{
+    margin-right: 20px;
+  }
+}

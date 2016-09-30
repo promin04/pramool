@@ -1,9 +1,17 @@
 (function () {
   angular.module('store')
   .run([
-    '$rootScope','$state','modalAuthService','$http','userService','$urlRouter',
-    function ($rootScope,$state,modalAuthService,$http,userService,$urlRouter) {
+    '$rootScope','$state','modalAuthService','$http','userService','$urlRouter','$timeout',
+    function ($rootScope,$state,modalAuthService,$http,userService,$urlRouter,$timeout) {
       $rootScope.$on('$stateChangeStart',function (event, toState, toParams, fromState, fromParams) {
+        //fixed hidden overflow-y when change state
+        $rootScope.body = 'bodylock';
+        $timeout(function () {
+          $rootScope.body = '';
+        },600)
+
+
+        
         var closed = function () {
         if($rootScope.user == undefined)
           $state.go('auction');

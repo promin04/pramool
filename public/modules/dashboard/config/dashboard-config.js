@@ -8,11 +8,11 @@
           templateUrl:'./modules/dashboard/views/dashboard.jade',
           resolve:{
             maProduct:['myProduct',function (myProduct) {
-                console.log(myProduct.product(),'resolve mypro');
+
                  return myProduct.product();
             }],
             following:['followed',function (followed) {
-                console.log(followed.product(),'resolve followed');
+
                  return followed.product();
             }]
           }
@@ -22,9 +22,21 @@
             views:{
               myProduct:{
                 templateUrl:'./modules/dashboard/views/myProduct.jade',
-                controller:['maProduct','$timeout',function (maProduct,$timeout) {
+                controller:['maProduct','$timeout','deleteProduct',function (maProduct,$timeout,deleteProduct) {
+                  var that = this;
                   this.product = maProduct.data;
                   console.log(this.product,'myProduct');
+
+                  this.removeProduct = function ( _id , img , index ) {
+                    deleteProduct.delete( _id , img )    
+                      .then(function ( response ) {
+                            that.product.splice( index , 1 );
+                            console.log( 'splice' );
+                        }
+                      );
+                  }
+
+
                   //set masonry layout
                   $timeout(function () {
 
