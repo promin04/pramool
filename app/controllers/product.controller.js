@@ -137,28 +137,8 @@ module.exports = {
             }
         });
      }
-
-
    },
-
-   myProduct: function (req,res) {
-     var condition = {
-       creator : req.user.username
-     };
-      Product.find(
-        condition
-      ,
-      'name createAt bidEnd creator bider img'
-      ,{
-        $slice:['bider',-1]
-      },
-      function (err,data) {
-        console.log(data,'myProduct');
-        res.json(data);
-      }
-    )
-  },
-
+   
   following: function (req,res) {
       var username = req.user.username;
       var condition = {
