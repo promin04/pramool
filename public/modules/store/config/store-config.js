@@ -18,32 +18,12 @@
               url: '/product/:id',
 
               resolve: {
-                product : ['$http','$stateParams','$rootScope',function ($http,$stateParams,$rootScope) {
+                product : ['$http','$stateParams','$rootScope','following',function ($http,$stateParams,$rootScope,following) {
                               return $http.get('/product/'+$stateParams.id)
                                 .then(function (response) {
                                   var result = response.data;
-
-
-                                if($rootScope.user && result.following.length!==0){
-
-                                    for(var i=0 ;i < result.following.length;i++){
-
-                                      if (result.following[i].username === $rootScope.user) {
-                                        result.active = true;
-                                        return result;
-                                      }else if (i===result.following.length-1) {
-                                        console.log('1');
-                                        result.active = false;
-                                        return result;
-                                      }
-                                    }
-
-                                }else {
-                                    console.log('2',$rootScope.user);
-                                    result.active = false;
-                                    return result;
-                                }
-
+                                  result.active = following.check(result.following,$rootScope.user);
+                                  return result;
                               });
                           }]
               },
@@ -132,6 +112,13 @@
                       console.log(offer,'client offer');
                       that.bider.push(offer.data);
                     });
+                    /////check follow when log-in
+                    $rootScope.$watch('user',function (newValue, oldValue) {
+                      if (newValue && !oldValue) {
+                        that.active = following.check(product.following,newValue);
+                      }
+                    });
+
                     $scope.$on('$destroy', function (event) {
                       console.log('destroy');
                       socket.removeAllListeners();
