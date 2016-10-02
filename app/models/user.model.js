@@ -9,11 +9,12 @@ var UserSchema = new Schema({
                type: String ,
                unique: true,
                trim: true,
-               required: 'Username is required'
+               unique: true,
+               required: true
    },
   email : {
-            type: String ,
-            index: true
+            type: String
+
           },
   password : {
               type: String,
@@ -28,7 +29,7 @@ var UserSchema = new Schema({
   },
   provider: {
     type: String,
-    required: 'Provider is required'
+    required: true
   },
   providerId: String,
   providerData: {}

@@ -39,6 +39,9 @@
     });
 
     $rootScope.$watch('user',function (newValue, oldValue) {
+      if (oldValue && !newValue) {
+        $state.go('auction');
+      }
       //callback for authModal
       var closed = function () {
       if($rootScope.user == undefined)

@@ -18,11 +18,33 @@
               url: '/product/:id',
 
               resolve: {
-                product : ['$http','$stateParams',function ($http,$stateParams) {
+                product : ['$http','$stateParams','$rootScope',function ($http,$stateParams,$rootScope) {
                               return $http.get('/product/'+$stateParams.id)
                                 .then(function (response) {
-                                    return response.data;
-                                })
+                                  var result = response.data;
+
+
+                                if($rootScope.user && result.following.length!==0){
+
+                                    for(var i=0 ;i < result.following.length;i++){
+
+                                      if (result.following[i].username === $rootScope.user) {
+                                        result.active = true;
+                                        return result;
+                                      }else if (i===result.following.length-1) {
+                                        console.log('1');
+                                        result.active = false;
+                                        return result;
+                                      }
+                                    }
+
+                                }else {
+                                    console.log('2',$rootScope.user);
+                                    result.active = false;
+                                    return result;
+                                }
+
+                              });
                           }]
               },
               views: {
@@ -40,15 +62,32 @@
 
                 'side': {
                   templateUrl: './modules/store/views/store-product-side.jade',
-                  controller: ['product','$http','$stateParams','$scope','$rootScope','modalAuthService',
-                  function (product,$http,$stateParams,$scope,$rootScope,modalAuthService) {
+                  controller: ['product','$http','$stateParams','$scope','$rootScope','modalAuthService','following',
+                  function (product,$http,$stateParams,$scope,$rootScope,modalAuthService,following) {
                     var that = this;
                     this._id = product._id
                     this.name = product.name;
                     this.description ='i m  hero.';
                     this.bidEnd = product.bidEnd;
                     this.bider = product.bider;
+                    this.active = product.active;
+                    console.log(product,'product');
+                    this.following = function (productId) {
+                      if(!that.active){
+                        following.follow(productId)
+                        .then(function (res) {
+                          console.log(res.data,'active true');
+                          that.active = true;
+                        });
+                      } else {
+                        following.unFollow(productId)
+                        .then(function (res) {
+                          console.log(res,'active false');
+                          that.active = false;
+                        });
+                      }
 
+                    };
                     this.offer = function () {
 
                       if (typeof this.price == 'undefined' || this.price<=product.bider[product.bider.length-1].price) {
@@ -60,7 +99,7 @@
                       }else {
 
                                     if($rootScope.user !== undefined){
-                                    
+
                                             $http.post('/product/'+$stateParams.id,{price : this.price}).then(function (response) {
 
                                             if(response.data.error){
@@ -84,7 +123,7 @@
                                           modalAuthService.open();
                                   }
                       }
-                    }
+                    };
 
                     ////////web socket
                     socket.emit('leave','');

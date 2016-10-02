@@ -2,32 +2,37 @@ var moment = require('moment');
 var Product = require('mongoose').model('Product');
 module.exports = {
   create : function (req,res) {
+      if(req.user){
+        var add = {
+          name : req.body.name,
+          createAt : moment(),
+          bidEnd : moment().add(req.body.time.hours,'hours').add(req.body.time.days, 'days'),
+          creator : req.user.username,
+          following: [],
+          img : req.body.img,
+          bider:[{
+            name: req.user.username,
+            price : req.body.price,
+            time : moment()
+          }]
+        }
+        console.log(add);
+        var product = new Product(add);
 
-         var add = {
-           name : req.body.name,
-           createAt : moment(),
-           bidEnd : moment().add(req.body.time.hours,'hours').add(req.body.time.days, 'days'),
-           creator : req.user.username,
-           following: [],
-           img : req.body.img,
-           bider:[{
-             name: req.user.username,
-             price : req.body.price,
-             time : moment()
-           }]
-         }
-         console.log(add);
-         var product = new Product(add);
+        product.save(function (err,data) {
+          if(err) {
+            console.log(err);
+          } else {
+            console.log(data);
+            res.json(data);
 
-         product.save(function (err,data) {
-           if(err) {
-             console.log(err);
-           } else {
-             console.log(data);
-             res.json(data);
+          }
+        });
+      } else {
+        console.log('need user log in');
+      }
 
-           }
-         });
+
    },
 
    list : function (req,res) {
@@ -56,10 +61,13 @@ module.exports = {
 
    delete : function (req,res) {
      var condition = { _id : req.params.id };
-
-     Product.remove(condition,function (err,data) {
-       res.json(data);
-     });
+     if(req.user){
+       Product.remove(condition,function (err,data) {
+         res.json(data);
+       });
+     }else {
+       console.log('need user log in');
+     }
    },
 
    completed : function (req,res) {
@@ -138,8 +146,9 @@ module.exports = {
         });
      }
    },
-   
-  following: function (req,res) {
+
+  getFollowing: function (req,res) {
+    if(req.user){
       var username = req.user.username;
       var condition = {
         $or : [
@@ -151,7 +160,7 @@ module.exports = {
      Product.find(
        condition
        ,
-     'name createAt bidEnd creator bider img'
+     'name bidEnd creator bider img following'
      ,{
        $slice:['bider',-1]
      },
@@ -160,7 +169,58 @@ module.exports = {
        res.json(data);
      }
    )
+    }else {
+      console.log('need user log in');
+    }
+
+
+ },
+
+ following: function (req,res) {
+   if (req.user) {
+     var condition = {
+       _id : req.body._id
+     };
+     var update ={};
+
+     var Push = {
+       $push : {
+                 following : {
+                   _id : req.user._id,
+                   username : req.user.username
+                 }
+        }
+      };
+
+      var Pull = {
+        $pull : {
+                  following : {
+                         _id : req.user._id,
+                         username : req.user.username
+                  }
+      }
+    };
+
+     switch (req.body.mode) {
+       case 'follow':
+         update = Push;
+         break;
+       case 'unfollow':
+         update = Pull;
+         break;
+       default: update ={};
+
+     }
+
+     Product.findOneAndUpdate(condition,update,{ new : true },function (err,data) {
+       console.log('already follow',data);
+         res.json(data);
+     });
+   }else {
+     console.log('need user log in');
+   }
  }
+
 
 
 }

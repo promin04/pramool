@@ -16,5 +16,7 @@ module.exports = function (app) {
       .get(product.completed);
 
   app.route('/following')
-      .get(product.following);
+      .get(product.getFollowing)
+      .post(product.following);
+
 };

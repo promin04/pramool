@@ -1,5 +1,5 @@
 .grid
-  .grid-item.product-box( ng-repeat='product in store.product' ui-sref='product.detail({id: product._id})' )
+  .grid-item.product-box( ng-repeat='product in store.wereBid' ui-sref='product.detail({id: product._id})' )
     div(class='product-img ')
       img(ng-src = '{{product.img[0].link}}')
     div(class = 'product-detail ')
