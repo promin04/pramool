@@ -150,9 +150,10 @@ module.exports = {
   getFollowing: function (req,res) {
     if(req.user){
       var username = req.user.username;
+      var id = req.user._id;
       var condition = {
         $or : [
-          { 'following' : { '$in' : [username] } },
+          { 'following' : { '$in' : [{'username':username,'_id':id}] } },
           { 'bider.name' : username}
         ]
       };

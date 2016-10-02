@@ -64,7 +64,7 @@
 
                     for( var i=0 ; i<each.following.length ; i++ ){
 
-                      if (each.following[i] === $rootScope.user) {
+                      if (each.following[i].username === $rootScope.user) {
                         return 1;
                       }else if (i === each.following.length-1) {
                         return 0;

@@ -1,5 +1,8 @@
 .product-side{
-  .following:hover{
+  .following.disabled{
+    opacity: 0.4;
+  }
+  .following.click:hover{
     cursor: pointer;
     background-color: $grey;
     border-left: 1px solid $darkgary;

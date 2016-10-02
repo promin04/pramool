@@ -50,6 +50,7 @@
                     this.description ='i m  hero.';
                     this.bidEnd = product.bidEnd;
                     this.bider = product.bider;
+                    this.creator = product.creator;
                     this.active = product.active;
                     console.log(product,'product');
                     this.following = function (productId) {
