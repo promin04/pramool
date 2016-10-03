@@ -1,6 +1,7 @@
-h4
-  |product you were bided.
-.grid
+.content-header
+  h3
+    |product you were bided.
+.grid.follow-box
   .grid-item.product-box( ng-repeat='product in store.wereBid' ui-sref='product.detail({id: product._id})' )
     div(class='product-img ')
       img(ng-src = '{{product.img[0].link}}')
@@ -12,9 +13,10 @@ h4
           |{{product.bider[product.bider.length-1].price}} THB
           br
           | By {{product.bider[product.bider.length-1].name}}
-h4
-  |product you were followed.
-.grid
+.content-header
+  h3
+    |product you were followed.
+.grid.follow-box
   .grid-item.product-box( ng-repeat='product in store.subscribe' ui-sref='product.detail({id: product._id})' )
     div(class='product-img ')
       img(ng-src = '{{product.img[0].link}}')

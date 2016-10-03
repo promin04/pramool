@@ -10,6 +10,7 @@
   border: 1px solid $grey;
   border-bottom: 2px solid $darkgary;
   border-radius: 8px;
+  background-color: white;
 }
 
 
@@ -34,4 +35,11 @@
     max-height: 200px;
 
   }
+}
+
+.content-header{
+    margin-top: 30px;
+    margin-bottom: 20px;
+    padding-left: 10px;
+    border-left: 5px solid #40a5e3;
 }

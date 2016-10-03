@@ -1,4 +1,7 @@
-.grid
+.content-header
+  h3
+    |My Product
+.grid.follow-box
     .grid-item( ng-repeat='product in store.product' )
         .myproduct-body(ui-sref='product.detail({id: product._id})')
             div(class='product-img ')
