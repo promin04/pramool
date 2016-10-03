@@ -2,6 +2,7 @@
   h3
     |product you were bided.
 .grid.follow-box
+  h3(ng-if='store.wereBid.length===0' , ng-style='{"text-align":"center"}') There isn't your bid history.
   .grid-item.product-box( ng-repeat='product in store.wereBid' ui-sref='product.detail({id: product._id})' )
     div(class='product-img ')
       img(ng-src = '{{product.img[0].link}}')
@@ -17,6 +18,7 @@
   h3
     |product you were followed.
 .grid.follow-box
+  h3(ng-if='store.subscribe.length===0' , ng-style='{"text-align":"center"}') There isn't your product following.
   .grid-item.product-box( ng-repeat='product in store.subscribe' ui-sref='product.detail({id: product._id})' )
     div(class='product-img ')
       img(ng-src = '{{product.img[0].link}}')

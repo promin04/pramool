@@ -36,6 +36,11 @@ top-header {
 
 .auth {
   padding: 0px !important;
+  .dropdown{
+    display: block;
+    margin: auto;
+    float: none ;
+  }
   li {
       padding: 10px  0;
       text-align: center;

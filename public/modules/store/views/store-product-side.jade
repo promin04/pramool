@@ -1,17 +1,20 @@
 .product-side
-  div
+  .description
     h2 {{product.name}}
-    h4 Description
+    h4(ng-style='{"background-color" : " #e1e1e1"}') Description
     p {{product.description}}
-    h4 Time Remaining
-    timer( milisec = '{{product.bidEnd}}' )
-  div
-    h4 Current price
+    h3(ng-style='{"color" : "orange" , "margin-bottom" : "20px"}' , ng-if='product.bidEnd<=0') Time Over
+    h4(ng-if='product.bidEnd>0') Time Remaining
+    timer( milisec = '{{product.bidEnd}}' , ng-if='product.bidEnd>0')
+  .price
+    h4(ng-style='{"background-color" : " #e1e1e1"}') Current price
 
-    b  {{product.bider[product.bider.length-1].price}} THB.
+    b(ng-style='{"font-size" : "16px"}')  {{product.bider[product.bider.length-1].price}} THB.
     br
-    | By {{product.bider[product.bider.length-1].name}} @ {{product.bider[product.bider.length-1].time}}
-  form(name = 'add' , ng-submit='product.offer()' , style = 'text-align:center' novalidate='')
+    | By {{product.bider[product.bider.length-1].name}}
+    br
+    |{{product.bider[product.bider.length-1].time}}
+  form(name = 'add' , ng-submit='product.offer()' , style = 'text-align:center' ,  novalidate='' , ng-if='product.bidEnd>0')
       span(ng-show='add.price.$invalid && add.price.$touched') Price should be more than {{product.bider[product.bider.length-1].price}} .
       br
       input(type = 'number' , name = 'price' , ng-model = 'product.price' min='{{product.bider[product.bider.length-1].price}}+1' , integer='' )

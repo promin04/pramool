@@ -2,6 +2,8 @@
   h3
     |My Product
 .grid.follow-box
+    h3(ng-if='store.product.length===0' , ng-style='{"text-align":"center"}') There isn't your product. Let's
+      a(ui-sref='newProduct')  Create new .
     .grid-item( ng-repeat='product in store.product' )
         .myproduct-body(ui-sref='product.detail({id: product._id})')
             div(class='product-img ')
