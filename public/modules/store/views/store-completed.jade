@@ -1,11 +1,11 @@
 .grid
-  .grid-item.product-box( ng-repeat='product in store.product' ui-sref='product.detail({id: product._id})' ng-animate="{enter: 'animate-enter', leave: 'animate-leave'}")
+  .grid-item.product-box( ng-repeat='product in store.product' ui-sref='product.detail({id: product._id})')
     div(class='product-img ')
       img(ng-src = '{{product.img[0].link}}')
     div(class = 'product-detail ')
       h4 {{product.name}}
       div( class = 'product-auction' )
-        |Completed {{product.bidEnd}}
+        timer( milisec = '{{product.bidEnd}}' )
         div(class = 'product-price')
           |{{product.bider[product.bider.length-1].price}} THB
           br

@@ -9,7 +9,8 @@
     div(class = 'product-detail ')
       h4 {{product.name}}
       div( class = 'product-auction' )
-        |Completed {{product.bidEnd}}
+        .product-timer
+          timer( milisec = '{{product.bidEnd}}' )
         div(class = 'product-price')
           |{{product.bider[product.bider.length-1].price}} THB
           br
@@ -25,7 +26,8 @@
     div(class = 'product-detail ')
       h4 {{product.name}}
       div( class = 'product-auction' )
-        |Completed {{product.bidEnd}}
+        .product-timer
+          timer( milisec = '{{product.bidEnd}}' )
         div(class = 'product-price')
           |{{product.bider[product.bider.length-1].price}} THB
           br

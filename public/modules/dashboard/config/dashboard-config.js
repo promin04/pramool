@@ -1,5 +1,5 @@
 (function () {
-  angular.module('dashboard',[])
+  angular.module('dashboard',['timer'])
     .config(['$stateProvider',function ($stateProvider) {
       $stateProvider
         .state('dashboard',{

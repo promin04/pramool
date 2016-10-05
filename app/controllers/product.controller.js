@@ -79,7 +79,7 @@ module.exports = {
          console.log(err);
        } else {
          for (var i = 0; i < data.length; i++) {
-           data[i].bidEnd = moment(data[i].bidEnd).fromNow();
+           data[i].bidEnd = moment(data[i].bidEnd).diff(moment());
          }
          console.log(data);
          res.json(data);
@@ -166,6 +166,11 @@ module.exports = {
        $slice:['bider',-1]
      },
      function (err,data) {
+       for (var i = 0; i < data.length; i++) {
+
+         data[i].bidEnd = moment(data[i].bidEnd).diff(moment());
+
+       }
        console.log(data,'following');
        res.json(data);
      }
