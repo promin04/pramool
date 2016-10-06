@@ -42,8 +42,8 @@
 
                 'side': {
                   templateUrl: './modules/store/views/store-product-side.jade',
-                  controller: ['product','$http','$stateParams','$scope','$rootScope','modalAuthService','following',
-                  function (product,$http,$stateParams,$scope,$rootScope,modalAuthService,following) {
+                  controller: ['product','$http','$stateParams','$scope','$rootScope','modalAuthService','following','$timeout',
+                  function (product,$http,$stateParams,$scope,$rootScope,modalAuthService,following,$timeout) {
                     var that = this;
                     this._id = product._id
                     this.name = product.name;
@@ -69,6 +69,18 @@
                       }
 
                     };
+                    //countdown service
+                    this.countdown = function () {
+                      if(that.bidEnd>0){
+                            that.bidEnd = that.bidEnd - 1000 ;
+                            $scope.timeout =  $timeout(function () {
+                                    that.countdown();
+                            }, 1000);
+                        } else {
+                            $timeout.cancel($scope.timeout);
+                        }
+                    }
+
                     this.offer = function () {
 
                       if (typeof this.price == 'undefined' || this.price<=product.bider[product.bider.length-1].price) {
@@ -105,7 +117,8 @@
                                   }
                       }
                     };
-
+                    /////initial app
+                    this.countdown();
                     ////////web socket
                     socket.emit('leave','');
                     socket.emit('join',that._id);
@@ -123,6 +136,7 @@
                     $scope.$on('$destroy', function (event) {
                       console.log('destroy');
                       socket.removeAllListeners();
+                      $timeout.cancel($scope.timeout);
                     });
                   }],
                   controllerAs: 'product'

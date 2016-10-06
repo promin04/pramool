@@ -18,7 +18,7 @@
             views:{
               myProduct:{
                 templateUrl:'./modules/dashboard/views/myProduct.jade',
-                controller:['following','$timeout','deleteProduct','$rootScope',function (following,$timeout,deleteProduct,$rootScope) {
+                controller:['following','$timeout','deleteProduct','$rootScope','$scope',function (following,$timeout,deleteProduct,$rootScope,$scope) {
                   var that = this;
                   this.product = following.data.filter(function (each) {
                     return each.creator === $rootScope.user
@@ -34,7 +34,25 @@
                       );
                   }
 
+                  //countdown service
+                  this.countdown = function () {
+                    console.log('1');
+                    for(var i = 0 ; i < that.product.length ; i++){
+                      that.product[i].bidEnd = that.product[i].bidEnd - 1000 ;
 
+                    }
+                    $scope.timeout =  $timeout(function () {
+                            that.countdown();
+                    }, 1000);
+                  }
+                  //initial app
+                  this.countdown();
+                  //clear all
+                  $scope.$on('$destroy', function (event) {
+                    console.log('destroy');
+                    socket.removeAllListeners();
+                     $timeout.cancel($scope.timeout);
+                  });
                   //set masonry layout
                   $timeout(function () {
 
@@ -54,7 +72,9 @@
             views:{
               following:{
                 templateUrl:'./modules/dashboard/views/following.jade',
-                controller:['following','$timeout','$rootScope',function ( following , $timeout , $rootScope ) {
+                controller:['following','$timeout','$rootScope','$scope',function ( following , $timeout , $rootScope, $scope ) {
+                  var that = this;
+
                   this.product =  following.data.filter(function (each) {
                     return each.creator !== $rootScope.user
                   });
@@ -88,6 +108,33 @@
 
                   });
                   console.log(this.wereBid,'wereBid');
+
+                  //countdown service
+                  this.countdown = function () {
+                    console.log('2');
+                    if(that.subscribe.length>0){
+                      for(var i = 0 ; i < that.subscribe.length ; i++){
+                        that.subscribe[i].bidEnd = that.subscribe[i].bidEnd - 1000 ;
+                      }
+                    }
+                    if(that.wereBid.length>0){
+                      for(var i = 0 ; i < that.wereBid.length ; i++){
+                        that.wereBid[i].bidEnd = that.wereBid[i].bidEnd - 1000 ;
+                      }
+                    }
+
+                    $scope.timeout =  $timeout(function () {
+                            that.countdown();
+                    }, 1000);
+                  }
+                  //initial app
+                  this.countdown();
+                  //clear all
+                  $scope.$on('$destroy', function (event) {
+                    console.log('destroy');
+                    socket.removeAllListeners();
+                     $timeout.cancel($scope.timeout);
+                  });
                   //set masonry layout
                   $timeout(function () {
 

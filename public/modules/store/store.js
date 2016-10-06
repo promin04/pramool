@@ -43,15 +43,23 @@
         });
       }
 
+      this.test = function () {
+        this.product.pop();
+      }
+      //countdown service
+      this.countdown = function () {
+        for(var i = 0 ; i < that.product.length ; i++){
+          that.product[i].bidEnd = that.product[i].bidEnd - 1000 ;
 
+        }
+        $scope.timeout =  $timeout(function () {
+                that.countdown();
+        }, 1000);
+      }
 
-
-
-          this.test = function () {
-            this.product.pop();
-          }
-      ///init app
+      ///initial app
           this.getNew();
+          this.countdown();
       ////////web socket
       socket.emit('leave','');
       socket.emit('join','store');
@@ -72,6 +80,8 @@
       $scope.$on('$destroy', function (event) {
         console.log('destroy');
         socket.removeAllListeners();
+         $timeout.cancel($scope.timeout);
+
       });
       ///////
 
