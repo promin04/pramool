@@ -7,11 +7,15 @@
 @import 'animate-store';
 @import 'myProduct';
 @import 'following';
-
+@import 'addProduct';
 html {
-
+background-color: #f9f9f9;
 height:100%;
 width:100%;
+}
+
+body {
+background-color: #f9f9f9 !important;
 }
 
 .box {
@@ -20,6 +24,9 @@ width:100%;
   width: 100%;
   margin: auto;
 }
-
+.no-animate {
+   transition: none !important;
+   animation-duration : 0 !important;
+}
 
 .bodylock { overflow-y : hidden;}

@@ -6,7 +6,7 @@
       templateUrl : './modules/timer/views/timer.jade',
       scope : {milisec : '@'},
       controller : function ($scope) {
-
+console.log('time');
       $scope.time = function () {
         var checkpoint;
         var state = false;
@@ -14,11 +14,11 @@
           if($scope.milisec>0){
             $scope.s = Math.floor(($scope.milisec / 1000) % 60);
             $scope.m = Math.floor((($scope.milisec / (60000)) % 60));
-            $scope.h = Math.floor((($scope.milisec / (3600000)) % 24));
+            $scope.h = Math.floor((($scope.milisec / (3600000)) ));
           } else {
 
             if(!state){
-            
+
               $scope.s = '00';
               $scope.m = '00';
               $scope.h = '00';
@@ -31,6 +31,7 @@
 
           }
         };
+        countdown();
         $scope.$watch('milisec', function(newValue, oldValue) {
           if ( newValue !== oldValue ) {
             countdown();
@@ -39,6 +40,7 @@
       };
       ///initial app
       $scope.time();
+
 
 
 

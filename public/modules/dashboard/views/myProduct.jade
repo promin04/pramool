@@ -7,7 +7,7 @@
     .grid-item( ng-repeat='product in store.product' )
         .myproduct-body(ui-sref='product.detail({id: product._id})')
             div(class='product-img ')
-              img(ng-src = '{{product.img[0].link}}')
+              img(ng-src = '{{product.img[product.coverImg].link}}')
             div(class = 'product-detail ')
               h4 {{product.name}}
               .product-auction

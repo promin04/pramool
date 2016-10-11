@@ -6,27 +6,66 @@
 
         templateUrl : './modules/addProduct/views/addProduct.jade',
 
-        controller : ['$http','imgur','$state',function ($http,imgur,$state) {
+        controller : ['$http','imgur','$state','$timeout','$scope',function ($http,imgur,$state,$timeout,$scope) {
+
                 var that = this;
+                var imgWidth;
+                var imgHeight;
+                var order = 1;
                 this.picFile = null;
                 this.state = null;
                 this.picture = [];
+                this.pointer = 0; //position of array picture that is a cover image.
                 this.processBar = 0;
+
+
+
                 this.picRemove = function (index) {
                   this.picture.splice(index,1);
+                  console.log(this.picture);
+                  if(index < this.pointer){
+                    this.pointer -= 1;
+                  }
+
                 }
+
                 this.prepare = function (files) {
                   console.log(files);
+                  $('.preview-img').onload = function (e) {
+                    imgWidth = image.width;
+                    imgHeight = image.height;
+                  }
                       if(Array.isArray(files) && files.length<5-this.picture.length){
-                        this.picture = this.picture.concat(files);
+                        for(var i = 0 ; i < files.length ; i++){
+                        var fileReader = new FileReader();
+                        //freeze i for each loop
+                        (function (order,index) {
+                        fileReader.onload = function (e) {
+
+                        var img64 = {
+                                      name : files[index].name,
+                                      link : fileReader.result,
+                                      order : order
+                        };
+                        $scope.$apply(that.picture.push(img64));
+
+                        console.log(that.picture);
+                        };
+
+                      })(order,i)
+                        order++; //increase every loop to sort by order later
+                        fileReader.readAsDataURL(files[i]); //encode file to base64
+                      }
+
                       } else {
                         this.state = 1; //show error gallery image
                       }
                 };
+
                 this.add = function () {
                     this.state = 10; //show complete bar&hide submit button
                     var pro = this.stuff;
-                    var data ={}
+                    var data ={};
                     pro.img = [];
                     var createPro = function (arrayData) {
                       for(var i = 0 ; i<arrayData.length ; i++){
@@ -36,6 +75,7 @@
                               order: arrayData[i].title
                           };
                           pro.img.push(data);
+                          pro.coverImg = that.pointer; 
                       }
 
                     $http.post('/product',pro).then(function (res) {
@@ -47,9 +87,15 @@
                       that.processBar = complete/total*100;
                     }
                       imgur.post(that.picture,processBar,createPro);
-
-
                 };
+
+                this.setCover = function (index) {
+                  that.pointer = index;
+                }
+
+
+
+
 
 
       }],

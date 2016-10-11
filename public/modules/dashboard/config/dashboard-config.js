@@ -29,14 +29,12 @@
                     deleteProduct.delete( _id , img )
                       .then(function ( response ) {
                             that.product.splice( index , 1 );
-                            console.log( 'splice' );
                         }
                       );
                   }
 
                   //countdown service
                   this.countdown = function () {
-                    console.log('1');
                     for(var i = 0 ; i < that.product.length ; i++){
                       that.product[i].bidEnd = that.product[i].bidEnd - 1000 ;
 

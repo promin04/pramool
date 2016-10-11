@@ -36,6 +36,7 @@
                           total[i] = value;
                           return total;
                     }, {});
+                    this.coverImg = product.coverImg;
                   }],
                   controllerAs: 'product'
                 },
@@ -52,7 +53,8 @@
                     this.bider = product.bider;
                     this.creator = product.creator;
                     this.active = product.active;
-                    console.log(product,'product');
+
+                    console.log(this.coverImg,'this.coverImg');
                     this.following = function (productId) {
                       if(!that.active){
                         following.follow(productId)

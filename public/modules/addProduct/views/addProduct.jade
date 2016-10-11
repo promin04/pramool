@@ -1,40 +1,61 @@
-form(name = 'myForm')
-  .content-header
-    h3 Create a new Product
-  br
-  .form-group
-    label(for='name') Product's name
-      input.form-control(type = 'text' , id = 'name' , name='name' , ng-model="product.stuff.name")
-  .form-group
-    label(for='file') Gallery image (Maximum 4 image files)
+.add-product.col-sm-6(ng-style = '{"height":"550px"}')
+  form(name = 'myForm')
+    .content-header
+      h3 Create a new Product
     br
-    |*The first image will be a cover image of your product.
+    .form-group
+      label(for='name') Product's name
+        input.form-control(type = 'text' , id = 'name' , name='name' , ng-model="product.stuff.name")
+    .form-group
+      label(for='file') Gallery image (Maximum 4 image files)
+      br
+      |*recommend .jpg
+      br
+      br
+      div(ng-show="product.state==1" , ng-style="{'color':'red'}")|Maximum 4 image files
+      input(type = 'file',id = 'file' , name = 'file' , ngf-select="product.prepare(product.picFile)" , ng-model="product.picFile", accept="image/*" , multiple="true" , ngf-max-size="1MB" , ngf-max-files="4")
+      .form-img-space
+        .form-img(ng-show='product.picture[0]', class='{{ ($index === product.pointer) ? "cover" : "" }}' , ng-repeat='one in product.picture')
+          img(ng-src='{{one.link}}')
+          .form-img-cover(  ng-click = "product.setCover($index)" )
+            span.glyphicon.glyphicon-picture
+          .form-img-remove( ng-click = "product.picRemove($index)" )
+            span.glyphicon.glyphicon-remove( ng-style = "{'color' : 'red'}" )
+    .form-group
+      label(for='file') Start price
+        input.form-control(type = 'number' , name = 'price', ng-model="product.stuff.price" )
+    .form-group
+      label(for='days') Time for auction
+      br
+      input(type = 'number' , id='days', name = 'days', ng-model="product.stuff.time.days" , ng-init="product.stuff.time.days=1" , min="0" , max="30")
+      | days
+      br
+      input(type = 'number' , name = 'hours', ng-model="product.stuff.time.hours", ng-init="product.stuff.time.hours=0"  , min="0" , max="23")
+      | hours
     br
-    |*recommend .jpg
     br
-    br
-    div(ng-show="product.state==1" , ng-style="{'color':'red'}")|Maximum 4 image files
-    input(type = 'file',id = 'file' , name = 'file' , ngf-select="product.prepare(product.picFile)" , ng-model="product.picFile", accept="image/*" , multiple="true" , ngf-max-size="1MB" , ngf-max-files="4")
-    div(ng-show='product.picture[0]',ng-repeat='one in product.picture')
-      |{{one.name}}
-      span.glyphicon.glyphicon-remove(ng-style="{'color':'red'}",ng-click="product.picRemove($index)")
+    button.btn.btn-default.col-xs-6.btn-lg(ng-disabled='!myForm.$valid', ng-click='product.add()' , ng-hide="product.state==10" ) Submit
 
+    .progress(ng-show="product.state==10")
+      .progress-bar.progress-bar-success(role='progressbar', aria-valuenow='{{product.processBar}}', aria-valuemin='0', aria-valuemax='100', style='width:{{product.processBar}}%')
+        | {{product.processBar}}%
 
-  .form-group
-    label(for='file') Start price
-      input.form-control(type = 'number' , name = 'price', ng-model="product.stuff.price" )
-  .form-group
-    label(for='days') Time for auction
-    br
-    input(type = 'number' , id='days', name = 'days', ng-model="product.stuff.time.days" , ng-init="product.stuff.time.days=1" , min="0" , max="30")
-    | days
-    br
-    input(type = 'number' , name = 'hours', ng-model="product.stuff.time.hours", ng-init="product.stuff.time.hours=0"  , min="0" , max="23")
-    | hours
-  br
-  br
-  button.btn.btn-default.col-xs-6.btn-lg(ng-disabled='!myForm.$valid', ng-click='product.add()' , ng-hide="product.state==10" ) Submit
-
-  .progress(ng-show="product.state==10")
-    .progress-bar.progress-bar-success(role='progressbar', aria-valuenow='{{product.processBar}}', aria-valuemin='0', aria-valuemax='100', style='width:{{product.processBar}}%')
-      | {{product.processBar}}%
+.preview-product.col-sm-6
+  h3 preview min.
+  .preview-min
+    .grid-item.product-box
+      div(class='product-img')
+        img.preview-img(ng-src = '{{product.picture[product.pointer].link||"http://placehold.it/300x250"}}')
+      div(class = 'product-detail')
+        h4 {{product.stuff.name}}
+        div( class = 'product-auction' )
+          timer( milisec = '{{(product.stuff.time.days*86400000)+(product.stuff.time.hours*3600000)}}' )
+          div(class = 'product-price')
+            |{{product.stuff.price}} THB
+            br
+            | By {{user}}
+            br
+            |a few second ago.
+  h3 preview detail
+  .preview-detail
+    gallery.gallery(pic='product.picture',pointer='{{product.pointer}}')

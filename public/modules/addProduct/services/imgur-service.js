@@ -1,27 +1,27 @@
 (function () {
   angular.module('addProduct')
-  .service('imgur',['Upload',function (Upload) {
+  .service('imgur',['$http',function ($http) {
     this.post = function (file ,processBar, callback) {
 
       console.log(file);
       var arrayData = [];
 
       for(var i = 0 ; i < file.length ; i++){
-      var fileReader = new FileReader();
-      fileReader.readAsDataURL(file[i]);
+
+
       console.log(i,'i');
         //closure fn
-      (function (order) {
+      (function (index) {
         //due to title cannot set 0 that result = 'null', so it must i+1 (if i=0)
-      fileReader.onload = function(e) {
-        console.log(order,'order=i+1');
-        var base64 = e.target.result;
+
+        console.log(index,'index');
+        var base64 = file[index].link;
         var arrayBase64 = base64.split(",");
         console.log(arrayBase64[0],arrayBase64.length);
 
         var demo = {
             url: 'https://api.imgur.com/3/image',
-            type: 'POST',
+            method: 'POST',
             headers: {
               Authorization: 'Client-ID 18f8382f95b805f',
               Accept: 'application/json'
@@ -29,12 +29,12 @@
             data: {
               image: arrayBase64[1],
               type: 'base64',
-              title: order
+              title: file[index].order
             }
 
         };
 
-          Upload.http(demo).then(function(response) {
+          $http(demo).then(function(response) {
               //success
 
               arrayData.push(response.data.data);
@@ -50,8 +50,7 @@
           });
 
 
-      }
-})(i+1);
+})(i);
     }
     }
 

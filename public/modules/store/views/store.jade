@@ -1,12 +1,12 @@
 a(ui-sref="newProduct")
   button(type='button' , ng-click='') Add
-button(type='button' , ng-click='store.test()') Delete
+button(type='button' , ng-click='store.delete()') Delete
 br
 br
 .grid
   .grid-item.product-box( ng-repeat='product in store.product' ui-sref='product.detail({id: product._id})')
     div(class='product-img ')
-      img(ng-src = '{{product.img[0].link}}')
+      img(ng-src = '{{product.img[product.coverImg].link}}')
     div(class = 'product-detail ')
       h4 {{product.name}}
       div( class = 'product-auction' )

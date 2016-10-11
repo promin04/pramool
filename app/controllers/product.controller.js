@@ -3,6 +3,7 @@ var Product = require('mongoose').model('Product');
 module.exports = {
   create : function (req,res) {
       if(req.user){
+        console.log(req.body,'JSON');
         var add = {
           name : req.body.name,
           createAt : moment(),
@@ -10,13 +11,14 @@ module.exports = {
           creator : req.user.username,
           following: [],
           img : req.body.img,
+          coverImg : req.body.coverImg,
           bider:[{
             name: req.user.username,
             price : req.body.price,
             time : moment()
           }]
         }
-        console.log(add);
+
         var product = new Product(add);
 
         product.save(function (err,data) {
@@ -41,7 +43,7 @@ module.exports = {
       Product.find({
           bidEnd : { $gt : time },
       },
-      '_id name bider bidEnd img'
+      '_id name bider bidEnd img coverImg'
       ,
       function (err,data) {
         if(err){
@@ -161,7 +163,7 @@ module.exports = {
      Product.find(
        condition
        ,
-     'name bidEnd creator bider img following'
+     'name bidEnd creator bider img following coverImg'
      ,{
        $slice:['bider',-1]
      },
