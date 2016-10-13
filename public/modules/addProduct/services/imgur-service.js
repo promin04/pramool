@@ -43,7 +43,7 @@
                 arrayData.sort(function(a, b){
                   return a.title-b.title});
                 console.log(arrayData);
-                callback(arrayData);
+                callback(arrayData,file);
               }
           }, function(reject) {
             console.log('error',reject);

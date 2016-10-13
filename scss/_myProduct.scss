@@ -1,7 +1,6 @@
 .myproduct-footage {
   background-color : #c7c7c7;
   height: 44px;
-  width: 220px;
   padding: 0 16px;
   border-bottom: 2px solid $darkgary;
   border-radius: 0 0 8px 8px;
@@ -33,7 +32,7 @@
 
 .myproduct-body {
   position: relative;
-  width: 220px;
+  text-align: center;
   padding: 16px 16px 16px 16px;
   border-top : 1px solid $grey;
   border-left: 1px solid $grey;

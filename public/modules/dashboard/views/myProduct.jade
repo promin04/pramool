@@ -4,23 +4,30 @@
 .grid.follow-box
     h3(ng-if='store.product.length===0' , ng-style='{"text-align":"center"}') There isn't your product. Let's
       a(ui-sref='newProduct')  Create new .
-    .grid-item( ng-repeat='product in store.product' )
+
+    .grid-item( ng-repeat='product in store.product' ,\
+    ng-class='[ \
+    { "vertical" : {{ product.coverImg.autoH > product.coverImg.autoW }} } ,\
+    { "horizontal" : {{ product.coverImg.autoH < product.coverImg.autoW }} }]')
         .myproduct-body(ui-sref='product.detail({id: product._id})')
-            div(class='product-img ')
-              img(ng-src = '{{product.img[product.coverImg].link}}')
+          .product-img(\
+          ng-style= '{\
+          "height":(product.coverImg.autoH > product.coverImg.autoW ?product.coverImg.autoH:null)+"px" ,\
+          "width":(product.coverImg.autoH < product.coverImg.autoW ?product.coverImg.autoW:null)+"px" } ')
+              img(ng-src = '{{product.img[product.coverImg.index].link}}')
             div(class = 'product-detail ')
               h4 {{product.name}}
               .product-auction
-                  .product-timer
-                    timer( milisec = '{{product.bidEnd}}' )
+                  timer( milisec = '{{product.bidEnd}}' )
                   div(class = 'product-price')
                       |{{product.bider[product.bider.length-1].price}} THB
                       br
                       | By {{product.bider[product.bider.length-1].name}}
-          .preDelete(ng-show='preDelete')
-            .preDelete-selector
-              button.btn.btn-danger.delete(ng-click='store.removeProduct(product._id,product.img,$index)') Delete
-              button.btn.btn-default(ng-click='preDelete = !preDelete') Close
+        .preDelete(ng-show='preDelete')
+          .preDelete-selector
+            button.btn.btn-danger.delete(ng-click='store.removeProduct(product._id,product.img,$index)') Delete
+            button.btn.btn-default(ng-click='preDelete = !preDelete') Close
+
         .myproduct-footage
               span.glyphicon.glyphicon-wrench
               span.glyphicon.glyphicon-remove(ng-click='preDelete = !preDelete' , ng-class="{'active' : preDelete}")

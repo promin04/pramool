@@ -4,6 +4,7 @@ module.exports = {
   create : function (req,res) {
       if(req.user){
         console.log(req.body,'JSON');
+        var coverImgObj = req.body.img[req.body.coverImg];
         var add = {
           name : req.body.name,
           createAt : moment(),
@@ -11,9 +12,13 @@ module.exports = {
           creator : req.user.username,
           following: [],
           img : req.body.img,
-          coverImg : req.body.coverImg,
-          bider:[{
-            name: req.user.username,
+          coverImg : {
+            index : req.body.coverImg,
+            autoW : (coverImgObj.width/coverImgObj.height)*170 ,
+            autoH : (coverImgObj.height/coverImgObj.width)*170
+          },
+          bider :[{
+            name : req.user.username,
             price : req.body.price,
             time : moment()
           }]

@@ -17,24 +17,34 @@
                 this.picture = [];
                 this.pointer = 0; //position of array picture that is a cover image.
                 this.processBar = 0;
+                this.classImg = true;
+                this.changeClass = function () {
+                  
+                  if (this.picture[0]) {
+                    if (this.picture[this.pointer].autoH > this.picture[this.pointer].autoW) {
+                       this.classImg = true;
+                    } else {
+                       this.classImg = false;
+                    }
 
+                  }
+                }
 
 
                 this.picRemove = function (index) {
                   this.picture.splice(index,1);
-                  console.log(this.picture);
                   if(index < this.pointer){
                     this.pointer -= 1;
-                  }
+                  } else if (index === this.pointer) {
+                      this.pointer -= 1;
+                    }
 
+                  console.log(this.pointer,'point');
+                  this.changeClass();
                 }
 
                 this.prepare = function (files) {
                   console.log(files);
-                  $('.preview-img').onload = function (e) {
-                    imgWidth = image.width;
-                    imgHeight = image.height;
-                  }
                       if(Array.isArray(files) && files.length<5-this.picture.length){
                         for(var i = 0 ; i < files.length ; i++){
                         var fileReader = new FileReader();
@@ -48,7 +58,6 @@
                                       order : order
                         };
                         $scope.$apply(that.picture.push(img64));
-
                         console.log(that.picture);
                         };
 
@@ -67,15 +76,17 @@
                     var pro = this.stuff;
                     var data ={};
                     pro.img = [];
-                    var createPro = function (arrayData) {
+                    var createPro = function (arrayData,file) {
                       for(var i = 0 ; i<arrayData.length ; i++){
                           data = {
                               link: arrayData[i].link,
                               deletehash: arrayData[i].deletehash,
-                              order: arrayData[i].title
+                              order: arrayData[i].title,
+                              width: file[i].width,
+                              height: file[i].height
                           };
                           pro.img.push(data);
-                          pro.coverImg = that.pointer; 
+                          pro.coverImg = that.pointer;
                       }
 
                     $http.post('/product',pro).then(function (res) {
@@ -90,12 +101,9 @@
                 };
 
                 this.setCover = function (index) {
-                  that.pointer = index;
+                  this.pointer = index;
+                  this.changeClass();
                 }
-
-
-
-
 
 
       }],

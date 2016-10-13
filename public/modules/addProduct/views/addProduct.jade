@@ -16,11 +16,14 @@
       input(type = 'file',id = 'file' , name = 'file' , ngf-select="product.prepare(product.picFile)" , ng-model="product.picFile", accept="image/*" , multiple="true" , ngf-max-size="1MB" , ngf-max-files="4")
       .form-img-space
         .form-img(ng-show='product.picture[0]', class='{{ ($index === product.pointer) ? "cover" : "" }}' , ng-repeat='one in product.picture')
-          img(ng-src='{{one.link}}')
+
+          //image-Onload that detect width and height then return
+          img(ng-src='{{one.link}}', image-Onload='' , picture ='product.picture' , index = '{{$index}}' , callback = 'product.changeClass()')
           .form-img-cover(  ng-click = "product.setCover($index)" )
             span.glyphicon.glyphicon-picture
           .form-img-remove( ng-click = "product.picRemove($index)" )
             span.glyphicon.glyphicon-remove( ng-style = "{'color' : 'red'}" )
+
     .form-group
       label(for='file') Start price
         input.form-control(type = 'number' , name = 'price', ng-model="product.stuff.price" )
@@ -43,11 +46,18 @@
 .preview-product.col-sm-6
   h3 preview min.
   .preview-min
-    .grid-item.product-box
-      div(class='product-img')
-        img.preview-img(ng-src = '{{product.picture[product.pointer].link||"http://placehold.it/300x250"}}')
+    .grid-item.product-box(ng-class='[ \
+    { "vertical" : product.classImg } ,\
+    { "horizontal" : !product.classImg }]')
+
+      .product-img(\
+      ng-style= '{\
+      "height":(product.coverImg.autoH > product.coverImg.autoW ?product.coverImg.autoH:null)+"px" ,\
+      "width":(product.coverImg.autoH < product.coverImg.autoW ?product.coverImg.autoW:null)+"px" } ')
+        img(id ='preview-img', ng-src = '{{product.picture[product.pointer].link||"http://placehold.it/300x250"}}')
+
       div(class = 'product-detail')
-        h4 {{product.stuff.name}}
+        h4 {{product.stuff.name || "Name"}}
         div( class = 'product-auction' )
           timer( milisec = '{{(product.stuff.time.days*86400000)+(product.stuff.time.hours*3600000)}}' )
           div(class = 'product-price')
@@ -58,4 +68,4 @@
             |a few second ago.
   h3 preview detail
   .preview-detail
-    gallery.gallery(pic='product.picture',pointer='{{product.pointer}}')
+    gallery.gallery(pic='product.picture',pointer='product.pointer')

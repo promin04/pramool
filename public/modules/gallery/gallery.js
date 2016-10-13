@@ -4,26 +4,37 @@
     return {
       restrict : 'E',
       templateUrl : './modules/gallery/views/gallery.jade',
-      scope : {pic : '=' , pointer : '@'},
+      scope : {pic : '=' , pointer : '='},
       controller : ['$scope',function ($scope) {
-        $scope.$watch('pic',function (newValue, oldValue) {
 
-          if(newValue.length>1 && ( newValue !== oldValue )){
+        $scope.$watch('pic',function (newValue, oldValue) {
+          //disappear new image was added in gallery for showing cover image
+          if(newValue.length>oldValue.length && newValue.length>1){
+            console.log('1',$scope.pointer);
             angular.element(document).ready(function () {
               var slides = document.getElementsByClassName("mySlides");
               slides[newValue.length-1].style.display = "none";
             });
-
           }
+          //auto select cover image same position when cover image was removed
+          else if (newValue.length<oldValue.length && newValue.length>0 && newValue.length>$scope.pointer) {
+            console.log('2',$scope.pointer);
+            $scope.currentSlide($scope.pointer);
+          } else if (newValue.length<oldValue.length && newValue.length>0) {
 
+            //$scope.pointer -= 1;
+            console.log('3',$scope.pointer);
+            $scope.currentSlide($scope.pointer);
+          }
         },true);
 
         $scope.$watch('pointer',function (newValue, oldValue) {
-          if ( newValue !== oldValue ) {
+          if ( (newValue !== oldValue) ) {
               $scope.currentSlide(+newValue);
           }
         },true);
-        console.log($scope.pointer,'mos');
+
+
           var slideIndex = $scope.pointer || 0;
 
           $scope.lengthPage = function () {

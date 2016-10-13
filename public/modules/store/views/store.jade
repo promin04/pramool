@@ -4,16 +4,24 @@ button(type='button' , ng-click='store.delete()') Delete
 br
 br
 .grid
-  .grid-item.product-box( ng-repeat='product in store.product' ui-sref='product.detail({id: product._id})')
-    div(class='product-img ')
-      img(ng-src = '{{product.img[product.coverImg].link}}')
-    div(class = 'product-detail ')
+  .grid-item.product-box( ng-repeat='product in store.product' , ui-sref='product.detail({id: product._id})',\
+  ng-class='[ \
+  { "vertical" : {{ product.coverImg.autoH > product.coverImg.autoW }} } ,\
+  { "horizontal" : {{ product.coverImg.autoH < product.coverImg.autoW }} }]')
+
+    .product-img(\
+    ng-style= '{\
+    "height":(product.coverImg.autoH > product.coverImg.autoW ?product.coverImg.autoH:null)+"px" ,\
+    "width":(product.coverImg.autoH < product.coverImg.autoW ?product.coverImg.autoW:null)+"px" } ')
+      img(ng-src = '{{product.img[product.coverImg.index].link}}')
+
+    .product-detail
       h4 {{product.name}}
-      div( class = 'product-auction' )
+      .product-auction
         timer( milisec = '{{product.bidEnd}}' )
-        div(class = 'product-price')
+        .product-price
           |{{product.bider[product.bider.length-1].price}} THB
           br
           | By {{product.bider[product.bider.length-1].name}}
-          br
-          |{{product.bider[product.bider.length-1].time}}
+          .past-ago
+            |{{product.bider[product.bider.length-1].time}}

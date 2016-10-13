@@ -1,7 +1,14 @@
 .grid
-  .grid-item.product-box( ng-repeat='product in store.product' ui-sref='product.detail({id: product._id})')
-    div(class='product-img ')
-      img(ng-src = '{{product.img[0].link}}')
+  .grid-item.product-box( ng-repeat='product in store.product' ui-sref='product.detail({id: product._id})',\
+  ng-class='[ \
+  { "vertical" : {{ product.coverImg.autoH > product.coverImg.autoW }} } ,\
+  { "horizontal" : {{ product.coverImg.autoH < product.coverImg.autoW }} }]')
+    .product-img(\
+    ng-style= '{\
+    "height":(product.coverImg.autoH > product.coverImg.autoW ?product.coverImg.autoH:null)+"px" ,\
+    "width":(product.coverImg.autoH < product.coverImg.autoW ?product.coverImg.autoW:null)+"px" } ')
+      img(ng-src = '{{product.img[product.coverImg.index].link}}')
+
     div(class = 'product-detail ')
       h4 {{product.name}}
       div( class = 'product-auction' )

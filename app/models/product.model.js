@@ -8,7 +8,7 @@ var ProductSchema = new Schema({
     creator : String,
     following: Array,
     img : Array,
-    coverImg : Number,
+    coverImg : Object,
     bider :[{
       name : String,
       price : Number,
