@@ -61,7 +61,6 @@
           this.getNew();
           this.countdown();
       ////////web socket
-      socket.emit('leave','');
       socket.emit('join','store');
       socket.on('offer',function (offer) {
         var id;
@@ -80,7 +79,8 @@
       $scope.$on('$destroy', function (event) {
         console.log('destroy');
         socket.removeAllListeners();
-         $timeout.cancel($scope.timeout);
+        socket.emit('leave','store');
+        $timeout.cancel($scope.timeout);
 
       });
       ///////

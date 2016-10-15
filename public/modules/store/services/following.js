@@ -7,10 +7,10 @@
           _id : product_id,
           mode: 'follow'
         })
-                    .then(function (response) {
-                      console.log('already follow',response.data);
-                      return response.data;
-                });
+        .then(function (response) {
+            console.log('already follow',response.data);
+            return response.data;
+        });
       };
 
       this.unFollow = function (product_id) {
@@ -18,10 +18,10 @@
           _id : product_id,
           mode: 'unfollow'
         })
-                    .then(function (response) {
-                      console.log('already unfollow',response.data);
-                      return response.data;
-                });
+        .then(function (response) {
+            console.log('already unfollow',response.data);
+            return response.data;
+        });
       };
 
       this.check = function (follow,user) {
@@ -31,7 +31,7 @@
 
               if (follow[i].username === user) {
                 return true;
-                
+
               }else if (i===follow.length-1) {
                 return false;
               }

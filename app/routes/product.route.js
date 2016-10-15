@@ -1,6 +1,8 @@
 
 module.exports = function (app) {
   var product = require('../controllers/product.controller.js');
+  var following = require('../controllers/following.controller.js');
+  
   app.route('/product/')
      .post(product.create)
      .get(product.list)
@@ -17,6 +19,6 @@ module.exports = function (app) {
 
   app.route('/following')
       .get(product.getFollowing)
-      .post(product.following);
+      .post( product.followProduct , following.followUser , product.result );
 
 };

@@ -7,15 +7,18 @@ exports.signup = function (req,res,next) {
       user.provider = 'local';
       user.save(function (err,data) {
         if(err){
-          console.log(err);
-          return res.redirect('/');
+            console.log(err);
+            return res.redirect('/');
         }
           console.log(data);
-        req.login(user,function (err) {
-          if(err) return next(err);
-          return res.redirect('/');
-        });
+          req.login(user,function (err) {
+            if(err) return next(err);
+            res.redirect('/');
+            next();
+          });
+
       });
+
     } else {
       return res.redirect('/');
     }
@@ -27,5 +30,5 @@ exports.signout = function(req, res){
 }
 
 exports.username = function (req,res) {
-  return res.json(req.user);
+  res.json(req.user);
 }

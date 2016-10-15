@@ -4,7 +4,7 @@
     return {
       restrict : 'E',
       templateUrl : './modules/gallery/views/gallery.jade',
-      scope : {pic : '=' , pointer : '='},
+      scope : {pic : '=' },
       controller : ['$scope',function ($scope) {
 
         $scope.$watch('pic',function (newValue, oldValue) {

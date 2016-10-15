@@ -1,15 +1,22 @@
-.logo.col-xs-4
+.logo.col-xs-2.col-sm-4
     |S H O W
     br
     span.logo-small
       |R O O M
-.mid.col-xs-4
-  span.bell.glyphicon.glyphicon-bell
-.auth.col-xs-4(ng-controller='authenticate as user')
+
+.mid.col-xs-8.col-sm-4
+  form.form-inline.search-form
+    input.search-box(type='text',placeholder="search product's name")
+    input.search-btn(type='submit',value='search')
+
+.auth.col-xs-2.col-sm-4(ng-controller='authenticate as user')
 
     button.btn.btn-primary.btn-lg.login(class="sign-in" , ng-click='user.signin()' , ng-if='!user.username')
-      |Log In
-    span.col-xs-12.col-sm-6.col-md-3(uib-dropdown='')
+      | Log In
+    span(uib-dropdown='')
+      span.user(ng-show='user.username')
+        | {{user.username}}
+        span.bell.glyphicon.glyphicon-bell
       a(href='', id="dropdown" , uib-dropdown-toggle='')
         span.menu.glyphicon.glyphicon-menu-hamburger(ng-show='user.username')
       ul.dropdown-menu(uib-dropdown-menu='', aria-labelledby='dropdown')
@@ -22,6 +29,3 @@
         li( ng-click='user.signout()')
           button.btn.btn-danger
             |Log Out
-    //-
-      .user.col-xs-6(ng-show='user.username')
-        | Hello {{user.username}}

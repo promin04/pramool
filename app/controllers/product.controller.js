@@ -189,7 +189,7 @@ module.exports = {
 
  },
 
- following: function (req,res) {
+ followProduct: function (req,res,next) {
    if (req.user) {
      var condition = {
        _id : req.body._id
@@ -226,12 +226,17 @@ module.exports = {
      }
 
      Product.findOneAndUpdate(condition,update,{ new : true },function (err,data) {
-       console.log('already follow',data);
-         res.json(data);
+       console.log('already followProduct',data);
+        req.result = data;
+        next();
+         //res.json(data);
      });
    }else {
      console.log('need user log in');
    }
+ },
+ result : function (req,res) {
+    res.json(req.result);
  }
 
 

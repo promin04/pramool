@@ -55,13 +55,18 @@
                     this.creator = product.creator;
                     this.active = product.active;
 
+                    //following service
                     this.following = function (productId) {
                       if(!that.active){
-                        following.follow(productId)
-                        .then(function (res) {
-                          console.log(res.data,'active true');
-                          that.active = true;
-                        });
+                          if ($rootScope.user !== undefined || $rootScope.user) {
+                            following.follow(productId)
+                            .then(function (res) {
+                              console.log(res,'active true');
+                              that.active = true;
+                              });
+                          }else {
+                            modalAuthService.open();
+                          }
                       } else {
                         following.unFollow(productId)
                         .then(function (res) {
@@ -69,8 +74,8 @@
                           that.active = false;
                         });
                       }
-
                     };
+
                     //countdown service
                     this.countdown = function () {
                       if(that.bidEnd>0){
@@ -122,7 +127,7 @@
                     /////initial app
                     this.countdown();
                     ////////web socket
-                    socket.emit('leave','');
+
                     socket.emit('join',that._id);
                     socket.on('offer',function (offer) {
                       console.log(offer,'client offer');
@@ -138,6 +143,7 @@
                     $scope.$on('$destroy', function (event) {
                       console.log('destroy');
                       socket.removeAllListeners();
+                      socket.emit('leave',that._id);
                       $timeout.cancel($scope.timeout);
                     });
                   }],

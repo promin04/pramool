@@ -19,7 +19,7 @@
                 this.processBar = 0;
                 this.classImg = true;
                 this.changeClass = function () {
-                  
+
                   if (this.picture[0]) {
                     if (this.picture[this.pointer].autoH > this.picture[this.pointer].autoW) {
                        this.classImg = true;
@@ -35,7 +35,7 @@
                   this.picture.splice(index,1);
                   if(index < this.pointer){
                     this.pointer -= 1;
-                  } else if (index === this.pointer) {
+                  } else if (index === this.pointer && this.picture.length>1) {
                       this.pointer -= 1;
                     }
 

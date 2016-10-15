@@ -8,21 +8,17 @@ module.exports =function (server) {
       io.to('store').emit('offer',offer);
     });
 
-    socket.on('join',function (product_id) {
-        socket.join(product_id);
-        console.log('welcome to this room',product_id);
+    socket.on('join',function (name_room) {
+        socket.join(name_room);
+        console.log('welcome to this room',name_room);
+        console.log('rooms list',socket.rooms);
     });
 
-    socket.on('leave',function () {
-    //leave all rooms
-    var count = 1;
-    for (var room in socket.rooms) {
-      if (count>1) {
-        socket.leave(room);
-      } else {
-        count++;
-      }
-    }
+    socket.on('leave',function (name_room) {
+
+        socket.leave(name_room);
+        console.log('leave to',name_room);
+
     });
 
     socket.on('create',function (product) {
