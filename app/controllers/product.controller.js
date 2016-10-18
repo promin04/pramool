@@ -1,7 +1,7 @@
 var moment = require('moment');
 var Product = require('mongoose').model('Product');
 module.exports = {
-  create : function (req,res) {
+  create : function (req,res,next) {
       if(req.user){
         console.log(req.body,'JSON');
         var coverImgObj = req.body.img[req.body.coverImg];
@@ -30,8 +30,10 @@ module.exports = {
           if(err) {
             console.log(err);
           } else {
-            console.log(data);
-            res.json(data);
+            console.log('save data',data);
+            req.product = data;
+            next();
+            //res.json(data);
 
           }
         });
@@ -115,7 +117,7 @@ module.exports = {
      res.json(req.product);
    },
 
-   offer : function (req,res) {
+   offer : function (req,res,next) {
      if(req.body.price<req.product.bider[req.product.bider.length-1].price || req.user==undefined){
        console.log('Cannot be add new offer');
        res.json({
@@ -138,6 +140,7 @@ module.exports = {
               console.log(err);
             } else {
               var result ={
+                _id : data._id,
                 name : data.name,
                 bider : {
                   time: moment(data.bider[data.bider.length-1].time).fromNow(),
@@ -146,9 +149,10 @@ module.exports = {
                 }
               }
 
-
-              console.log(result,'offer555');
-              res.json(result);
+              req.product = result;
+              console.log(result,'offer');
+              next();
+              //res.json(result);
             }
         });
      }
@@ -191,52 +195,56 @@ module.exports = {
 
  followProduct: function (req,res,next) {
    if (req.user) {
-     var condition = {
-       _id : req.body._id
-     };
-     var update ={};
+               if (req.body.by === 'follow') {
+                       var condition = {
+                         _id : req.body._id
+                       };
+                       var update ={};
 
-     var Push = {
-       $push : {
-                 following : {
-                   _id : req.user._id,
-                   username : req.user.username
-                 }
-        }
-      };
+                       var Push = {
+                         $push : {
+                                   following : {
+                                     _id : req.user._id,
+                                     username : req.user.username
+                                   }
+                          }
+                        };
 
-      var Pull = {
-        $pull : {
-                  following : {
-                         _id : req.user._id,
-                         username : req.user.username
-                  }
-      }
-    };
+                        var Pull = {
+                          $pull : {
+                                    following : {
+                                           _id : req.user._id,
+                                           username : req.user.username
+                                    }
+                        }
+                      };
 
-     switch (req.body.mode) {
-       case 'follow':
-         update = Push;
-         break;
-       case 'unfollow':
-         update = Pull;
-         break;
-       default: update ={};
+                       switch (req.body.mode) {
+                         case 'follow':
+                           update = Push;
+                           break;
+                         case 'unfollow':
+                           update = Pull;
+                           break;
+                         default: update ={};
 
-     }
+                       }
 
-     Product.findOneAndUpdate(condition,update,{ new : true },function (err,data) {
-       console.log('already followProduct',data);
-        req.result = data;
-        next();
-         //res.json(data);
-     });
+                       Product.findOneAndUpdate(condition,update,{ new : true },function (err,data) {
+                         console.log('already followProduct',data);
+                          req.product = data;
+                          next();
+                       });
+             }else {
+               next();
+             }
+
    }else {
      console.log('need user log in');
    }
  },
- result : function (req,res) {
-    res.json(req.result);
+ send : function (req,res) {
+    res.json(req.product);
  }
 
 

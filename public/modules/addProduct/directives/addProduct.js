@@ -17,11 +17,11 @@
                 this.picture = [];
                 this.pointer = 0; //position of array picture that is a cover image.
                 this.processBar = 0;
-                this.classImg = true;
+                this.classImg = true ;
                 this.changeClass = function () {
 
                   if (this.picture[0]) {
-                    if (this.picture[this.pointer].autoH > this.picture[this.pointer].autoW) {
+                    if (this.picture[this.pointer].autoH >= this.picture[this.pointer].autoW) {
                        this.classImg = true;
                     } else {
                        this.classImg = false;

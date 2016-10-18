@@ -6,7 +6,7 @@ br
 .grid
   .grid-item.product-box( ng-repeat='product in store.product' , ui-sref='product.detail({id: product._id})',\
   ng-class='[ \
-  { "vertical" : {{ product.coverImg.autoH > product.coverImg.autoW }} } ,\
+  { "vertical" : {{ product.coverImg.autoH >= product.coverImg.autoW }} } ,\
   { "horizontal" : {{ product.coverImg.autoH < product.coverImg.autoW }} }]')
 
     .product-img(\

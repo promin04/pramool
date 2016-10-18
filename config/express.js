@@ -33,6 +33,7 @@ module.exports = function () {
     require('../app/routes/index.route.js')(app);
     require('../app/routes/jadeView.route.js')(app);
     require('../app/routes/product.route.js')(app);
+    require('../app/routes/following.route.js')(app);
     require('../app/routes/user.route.js')(app);
     //set static flies
     app.use(express.static('./public'));

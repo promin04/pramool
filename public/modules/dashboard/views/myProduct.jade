@@ -7,7 +7,7 @@
 
     .grid-item( ng-repeat='product in store.product' ,\
     ng-class='[ \
-    { "vertical" : {{ product.coverImg.autoH > product.coverImg.autoW }} } ,\
+    { "vertical" : {{ product.coverImg.autoH >= product.coverImg.autoW }} } ,\
     { "horizontal" : {{ product.coverImg.autoH < product.coverImg.autoW }} }]')
         .myproduct-body(ui-sref='product.detail({id: product._id})')
           .product-img(\

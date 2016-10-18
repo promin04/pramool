@@ -18,12 +18,20 @@
                    var option = {
                      animation : true,
                      templateUrl : './modules/header/views/signup-modal.jade',
-                     controller: ['$http','modalService','$uibModalInstance',function ($http,$uibModalInstance,modalService) {
+                     controller: ['$http','modalService',function ($http,modalService) {
                        var that = this ;
+
+                       this.modalClose = function () {
+                         var close = document.getElementById('close');
+                         angular.element(document).ready(function () {
+                            close.click();
+                        });
+                       }
+
                        this.signup = function () {
                          $http.post('/signup',that.user).then(function (response) {
-                           console.log('complete signup',response);
-                           $uibModalInstance.close();
+                           console.log('complete signup');
+                           that.modalClose();
                          });
                        };
 

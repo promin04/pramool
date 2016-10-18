@@ -59,19 +59,21 @@
                     this.following = function (productId) {
                       if(!that.active){
                           if ($rootScope.user !== undefined || $rootScope.user) {
-                            following.follow(productId)
+                            following.follow( productId , 'follow' )
                             .then(function (res) {
                               console.log(res,'active true');
                               that.active = true;
+                              $rootScope.notification_virtual = res;
                               });
                           }else {
                             modalAuthService.open();
                           }
                       } else {
-                        following.unFollow(productId)
+                        following.unFollow(productId , 'follow' )
                         .then(function (res) {
                           console.log(res,'active false');
                           that.active = false;
+                          $rootScope.notification_virtual = res;
                         });
                       }
                     };
@@ -127,23 +129,32 @@
                     /////initial app
                     this.countdown();
                     ////////web socket
+                    var roomName = that._id;
+                    //prevent join and leave room replace that user is following.
+                    if ($rootScope.notification_getlist) {
+                        if ( $rootScope.notification_getlist.indexOf(roomName) >= 0 ) {
+                          roomName = null;
+                        }
+                      }
 
-                    socket.emit('join',that._id);
+                    socket.emit('join',roomName);
                     socket.on('offer',function (offer) {
                       console.log(offer,'client offer');
                       that.bider.push(offer.data);
                     });
                     /////check follow when log-in
-                    $rootScope.$watch('user',function (newValue, oldValue) {
-                      if (newValue && !oldValue) {
-                        that.active = following.check(product.following,newValue);
-                      }
-                    });
+      var clearWatchUser = $rootScope.$watch('user',function (newValue, oldValue) {
+                          console.log('5555555555555555+');
+                          if (newValue && !oldValue) {
+                            that.active = following.check(product.following,newValue);
+                          }
+                      });
 
                     $scope.$on('$destroy', function (event) {
                       console.log('destroy');
+                      clearWatchUser();
                       socket.removeAllListeners();
-                      socket.emit('leave',that._id);
+                      socket.emit('leave',roomName);
                       $timeout.cancel($scope.timeout);
                     });
                   }],

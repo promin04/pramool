@@ -2,10 +2,11 @@
   angular.module('store')
     .service('following',['$http',function ($http) {
 
-      this.follow = function (product_id) {
+      this.follow = function ( product_id , follow_by ) {
         return  $http.post('/following',{
           _id : product_id,
-          mode: 'follow'
+          mode: 'follow',
+          by : follow_by
         })
         .then(function (response) {
             console.log('already follow',response.data);
@@ -13,10 +14,11 @@
         });
       };
 
-      this.unFollow = function (product_id) {
+      this.unFollow = function ( product_id , follow_by ) {
         return  $http.post('/following',{
           _id : product_id,
-          mode: 'unfollow'
+          mode: 'unfollow',
+          by : follow_by
         })
         .then(function (response) {
             console.log('already unfollow',response.data);
