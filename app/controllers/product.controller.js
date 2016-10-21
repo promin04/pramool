@@ -179,12 +179,7 @@ module.exports = {
     if(req.user){
       var username = req.user.username;
       var id = req.user._id;
-      var condition = {
-        $or : [
-          { 'following' : { '$in' : [{'username':username,'_id':id}] } },
-          { 'bider.name' : username}
-        ]
-      };
+      var condition =  { 'following.username' : { '$in' : [username] } };
 
      Product.find(
        condition
@@ -199,7 +194,7 @@ module.exports = {
          data[i].bidEnd = moment(data[i].bidEnd).diff(moment());
 
        }
-       console.log(data,'following');
+       console.log(data,'followingggggggggggggggggg');
        res.json(data);
      }
    )

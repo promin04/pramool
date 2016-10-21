@@ -5,7 +5,7 @@
   h3(ng-if='store.subscribe.length===0' , ng-style='{"text-align":"center"}') There isn't your product following.
   .grid-item.product-box( ng-repeat='product in store.subscribe' ui-sref='product.detail({id: product._id})',\
   ng-class='[ \
-  { "vertical" : {{ product.coverImg.autoH > product.coverImg.autoW }} } ,\
+  { "vertical" : {{ product.coverImg.autoH >= product.coverImg.autoW }} } ,\
   { "horizontal" : {{ product.coverImg.autoH < product.coverImg.autoW }} }]')
     .product-img(\
     ng-style= '{\

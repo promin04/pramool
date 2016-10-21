@@ -38,8 +38,9 @@
                 console.log('that.notification',that.notification);
               });
               socket.emit('clientInfo',newValue);
-              socket.on('notification',function () {
+              socket.on('notification',function (data) {
                 that.notification.unread++;
+                console.log('data',data);
               })
           }
       });

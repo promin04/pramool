@@ -22,6 +22,7 @@
                               return $http.get('/product/'+$stateParams.id)
                                 .then(function (response) {
                                   var result = response.data;
+                                  console.log('result',result);
                                   result.active = following.check(result.following,$rootScope.user);
                                   return result;
                               });
@@ -117,13 +118,6 @@
                                                   });
                                                   //check
                                                   that.active = true;
-                                                  //notification offer
-                                                  if ($rootScope.notification_getlist) {
-                                                      if ( $rootScope.notification_getlist.indexOf(that._id) >= 0 ) {
-                                                        socket.emit('join',that._id);
-                                                        $rootScope.notification_getlist.push(that._id);
-                                                      }
-                                                    }
                                             }
 
 
@@ -139,12 +133,7 @@
                     this.countdown();
                     ////////web socket
                     var roomName = that._id;
-                    //prevent join and leave room replace that user is following.
-                    if ($rootScope.notification_getlist) {
-                        if ( $rootScope.notification_getlist.indexOf(roomName) >= 0 ) {
-                          roomName = null;
-                        }
-                      }
+
 
                     socket.emit('join',roomName);
                     socket.on('offer',function (offer) {
@@ -164,7 +153,7 @@
                       clearWatchUser();
 
                         socket.removeListener('offer');
-      
+
                       //socket.removeAllListeners();
                       socket.emit('leave',roomName);
                       $timeout.cancel($scope.timeout);

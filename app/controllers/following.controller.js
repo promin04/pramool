@@ -86,6 +86,7 @@ module.exports = {
     }
     var follower = req.product.following;
     var condition;
+    var option;
     var update;
     var i = 0;
 
@@ -108,9 +109,16 @@ module.exports = {
       }
 
       condition = { user_id : item._id };
+      option = {
+                 new : true ,
+                 fields : {
+                            notification : { $slice: -1 } ,
+                            user_id: true
+                          }
+               };
       //save notification to database for history & offline's users
-      Following.findOneAndUpdate( condition , update , {} , function (err,data) {
-        if(client) req.io.to(client).emit('notification');   //emit notification to client that online right now
+      Following.findOneAndUpdate( condition , update , option , function (err,data) {
+        if(client) req.io.to(client).emit('notification' , data);   //emit notification to client that online right now
         if(err) next(err);
         i++;
         if(i === follower.length) next(); // check last process to call next()
@@ -122,7 +130,6 @@ module.exports = {
   getNotification : function (req,res,next) {
     if( req.user ){
     var condition = { user_id : req.user._id };
-    var field = { notification : true , unread : true };
     Following.findOne( condition ,'notification unread' , function (err,data) {
         if( err ) next(err);
 

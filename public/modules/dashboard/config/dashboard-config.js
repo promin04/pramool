@@ -56,7 +56,7 @@
 
                     $('.grid').masonry({
                       itemSelector: '.grid-item',
-                      columnWidth: 224
+                      columnWidth: 20
                     });
                   }, 100);
 
@@ -94,7 +94,6 @@
 
                   //countdown service
                   this.countdown = function () {
-                    console.log('2');
                     if(that.subscribe.length>0){
                       for(var i = 0 ; i < that.subscribe.length ; i++){
                         that.subscribe[i].bidEnd = that.subscribe[i].bidEnd - 1000 ;
@@ -119,7 +118,7 @@
 
                     $('.grid').masonry({
                       itemSelector: '.grid-item',
-                      columnWidth: 224
+                      columnWidth: 20
                     });
                   }, 100);
 

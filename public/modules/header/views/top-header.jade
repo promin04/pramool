@@ -14,10 +14,11 @@
     button.btn.btn-primary.btn-lg.login(class="sign-in" , ng-click='user.signin()' , ng-if='!user.username')
       | Log In
     span(uib-dropdown='')
-      span.user(ng-show='user.username')
+      .user(ng-show='user.username')
         | {{user.username}}
-        span.bell.glyphicon.glyphicon-bell
-        span.badge(ng-style='{"font-size":"12px"}')
+      .notification(ng-show='user.username')
+        span.bell.glyphicon.glyphicon-bell.notification-icon
+        span.badge.notification-unread
           |{{user.notification.unread}}
       a(href='', id="dropdown" , uib-dropdown-toggle='')
         span.menu.glyphicon.glyphicon-menu-hamburger(ng-show='user.username')

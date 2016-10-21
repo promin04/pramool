@@ -93,7 +93,7 @@
 
         $('.grid').masonry({
           itemSelector: '.grid-item',
-          columnWidth: 204
+          columnWidth: 20
         });
       }, 100);
       ///////
