@@ -5,7 +5,7 @@ var ProductSchema = new Schema({
     name : String,
     createAt : Object,
     bidEnd : Object,
-    creator : String,
+    creator : Object,
     following: Array,
     img : Array,
     coverImg : Object,

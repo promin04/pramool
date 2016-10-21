@@ -74,11 +74,14 @@
             console.log('update completed',that.product[i]);
           }
         }
-        console.log(offer,'store offer');
+
       });
       $scope.$on('$destroy', function (event) {
         console.log('destroy');
-        socket.removeAllListeners();
+
+          socket.removeListener('offer');
+
+        //socket.removeAllListeners();
         socket.emit('leave','store');
         $timeout.cancel($scope.timeout);
 

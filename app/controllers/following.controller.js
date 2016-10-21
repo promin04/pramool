@@ -3,7 +3,9 @@ module.exports = {
   createFollow : function (req,res) {
     var following = new Following({
       user_id : req.user._id,
-      following : []
+      following : [],
+      unread : 0,
+      notification : []
     });
     following.save(function (err,data) {
       res.end();
@@ -19,8 +21,12 @@ module.exports = {
                   };
       next();
     } else {
-      console.log('error need req.product');
-      next(err);
+      req.follow = {
+                    _id : req.body._id ,
+                    by : 'follow',
+                    mode : req.body.mode
+                  };
+      next();
     }
   },
 
@@ -52,99 +58,85 @@ module.exports = {
     }
   },
 
-  followUser : function (req,res,next) {
-    if (req.user) {
+  notification : function (req,res,next) {
 
-      var condition = req.follow.by !== 'bider' ?
-      { user_id : req.user._id } :
-      { $and : [
-          { user_id : req.user._id } ,
-          { 'following._id' : { $nin : [ req.follow._id ] } } ,
-          { 'following.by' : { $nin : [ 'bider' ] } }
-        ]
-      };
-
-      var update ={};
-
-      var Push = {
-        $push : {
-                  following : {
-                    _id : req.follow._id ,
-                    by : req.follow.by
-                  }
-         }
-       };
-
-       var Pull = {
-         $pull : {
-                   following : {
-                     _id : req.follow._id ,
-                     by : req.follow.by
-                   }
-       }
-     };
-
-      var mode = req.follow.mode;
+    var notification;
+    switch ( req.follow.by ) {
+      case 'bider':
+        notification =  { username : req.user.username ,
+                          type : 'bider' ,
+                          message : req.product.bider.price ,
+                          product : {
+                                      _id : req.product._id ,
+                                      name : req.product.name
+                                    }
+                        };
+        break;
+      case 'creator':
+        notification =  { username : req.user.username ,
+                          type : 'creator' ,
+                          message : 'Your product has been created' ,
+                          product : {
+                                      _id : req.product._id ,
+                                      name : req.product.name
+                                    }
+                        };
+        break;
+      default: notification = null;
+    }
+    var follower = req.product.following;
+    var condition;
+    var update;
+    var i = 0;
 
 
-      switch ( mode ) {
-        case 'follow':
-          update = Push;
+
+    update = {
+              $push : { notification : notification } ,
+              $inc : { unread : 1 }
+             };
+
+    follower.forEach( function (item) {
+      var client; // var for client ID
+      //detect follower is online or not & set client ID
+      for (var i = 0; i < GLOBAL.clients.length; i++) {
+        if(GLOBAL.clients[i].username == item.username){
+          client = GLOBAL.clients[i].clientId;
+          console.log(' client ID ' , client);
           break;
-        case 'unfollow':
-          update = Pull;
-          break;
-        default: update ={};
-
+        }
       }
 
-      Following.findOneAndUpdate( condition , update , { new : true } , function (err,data) {
-        if( err ) next(err);
-        var follow = data.following;
-        var result = [];
-        for(var i = 0 ; i < follow.length ; i++ ){
-          result.push(follow[i]._id.toString()); // all _id is an objectId that why have to pass toString() for indexOf will be worked well.
-        }
-        result = result.filter( function ( item , index , array ) {
-                                    return array.indexOf(item) == index ;
-                });
-
-        req.follow = result;
-        //req.follow = data.following.pop()._id.toString();
-        console.log('already followUser',req.follow);
-        next();
+      condition = { user_id : item._id };
+      //save notification to database for history & offline's users
+      Following.findOneAndUpdate( condition , update , {} , function (err,data) {
+        if(client) req.io.to(client).emit('notification');   //emit notification to client that online right now
+        if(err) next(err);
+        i++;
+        if(i === follower.length) next(); // check last process to call next()
       });
-    }else {
-      console.log('need user log in');
-    }
+    });
+
   },
 
-  getFollowing : function (req,res,next) {
+  getNotification : function (req,res,next) {
     if( req.user ){
     var condition = { user_id : req.user._id };
-    var field = { following : true }
-    Following.findOne( condition , field , function (err,data) {
+    var field = { notification : true , unread : true };
+    Following.findOne( condition ,'notification unread' , function (err,data) {
         if( err ) next(err);
-        var follow = data.following;
-        var result = [];
-        for(var i = 0 ; i < follow.length ; i++ ){
-          result.push(follow[i]._id.toString()); // all _id is an objectId that why have to pass toString() for indexOf will be worked well.
-        }
-        result = result.filter( function ( item , index , array ) {
-                                    return array.indexOf(item) == index ;
-                });
 
-        req.follow = result;
-        console.log('result',result);
+        req.follow = data;
+      //  console.log('getNotification',data);
         next();
     })
   } else {
-    console.log('get following need login');
+    console.log('get notification need login');
   }
   },
 
   send : function (req,res) {
-    console.log('send req.follow' , req.follow );
+    //console.log('send req.follow' , req.follow );
      res.json(req.follow);
   }
 

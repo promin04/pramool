@@ -2,6 +2,8 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var followingSchema = new Schema({
   user_id : String ,
-  following : Array
+  following : Array,
+  unread : Number ,
+  notification : Array
 });
 mongoose.model('Following',followingSchema);

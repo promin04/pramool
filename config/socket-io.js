@@ -1,7 +1,38 @@
 
-module.exports =function (server) {
-  var io = require('socket.io')(server);
+module.exports =function (io) {
+
+  GLOBAL.clients =[];
+
   io.on('connection',function (socket) {
+
+    socket.on('disconnect', function () {
+        for (var i = 0; i < GLOBAL.clients.length; i++) {
+          if(GLOBAL.clients[i].clientId == socket.id){
+            GLOBAL.clients.splice(i,1);
+            console.log('all clients ',GLOBAL.clients);
+            break;
+          }
+        }
+    });
+
+    socket.on('clientInfo',function (username) {
+      var clientInfo = new Object();
+           clientInfo.username = username;
+           clientInfo.clientId = socket.id;
+           GLOBAL.clients.push(clientInfo);
+          console.log('all clients ',GLOBAL.clients);
+    });
+
+    socket.on('clientLogout',function () {
+      for (var i = 0; i < GLOBAL.clients.length; i++) {
+        if(GLOBAL.clients[i].clientId == socket.id){
+          GLOBAL.clients.splice(i,1);
+          console.log('all clients ',GLOBAL.clients);
+          break;
+        }
+      }
+    });
+
     socket.on('offer',function (offer) {
       console.log(offer,'offer');
       io.to(offer.product_id).emit('offer',offer);
@@ -40,5 +71,11 @@ module.exports =function (server) {
       socket.broadcast.emit('create',product);
       console.log('product update ',product);
     });
+/*
+    socket.on('notification',function (product) {
+      socket.broadcast.emit('create',product);
+      console.log('product update ',product);
+    });
+    */
   })
 }

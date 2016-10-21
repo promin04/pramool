@@ -9,8 +9,14 @@ module.exports = {
           name : req.body.name,
           createAt : moment(),
           bidEnd : moment().add(req.body.time.hours,'hours').add(req.body.time.days, 'days'),
-          creator : req.user.username,
-          following: [],
+          creator : {
+            _id : req.user._id.toString() ,
+            username : req.user.username
+          },
+          following: [{
+            _id : req.user._id.toString() ,
+            username : req.user.username
+          }],
           img : req.body.img,
           coverImg : {
             index : req.body.coverImg,
@@ -124,8 +130,8 @@ module.exports = {
          error: 'You should login before take offer'
        });
      } else {
-       var condition = { _id : req.product._id },
-           update = {
+       var condition = { _id : req.product._id };
+       var   update = {
              $push : {
                        bider : {
                          name: req.user.username,
@@ -134,19 +140,30 @@ module.exports = {
                        }
              }
            };
+       var option = { fields: {
+                                createAt : false ,
+                                bidEnd : false ,
+                                img : false ,
+                                coverImg : false,
+                              },
+                       new : true
+                     };
 
-        Product.findOneAndUpdate(condition,update,{ new : true },function (err,data) {
+
+        Product.findOneAndUpdate(condition,update,option,function (err,data) {
             if (err) {
               console.log(err);
             } else {
               var result ={
                 _id : data._id,
                 name : data.name,
+                creator : data.creator,
                 bider : {
                   time: moment(data.bider[data.bider.length-1].time).fromNow(),
                   price:data.bider[data.bider.length-1].price,
                   name:data.bider[data.bider.length-1].name
-                }
+                },
+                following : data.following
               }
 
               req.product = result;
@@ -195,16 +212,19 @@ module.exports = {
 
  followProduct: function (req,res,next) {
    if (req.user) {
-               if (req.body.by === 'follow') {
+
+              var by = req.body.by || 'follow';
+              var _id = req.body._id || req.product._id;
+               if (by === 'follow') {
                        var condition = {
-                         _id : req.body._id
+                         _id : _id
                        };
                        var update ={};
 
                        var Push = {
                          $push : {
                                    following : {
-                                     _id : req.user._id,
+                                     _id : req.user._id.toString(),
                                      username : req.user.username
                                    }
                           }
@@ -213,27 +233,36 @@ module.exports = {
                         var Pull = {
                           $pull : {
                                     following : {
-                                           _id : req.user._id,
+                                           _id : req.user._id.toString(),
                                            username : req.user.username
                                     }
                         }
                       };
 
-                       switch (req.body.mode) {
+                      var mode = req.body.mode || 'follow';
+                       switch ( mode ) {
                          case 'follow':
                            update = Push;
+                           //prevent following duplication
+                           if( req.product ){
+                             var follow = req.product.following;
+                             var user = req.user._id.toString();
+                             for(var i = 0 ; i < follow.length ; i++){
+                               if ( follow[i]._id == user ) return next(); //return for skip remaining process below
+                             }
+                           }
                            break;
                          case 'unfollow':
                            update = Pull;
                            break;
                          default: update ={};
-
                        }
+
 
                        Product.findOneAndUpdate(condition,update,{ new : true },function (err,data) {
                          console.log('already followProduct',data);
-                          req.product = data;
-                          next();
+                          //req.product = data;
+                          return next();
                        });
              }else {
                next();

@@ -21,7 +21,7 @@
                 controller:['following','$timeout','deleteProduct','$rootScope','$scope',function (following,$timeout,deleteProduct,$rootScope,$scope) {
                   var that = this;
                   this.product = following.data.filter(function (each) {
-                    return each.creator === $rootScope.user
+                    return each.creator.username === $rootScope.user
                   });
                   console.log(this.product,'myProduct');
 
@@ -74,7 +74,7 @@
                   var that = this;
 
                   this.product =  following.data.filter(function (each) {
-                    return each.creator !== $rootScope.user
+                    return each.creator.username !== $rootScope.user
                   });
                   console.log(this.product,'following');
 
@@ -91,21 +91,6 @@
 
                   });
                   console.log(this.subscribe,'subscribe');
-                  this.wereBid = this.product.filter(function (each) {
-
-                    for( var i=0 ; i<each.bider.length ; i++ ){
-                      console.log(each.bider[i].name);
-                      if (each.bider[i].name === $rootScope.user) {
-                        console.log('111');
-                        return 1;
-                      }else if (i === each.bider.length-1) {
-                        return 0;
-                      }
-
-                    }
-
-                  });
-                  console.log(this.wereBid,'wereBid');
 
                   //countdown service
                   this.countdown = function () {
@@ -115,11 +100,7 @@
                         that.subscribe[i].bidEnd = that.subscribe[i].bidEnd - 1000 ;
                       }
                     }
-                    if(that.wereBid.length>0){
-                      for(var i = 0 ; i < that.wereBid.length ; i++){
-                        that.wereBid[i].bidEnd = that.wereBid[i].bidEnd - 1000 ;
-                      }
-                    }
+
 
                     $scope.timeout =  $timeout(function () {
                             that.countdown();

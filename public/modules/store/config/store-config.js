@@ -115,6 +115,15 @@
                                                     data:response.data.bider,
                                                     name:response.data.name
                                                   });
+                                                  //check
+                                                  that.active = true;
+                                                  //notification offer
+                                                  if ($rootScope.notification_getlist) {
+                                                      if ( $rootScope.notification_getlist.indexOf(that._id) >= 0 ) {
+                                                        socket.emit('join',that._id);
+                                                        $rootScope.notification_getlist.push(that._id);
+                                                      }
+                                                    }
                                             }
 
 
@@ -144,7 +153,7 @@
                     });
                     /////check follow when log-in
       var clearWatchUser = $rootScope.$watch('user',function (newValue, oldValue) {
-                          console.log('5555555555555555+');
+
                           if (newValue && !oldValue) {
                             that.active = following.check(product.following,newValue);
                           }
@@ -153,7 +162,10 @@
                     $scope.$on('$destroy', function (event) {
                       console.log('destroy');
                       clearWatchUser();
-                      socket.removeAllListeners();
+
+                        socket.removeListener('offer');
+      
+                      //socket.removeAllListeners();
                       socket.emit('leave',roomName);
                       $timeout.cancel($scope.timeout);
                     });

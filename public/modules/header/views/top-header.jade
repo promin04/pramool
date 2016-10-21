@@ -17,6 +17,8 @@
       span.user(ng-show='user.username')
         | {{user.username}}
         span.bell.glyphicon.glyphicon-bell
+        span.badge(ng-style='{"font-size":"12px"}')
+          |{{user.notification.unread}}
       a(href='', id="dropdown" , uib-dropdown-toggle='')
         span.menu.glyphicon.glyphicon-menu-hamburger(ng-show='user.username')
       ul.dropdown-menu(uib-dropdown-menu='', aria-labelledby='dropdown')

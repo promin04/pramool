@@ -4,13 +4,13 @@ module.exports = function (app) {
   var following = require('../controllers/following.controller.js');
 
   app.route( '/product' )
-     .post( product.create , following.setCreatorFollow , following.followUser , product.send )
+     .post( product.create , following.setCreatorFollow , product.send )
      .get( product.list );
 
 
   app.route( '/product/:id' )
      .get( product.read )
-     .post( product.offer , following.setBiderFollow , following.followUser , product.send )
+     .post( product.offer , following.setBiderFollow ,  product.followProduct , following.notification , product.send )
      .delete( product.delete );
   app.param( 'id', product.detail );
 
@@ -19,6 +19,6 @@ module.exports = function (app) {
 
   app.route( '/following' )
       .get( product.getFollowing )
-      .post( product.followProduct , following.setPreFollow , following.followUser , following.send );
+      .post( product.followProduct , following.setPreFollow , following.send );
 
 };
