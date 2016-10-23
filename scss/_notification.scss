@@ -1,0 +1,50 @@
+.popover-content {
+  height: 400px;
+  overflow: auto;
+}
+
+.popover-repeat {
+  border-bottom: 0.6px solid #e1e1e1;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.popover-repeat:hover {
+  cursor: pointer;
+  background-color: #f9f9f9;
+}
+
+.popover {
+  max-width: 300px;
+
+}
+
+.notification {
+  margin-top: 8px;
+  position: relative;
+  float: left;
+  width: 38px;
+  height: 30px;
+  border-radius: 8px;
+}
+
+.notification:hover {
+  cursor: pointer;
+  color: $darkgary;
+}
+
+.notification-icon {
+  position : relative;
+}
+
+.notification-unread {
+  position : absolute;
+  left : 11px;
+  font-size : 12px;
+}
+
+
+.badge {
+  font-weight: normal !important;
+  background-color: red !important;
+}

@@ -1,0 +1,3 @@
+
+.popover-repeat(ng-repeat = "each in user.notification.notification" , ui-sref='product.detail({id: each.product._id})')
+  <b>{{each.username == user.username ? 'You': each.username}}</b> take offer <b>{{each.message}}</b> THB. to <b>{{each.product.name}}</b>

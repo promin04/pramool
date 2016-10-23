@@ -145,6 +145,7 @@ module.exports = {
                                 bidEnd : false ,
                                 img : false ,
                                 coverImg : false,
+                                bider : { $slice: -1 }
                               },
                        new : true
                      };
@@ -154,22 +155,35 @@ module.exports = {
             if (err) {
               console.log(err);
             } else {
+              //web socket emit to everyone in store and product's room
+              var offer = {
+                product_id: data._id.toString(),
+                data: {
+                  time: moment(data.bider[0].time).fromNow(),
+                  price:data.bider[0].price,
+                  name:data.bider[0].name
+                },
+                name:data.name
+              }
+              req.io.to(offer.product_id).emit('offer',offer);
+              req.io.to('store').emit('offer',offer);
+
+              // set req.product for next middle ware
               var result ={
                 _id : data._id,
                 name : data.name,
                 creator : data.creator,
                 bider : {
-                  time: moment(data.bider[data.bider.length-1].time).fromNow(),
-                  price:data.bider[data.bider.length-1].price,
-                  name:data.bider[data.bider.length-1].name
+                  time: moment(data.bider[0].time).fromNow(),
+                  price:data.bider[0].price,
+                  name:data.bider[0].name
                 },
                 following : data.following
               }
-
               req.product = result;
               console.log(result,'offer');
               next();
-              //res.json(result);
+
             }
         });
      }
@@ -194,7 +208,7 @@ module.exports = {
          data[i].bidEnd = moment(data[i].bidEnd).diff(moment());
 
        }
-       console.log(data,'followingggggggggggggggggg');
+  
        res.json(data);
      }
    )

@@ -5,8 +5,8 @@
       restrict : 'E',
       templateUrl : './modules/timer/views/timer.jade',
       scope : {milisec : '@'},
-      controller : function ($scope) {
-console.log('time');
+      controller : [ "$scope" , function ( $scope ) {
+
       $scope.time = function () {
         var checkpoint;
         var state = false;
@@ -44,7 +44,7 @@ console.log('time');
 
 
 
-      }
+      }]
 
 
     }

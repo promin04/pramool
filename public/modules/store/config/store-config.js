@@ -110,13 +110,7 @@
                                                   //open login modal
                                                   modalAuthService.open();
                                             } else {
-                                                  //pass data by socket io
-                                                  socket.emit('offer',{
-                                                    product_id: that._id,
-                                                    data:response.data.bider,
-                                                    name:response.data.name
-                                                  });
-                                                  //check
+                                                  
                                                   that.active = true;
                                             }
 

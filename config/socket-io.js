@@ -33,12 +33,6 @@ module.exports =function (io) {
       }
     });
 
-    socket.on('offer',function (offer) {
-      console.log(offer,'offer');
-      io.to(offer.product_id).emit('offer',offer);
-      io.to('store').emit('offer',offer);
-    });
-
     socket.on('join',function (name_room) {
         socket.join(name_room);
         console.log('welcome to this room',name_room);
@@ -67,15 +61,6 @@ module.exports =function (io) {
       console.log('rooms list',socket.rooms);
     });
 
-    socket.on('create',function (product) {
-      socket.broadcast.emit('create',product);
-      console.log('product update ',product);
-    });
-/*
-    socket.on('notification',function (product) {
-      socket.broadcast.emit('create',product);
-      console.log('product update ',product);
-    });
-    */
+
   })
 }

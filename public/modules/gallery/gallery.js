@@ -4,15 +4,15 @@
     return {
       restrict : 'E',
       templateUrl : './modules/gallery/views/gallery.jade',
-      scope : {pic : '=' },
+      scope : {pic : '=' , pointer : '='},
       controller : ['$scope',function ($scope) {
-
+        var slides = [];
         $scope.$watch('pic',function (newValue, oldValue) {
           //disappear new image was added in gallery for showing cover image
           if(newValue.length>oldValue.length && newValue.length>1){
             console.log('1',$scope.pointer);
             angular.element(document).ready(function () {
-              var slides = document.getElementsByClassName("mySlides");
+               slides = document.getElementsByClassName("mySlides");
               slides[newValue.length-1].style.display = "none";
             });
           }
@@ -57,7 +57,7 @@
                             }
 
           $scope.showSlide = function (n) {
-
+                        if(slides[0]){
                         angular.element(document).ready(function () {
 
                           var i;
@@ -77,7 +77,7 @@
 
                           dots[slideIndex].className += " active";
                         });
-
+                        }
 
                         }
 
