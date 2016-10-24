@@ -130,16 +130,62 @@ module.exports = {
   getNotification : function (req,res,next) {
     if( req.user ){
     var condition = { user_id : req.user._id };
-    Following.findOne( condition ,'notification unread' , function (err,data) {
-        if( err ) next(err);
+    var skip = +req.params.count * 10 ;
+    var option1 = {
+      notification : { $slice: [(-skip),10]  },
+      unread: true
+    };
+    var option2 =[
+      { $match : { user_id : req.user._id.toString() } }
+      ,
+      {
+          $project: {
+                      size: { $size: "$notification" }
+          }
+      }
+  ];
+    Following.findOne( condition , option1).lean().exec(
+       function (err,data) {
+          if( err ) next(err);
+          //console.log('getNotification',data);
+          req.follow = data;
+          Following.aggregate(option2 , function (err , num) {
+            if(err) next(err);
 
-        req.follow = data;
-      //  console.log('getNotification',data);
-        next();
-    })
+            req.follow.num = num[0].size;
+            console.log('size',req.follow,req.follow.num);
+            next();
+          });
+
+
+      }
+    );
+
+
+
   } else {
     console.log('get notification need login');
   }
+  },
+
+  readNotification: function (req,res,next) {
+    if( req.user ){
+    var condition = { user_id : req.user._id };
+    var update = {
+                $set : { unread : 0 }
+             };
+    var option = {
+        new : true ,
+        fields : {
+                   unread : true
+                 }
+           };
+    Following.findOneAndUpdate( condition , update , option , function (err,data) {
+            if( err ) next(err);
+            req.follow = data;
+            next();
+        });
+    }
   },
 
   send : function (req,res) {

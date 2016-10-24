@@ -16,9 +16,9 @@
     span(uib-dropdown='')
       .user(ng-show='user.username' ui-sref='dashboard.myProduct' ui-sref-active="active")
         | {{user.username}}
-      .notification(ng-show='user.username' uib-popover-template="user.popover.templateUrl" popover-title="{{user.popover.title}}" popover-placement="bottom" popover-trigger="'outsideClick'")
+      .notification(ng-click='user.infiniteScroll_att()' ng-show='user.username' uib-popover-template="user.popover.templateUrl" popover-title="{{user.popover.title}}" popover-placement="bottom" popover-trigger="'outsideClick'")
         span.bell.glyphicon.glyphicon-bell.notification-icon
-        span.badge.notification-unread
+        span.badge.notification-unread(ng-show = 'user.notification.unread')
           |{{user.notification.unread}}
       a(href='', id="dropdown" , uib-dropdown-toggle='')
         span.menu.glyphicon.glyphicon-menu-hamburger(ng-show='user.username')

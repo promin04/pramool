@@ -7,10 +7,10 @@ require("../../lib/angular-bootstrap/ui-bootstrap-tpls.min.js");
 require("../../lib/ng-file-upload/ng-file-upload-all.min.js");
 require("../../lib/angular-ui-router/release/angular-ui-router.min.js");
 require("../../lib/masonry/dist/masonry.pkgd.min.js");
-require("ng-infinite-scroll");
 
 require("../../modules/header/config/header-config.js");
 require("../../modules/header/header.js");
+require("../../modules/header/directives/scroll-directive.js");
 
 require("../../modules/addProduct/addProduct-app.js");
 require("../../modules/addProduct/services/imgur-service.js");

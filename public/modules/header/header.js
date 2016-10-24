@@ -12,7 +12,7 @@
       templateUrl : './modules/header/views/top-header.jade'
     };
   })
-    .controller('authenticate',['$http','modalAuthService','$scope','$rootScope',function ($http,modalAuthService,$scope,$rootScope) {
+    .controller('authenticate',['$http','modalAuthService','$scope','$rootScope','$compile',function ($http,modalAuthService,$scope,$rootScope,$compile) {
       var that = this;
       this.popover = {
         title : "Notification",
@@ -33,16 +33,33 @@
         socket.removeListener('notification');
       }
 
+
+
+      this.infiniteScroll_att = function () {
+            var $el = $( ".popover-content" );
+            $el.attr( "custom-scroll", "" );
+            $el.attr( "noti", "user.notification" );
+            $compile($el)($scope);
+            $http.get('/read-notification').then(function (response) {
+               that.notification.unread = response.data.unread;
+            })
+      }
+
+
+
       //get username when user is changed
       $rootScope.$watch('user',function (newValue, oldValue) {
           that.username = newValue;
           if(!oldValue && newValue) {
-              $http.get('/get-notification').then(function (response) {
+              $http.get('/get-notification/1').then(function (response) {
                 var unread = response.data.unread;
                 var notification = response.data.notification.reverse();
+                var num = response.data.num;
                 that.notification = {
                   unread : unread ,
-                  notification : notification
+                  notification : notification ,
+                  num : num,
+                  page : 1
                 };
                 console.log('that.notification',that.notification);
               });
@@ -51,6 +68,7 @@
               //listening notification
               socket.on('notification',function (data) {
                 that.notification.notification.unshift(data.notification[0]);
+                that.notification.num++;
                 that.notification.unread++;
                 console.log('data',data);
               })
