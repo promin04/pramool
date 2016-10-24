@@ -51,7 +51,7 @@
       $rootScope.$watch('user',function (newValue, oldValue) {
           that.username = newValue;
           if(!oldValue && newValue) {
-              $http.get('/get-notification/1').then(function (response) {
+              $http.get('/get-notification/1&0').then(function (response) {
                 var unread = response.data.unread;
                 var notification = response.data.notification.reverse();
                 var num = response.data.num;
@@ -59,7 +59,8 @@
                   unread : unread ,
                   notification : notification ,
                   num : num,
-                  page : 1
+                  page : 1,
+                  new : 0
                 };
                 console.log('that.notification',that.notification);
               });
@@ -68,6 +69,7 @@
               //listening notification
               socket.on('notification',function (data) {
                 that.notification.notification.unshift(data.notification[0]);
+                that.notification.new++;
                 that.notification.num++;
                 that.notification.unread++;
                 console.log('data',data);

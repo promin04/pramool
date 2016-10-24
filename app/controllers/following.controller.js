@@ -130,7 +130,7 @@ module.exports = {
   getNotification : function (req,res,next) {
     if( req.user ){
     var condition = { user_id : req.user._id };
-    var skip = +req.params.count * 10 ;
+    var skip = (+req.params.page * 10) + (+req.params.new);
     var option1 = {
       notification : { $slice: [(-skip),10]  },
       unread: true

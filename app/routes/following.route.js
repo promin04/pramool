@@ -1,7 +1,7 @@
 module.exports = function (app) {
   var following = require('../controllers/following.controller.js');
 
-  app.route( '/get-notification/:count' )
+  app.route( '/get-notification/:page&:new' )
      .get( following.getNotification , following.send );
 
 
