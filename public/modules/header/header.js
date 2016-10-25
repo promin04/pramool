@@ -12,7 +12,7 @@
       templateUrl : './modules/header/views/top-header.jade'
     };
   })
-    .controller('authenticate',['$http','modalAuthService','$scope','$rootScope','$compile',function ($http,modalAuthService,$scope,$rootScope,$compile) {
+    .controller('authenticate',['$http','modalAuthService','$scope','$rootScope','$compile','$state',function ($http,modalAuthService,$scope,$rootScope,$compile,$state) {
       var that = this;
       this.popover = {
         title : "Notification",
@@ -21,10 +21,11 @@
       this.username = undefined;
       this.notification = {};
       this.signout = function () {
+
         $http.get('/signout').then(function () {
             $rootScope.user = null;
             socket.emit('clientLogout');
-
+            $state.go('auction');
         });
       }
 

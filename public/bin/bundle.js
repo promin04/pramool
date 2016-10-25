@@ -14659,7 +14659,7 @@
 	      templateUrl : './modules/header/views/top-header.jade'
 	    };
 	  })
-	    .controller('authenticate',['$http','modalAuthService','$scope','$rootScope','$compile',function ($http,modalAuthService,$scope,$rootScope,$compile) {
+	    .controller('authenticate',['$http','modalAuthService','$scope','$rootScope','$compile','$state',function ($http,modalAuthService,$scope,$rootScope,$compile,$state) {
 	      var that = this;
 	      this.popover = {
 	        title : "Notification",
@@ -14668,10 +14668,11 @@
 	      this.username = undefined;
 	      this.notification = {};
 	      this.signout = function () {
+	
 	        $http.get('/signout').then(function () {
 	            $rootScope.user = null;
 	            socket.emit('clientLogout');
-	
+	            $state.go('auction');
 	        });
 	      }
 	
@@ -15183,6 +15184,7 @@
 	    function ($rootScope,$state,modalAuthService,$http,userService,$urlRouter,$timeout) {
 	      $rootScope.$on('$stateChangeStart',function (event, toState, toParams, fromState, fromParams) {
 	        //callback for authModal
+	        console.log(toState,fromState,'stat current');
 	        var closed = function () {
 	        if($rootScope.user == undefined)
 	          $state.go('auction');
@@ -15205,7 +15207,8 @@
 	              function (reject) {
 	                console.log(reject);
 	                  //check state
-	                  if(toState.name === 'newProduct'){
+	                  if(toState.name !== 'auction' && toState.name !== 'completed' ){
+	                  
 	                      modalAuthService.open(closed);
 	                  }
 	              }
@@ -15217,18 +15220,10 @@
 	
 	    $rootScope.$watch('user',function (newValue, oldValue) {
 	
-	      //callback for authModal
-	      var closed = function () {
-	      if($rootScope.user == undefined)
-	        $state.go('auction');
-	      }
 	      //defer state.current url (have to use $urlRouterProvider.deferIntercept() in config before)
 	      $urlRouter.sync();
-	      console.log($state.current.name,'stat current');
-	      if(($state.current.name !== 'auction') && !newValue && oldValue){
 	
-	        modalAuthService.open(closed);
-	      }
+	
 	      //close defer state.current url (have to use $urlRouterProvider.deferIntercept() in config before)
 	      $urlRouter.listen();
 	    });
@@ -15879,16 +15874,40 @@
 	(function () {
 	  angular.module('main')
 	    .service('modalService',['$uibModal','$timeout',function ($uibModal,$timeout) {
+	           var modal = this;
+	           this.hasModalLogin = false;
 	           this.open =function (option,closed) {
-	              var modalInstance = $uibModal.open(option).closed.then(function () {
-	                if(closed)
-	                    closed();
-	              });
-	            $timeout(function () {
-	               var element = document.getElementById("myId");
-	               if(element)
-	                    element.focus();
-	            },200)
+	             switch (option.type) {
+	               case 'logIn':
+	                              if( !modal.hasModalLogin ){
+	                                  modal.hasModalLogin = true;
+	                                  var modalInstance = $uibModal.open(option).closed.then(function () {
+	                                    modal.hasModalLogin = false;
+	                                    if(closed)
+	                                        closed();
+	                                  });
+	
+	                                  $timeout(function () {
+	                                     var element = document.getElementById("myId");
+	                                     if(element)
+	                                          element.focus();
+	                                  },200)
+	                                  console.log('logIn');
+	
+	                              }
+	
+	                 break;
+	               case 'signUp':
+	                             var modalInstance = $uibModal.open(option).closed.then(function () {
+	
+	                             });
+	
+	                             console.log('signUp');
+	                 break;
+	               default:
+	
+	             }
+	
 	
 	          }
 	
@@ -15904,51 +15923,61 @@
 	(function () {
 	  angular.module('main')
 	    .service('modalAuthService',['modalService',function (modalService) {
+	
+	
 	           this.open =function (closed) {
+	
 	             var option = {
+	               type: 'logIn',
 	               animation : true,
 	               templateUrl : './modules/header/views/signin-modal.jade',
 	               controller : ['modalService','$http','$rootScope','$uibModalInstance',function (modalService,$http,$rootScope,$uibModalInstance) {
-	                 var that = this ;
+	                 var modalLogin = this;
 	                 this.login = function () {
-	                   $http.post('/signin',that.user).then(function (response) {
+	                   $http.post('/signin',modalLogin.user).then(function (response) {
 	                     $rootScope.user = response.data;
 	                     $uibModalInstance.close();
+	
 	                   });
 	                 };
 	
-	                 this.openSignup = function () {
-	                   var option = {
-	                     animation : true,
-	                     templateUrl : './modules/header/views/signup-modal.jade',
-	                     controller: ['$http','modalService',function ($http,modalService) {
-	                       var that = this ;
+	                       this.openSignup = function () {
+	                         var option = {
+	                           type: 'signUp',
+	                           animation : true,
+	                           templateUrl : './modules/header/views/signup-modal.jade',
+	                           controller: ['$http','modalService',function ($http,modalService) {
+	                             var modalSignup = this ;
 	
-	                       this.modalClose = function () {
-	                         var close = document.getElementById('close');
-	                         angular.element(document).ready(function () {
-	                            close.click();
-	                        });
+	                             this.modalClose = function () {
+	                               var close = document.getElementById('close');
+	                               angular.element(document).ready(function () {
+	                                  close.click();
+	                              });
+	                             }
+	
+	                             this.signup = function () {
+	                               $http.post('/signup',modalSignup.user).then(function (response) {
+	                                 console.log('complete signup');
+	                                 modalSignup.modalClose();
+	                               });
+	                             };
+	
+	                           }],
+	                           controllerAs: 'signup'
+	                         };
+	                         modalService.open(option,closed);
+	
 	                       }
-	
-	                       this.signup = function () {
-	                         $http.post('/signup',that.user).then(function (response) {
-	                           console.log('complete signup');
-	                           that.modalClose();
-	                         });
-	                       };
-	
-	                     }],
-	                     controllerAs: 'signup'
-	                   };
-	                   modalService.open(option,closed);
-	
-	                 }
 	               }],
 	               controllerAs : 'login'
 	
 	             };
-	             modalService.open(option,closed);
+	
+	
+	               modalService.open(option,closed);
+	
+	
 	
 	          }
 	

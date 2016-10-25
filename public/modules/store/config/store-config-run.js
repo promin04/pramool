@@ -5,6 +5,7 @@
     function ($rootScope,$state,modalAuthService,$http,userService,$urlRouter,$timeout) {
       $rootScope.$on('$stateChangeStart',function (event, toState, toParams, fromState, fromParams) {
         //callback for authModal
+        console.log(toState,fromState,'stat current');
         var closed = function () {
         if($rootScope.user == undefined)
           $state.go('auction');
@@ -27,7 +28,8 @@
               function (reject) {
                 console.log(reject);
                   //check state
-                  if(toState.name === 'newProduct'){
+                  if(toState.name !== 'auction' && toState.name !== 'completed' ){
+                  
                       modalAuthService.open(closed);
                   }
               }
@@ -39,18 +41,10 @@
 
     $rootScope.$watch('user',function (newValue, oldValue) {
 
-      //callback for authModal
-      var closed = function () {
-      if($rootScope.user == undefined)
-        $state.go('auction');
-      }
       //defer state.current url (have to use $urlRouterProvider.deferIntercept() in config before)
       $urlRouter.sync();
-      console.log($state.current.name,'stat current');
-      if(($state.current.name !== 'auction') && !newValue && oldValue){
 
-        modalAuthService.open(closed);
-      }
+
       //close defer state.current url (have to use $urlRouterProvider.deferIntercept() in config before)
       $urlRouter.listen();
     });
