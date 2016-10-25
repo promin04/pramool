@@ -28,8 +28,8 @@
               function (reject) {
                 console.log(reject);
                   //check state
-                  if(toState.name !== 'auction' && toState.name !== 'completed' ){
-                  
+                  if(toState.name !== 'auction' && toState.name !== 'completed' && toState.name !== 'product.detail' ){
+
                       modalAuthService.open(closed);
                   }
               }

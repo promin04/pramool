@@ -35,6 +35,7 @@ module.exports = {
         product.save(function (err,data) {
           if(err) {
             console.log(err);
+            res.end();
           } else {
             console.log('save data',data);
             req.product = data;
@@ -45,6 +46,7 @@ module.exports = {
         });
       } else {
         console.log('need user log in');
+        res.end();
       }
 
 
@@ -61,6 +63,7 @@ module.exports = {
       function (err,data) {
         if(err){
           console.log(err);
+          res.end();
         }else {
 
           for (var i = 0; i < data.length; i++) {
@@ -75,14 +78,24 @@ module.exports = {
    },
 
    delete : function (req,res) {
-     var condition = { _id : req.params.id };
-     if(req.user){
-       Product.remove(condition,function (err,data) {
-         res.json(data);
-       });
-     }else {
-       console.log('need user log in');
-     }
+     if( req.user ){
+                       var condition = { _id : req.params.id };
+                       Product.findOne(condition,'creator',function (err ,data) {
+
+                          if(req.user.username === data.creator.username){
+                            Product.remove(condition,function (err,data) {
+                              res.json(data);
+                            });
+                          }else {
+                            console.log('error delete',req.user.username , data.creator.username);
+                          }
+
+                       });
+   }else {
+     console.log('need log in');
+     res.end();
+   }
+
    },
 
    completed : function (req,res) {
@@ -92,6 +105,7 @@ module.exports = {
      },function (err,data) {
        if (err) {
          console.log(err);
+         res.end();
        } else {
          for (var i = 0; i < data.length; i++) {
            data[i].bidEnd = moment(data[i].bidEnd).diff(moment());
@@ -109,6 +123,7 @@ module.exports = {
      function (err,data) {
        if (err) {
          console.log(err);
+         res.end();
        } else {
 
          req.product = data;
@@ -154,6 +169,7 @@ module.exports = {
         Product.findOneAndUpdate(condition,update,option,function (err,data) {
             if (err) {
               console.log(err);
+              res.end();
             } else {
               //web socket emit to everyone in store and product's room
               var offer = {
@@ -208,7 +224,7 @@ module.exports = {
          data[i].bidEnd = moment(data[i].bidEnd).diff(moment());
 
        }
-  
+
        res.json(data);
      }
    )
@@ -279,6 +295,7 @@ module.exports = {
 
    }else {
      console.log('need user log in');
+     res.end();
    }
  },
  send : function (req,res) {

@@ -5,10 +5,12 @@
            this.hasModalLogin = false;
            this.open =function (option,closed) {
              switch (option.type) {
+
+               //when type modal is logIn
                case 'logIn':
                               if( !modal.hasModalLogin ){
-                                  modal.hasModalLogin = true;
-                                  var modalInstance = $uibModal.open(option).closed.then(function () {
+                                   modal.hasModalLogin = true;
+                                   $uibModal.open(option).closed.then(function () {
                                     modal.hasModalLogin = false;
                                     if(closed)
                                         closed();
@@ -24,15 +26,21 @@
                               }
 
                  break;
+
+              //when type modal is signUp
                case 'signUp':
-                             var modalInstance = $uibModal.open(option).closed.then(function () {
-
-                             });
-
+                              $uibModal.open(option);
                              console.log('signUp');
                  break;
-               default:
 
+                //when type modal is signUp
+               default:
+                       var modalInstance = $uibModal.open(option).closed.then(function () {
+                         if(closed)
+                             closed();
+                       });
+
+                break;
              }
 
 
