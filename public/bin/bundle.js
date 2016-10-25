@@ -14878,7 +14878,7 @@
 	                this.classImg = true ;
 	                this.changeClass = function () {
 	
-	                  if (this.picture[0]) {
+	                  if (this.picture[this.pointer]) {
 	                    if (this.picture[this.pointer].autoH >= this.picture[this.pointer].autoW) {
 	                       this.classImg = true;
 	                    } else {
@@ -14890,10 +14890,11 @@
 	
 	
 	                this.picRemove = function (index) {
+	                  
 	                  this.picture.splice(index,1);
 	                  if(index < this.pointer){
 	                    this.pointer -= 1;
-	                  } else if (index === this.pointer && this.picture.length>1) {
+	                  } else if (index === this.pointer && this.picture.length>0) {
 	                      this.pointer -= 1;
 	                    }
 	
@@ -15184,7 +15185,6 @@
 	    function ($rootScope,$state,modalAuthService,$http,userService,$urlRouter,$timeout) {
 	      $rootScope.$on('$stateChangeStart',function (event, toState, toParams, fromState, fromParams) {
 	        //callback for authModal
-	        console.log(toState,fromState,'stat current');
 	        var closed = function () {
 	        if($rootScope.user == undefined)
 	          $state.go('auction');
@@ -15755,7 +15755,7 @@
 	      templateUrl : './modules/gallery/views/gallery.jade',
 	      scope : {pic : '=' , pointer : '='},
 	      controller : ['$scope',function ($scope) {
-	        var slides = [];
+	        var slides = $scope.pic;
 	        $scope.$watch('pic',function (newValue, oldValue) {
 	          //disappear new image was added in gallery for showing cover image
 	          if(newValue.length>oldValue.length && newValue.length>1){
@@ -15771,7 +15771,7 @@
 	            $scope.currentSlide($scope.pointer);
 	          } else if (newValue.length<oldValue.length && newValue.length>0) {
 	
-	            //$scope.pointer -= 1;
+	            
 	            console.log('3',$scope.pointer);
 	            $scope.currentSlide($scope.pointer);
 	          }
@@ -15785,7 +15785,7 @@
 	
 	
 	          var slideIndex = $scope.pointer || 0;
-	
+	          console.log('slideIndex',slideIndex);
 	          $scope.lengthPage = function () {
 	            var count = 0;
 	            var i;
@@ -15806,6 +15806,7 @@
 	                            }
 	
 	          $scope.showSlide = function (n) {
+	
 	                        if(slides[0]){
 	                        angular.element(document).ready(function () {
 	

@@ -6,7 +6,7 @@
       templateUrl : './modules/gallery/views/gallery.jade',
       scope : {pic : '=' , pointer : '='},
       controller : ['$scope',function ($scope) {
-        var slides = [];
+        var slides = $scope.pic;
         $scope.$watch('pic',function (newValue, oldValue) {
           //disappear new image was added in gallery for showing cover image
           if(newValue.length>oldValue.length && newValue.length>1){
@@ -22,7 +22,7 @@
             $scope.currentSlide($scope.pointer);
           } else if (newValue.length<oldValue.length && newValue.length>0) {
 
-            //$scope.pointer -= 1;
+            
             console.log('3',$scope.pointer);
             $scope.currentSlide($scope.pointer);
           }
@@ -36,7 +36,7 @@
 
 
           var slideIndex = $scope.pointer || 0;
-
+          console.log('slideIndex',slideIndex);
           $scope.lengthPage = function () {
             var count = 0;
             var i;
@@ -57,6 +57,7 @@
                             }
 
           $scope.showSlide = function (n) {
+
                         if(slides[0]){
                         angular.element(document).ready(function () {
 

@@ -5,7 +5,6 @@
     function ($rootScope,$state,modalAuthService,$http,userService,$urlRouter,$timeout) {
       $rootScope.$on('$stateChangeStart',function (event, toState, toParams, fromState, fromParams) {
         //callback for authModal
-        console.log(toState,fromState,'stat current');
         var closed = function () {
         if($rootScope.user == undefined)
           $state.go('auction');
