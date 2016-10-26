@@ -6,11 +6,7 @@ module.exports = function (app) {
     .post( user.signup , following.createFollow);
 
   app.route('/signin')
-    .post(passport.authenticate('local'),
-      function (req,res) {
-          res.json(req.user.username);
-      }
-  );
+    .post(user.login);
 
   app.route('/signout')
     .get(user.signout);

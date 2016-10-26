@@ -5,7 +5,6 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 var passport = require('passport');
 
-
 module.exports = function (express,app,io) {
 
     //set template engine
@@ -31,6 +30,7 @@ module.exports = function (express,app,io) {
       resave: false,
       saveUninitialized: true,
     }));
+
     app.use(passport.initialize());
     app.use(passport.session());
      //require route

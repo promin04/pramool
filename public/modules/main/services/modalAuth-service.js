@@ -10,13 +10,19 @@
                animation : true,
                templateUrl : './modules/header/views/signin-modal.jade',
                controller : ['modalService','$http','$rootScope','$uibModalInstance',function (modalService,$http,$rootScope,$uibModalInstance) {
-                 var modalLogin = this;
-                 this.login = function () {
-                   $http.post('/signin',modalLogin.user).then(function (response) {
-                     $rootScope.user = response.data;
-                     $uibModalInstance.close();
+                     var modalLogin = this;
+                     this.errorMessage = '';
+                     this.login = function () {
+                       $http.post('/signin',modalLogin.user).then(
+                         function success(response) {
+                             $rootScope.user = response.data;
+                             $uibModalInstance.close();
 
-                   });
+                         },
+                         function reject(response) {
+                              modalLogin.errorMessage = response.data.errorMessage;
+                         }
+                     );
                  };
 
                        this.openSignup = function () {

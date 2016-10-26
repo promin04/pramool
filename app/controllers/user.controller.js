@@ -1,4 +1,5 @@
 var User = require('mongoose').model('User');
+var passport = require('passport');
 exports.signup = function (req,res,next) {
     if(!req.user){
       var user = new User(req.body);
@@ -31,4 +32,17 @@ exports.signout = function(req, res){
 
 exports.username = function (req,res) {
   res.json(req.user);
+}
+
+exports.login = function(req, res , next){
+  passport.authenticate('local', function(err, user, info) {
+    if (err) { return next(err); }
+    if (!user) {
+      return res.status(401).json( { errorMessage : 'Incorrect username or password' } );
+    }
+    req.logIn(user, function(err) {
+      if (err) { return next(err); }
+      return res.json(req.user.username);
+    });
+  })(req, res, next);
 }
