@@ -32,7 +32,6 @@
                            templateUrl : './modules/header/views/signup-modal.jade',
                            controller: ['$http','modalService',function ($http,modalService) {
                              var modalSignup = this ;
-
                              this.modalClose = function () {
                                var close = document.getElementById('close');
                                angular.element(document).ready(function () {

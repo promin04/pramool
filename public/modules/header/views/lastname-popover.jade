@@ -1,0 +1,7 @@
+div
+    div(ng-show='(signupForm.lastname.$error.required || signupForm.lastname.$error.minlength || signupForm.lastname.$error.maxlength) && signupForm.lastname.$touched' ng-style='{"font-size":"10px" , "margin-right":"8px", "color":"red"}')
+      |*Require 1-16 characters.
+    div(ng-show='signupForm.lastname.$error.pattern && signupForm.lastname.$touched' ng-style='{"font-size":"10px", "color":"red"}')
+      |*No allow special character.
+    div(ng-show='(!signupForm.lastname.$error.required && !signupForm.lastname.$error.minlength && !signupForm.lastname.$error.maxlength && !signupForm.lastname.$error.pattern) && signupForm.lastname.$touched' ng-style='{"font-size":"13px", "color":"green"}')
+      b Correct

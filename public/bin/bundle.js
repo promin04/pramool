@@ -14688,9 +14688,12 @@
 	            $el.attr( "custom-scroll", "" );
 	            $el.attr( "noti", "user.notification" );
 	            $compile($el)($scope);
-	            $http.get('/read-notification').then(function (response) {
-	               that.notification.unread = response.data.unread;
-	            })
+	            if( this.notification.unread ){
+	                  $http.get('/read-notification').then(function (response) {
+	                     that.notification.unread = response.data.unread;
+	                  });
+	            }
+	
 	      }
 	
 	
@@ -15109,7 +15112,7 @@
 	                      }else {
 	
 	                                    if($rootScope.user !== undefined){
-	
+	                                            console.log('offer',$rootScope.user);
 	                                            $http.post('/product/'+$stateParams.id,{price : this.price}).then(function (response) {
 	
 	                                            if(response.data.error){
@@ -15117,7 +15120,7 @@
 	                                                  //open login modal
 	                                                  modalAuthService.open();
 	                                            } else {
-	                                                  
+	
 	                                                  that.active = true;
 	                                            }
 	
@@ -15648,32 +15651,36 @@
 	  angular.module('dashboard')
 	    .service('deleteProduct',['$http','$q',function ($http,$q) {
 	        this.delete = function (_id,arrayImg) {
-	          var count = 0;
+	
 	          var defer = $q.defer();
 	          for (var i = 0; i < arrayImg.length; i++) {
 	
+	                      (function ( index ) {
 	
-	                          $http.delete('https://api.imgur.com/3/image/'+arrayImg[i].deletehash,
-	                              {
-	                                  headers: {
-	                                    Authorization: 'Client-ID 18f8382f95b805f',
-	                                  }
-	                              }
-	                            )
-	                            .then(function (response) {
-	                                count++;
-	                                console.log('already done  // '+count,response);
-	                                if(count === arrayImg.length){
-	                                  console.log('start delete');
-	
-	                                    $http.delete('/product/'+_id).then(function (response) {
-	                                            console.log('All done',response);
-	                                            defer.resolve(response);
-	                                          });
-	
-	
+	                        $http.delete('https://api.imgur.com/3/image/'+arrayImg[index].deletehash,
+	                            {
+	                                headers: {
+	                                  Authorization: 'Client-ID 18f8382f95b805f',
 	                                }
-	                              });
+	                            }
+	                          )
+	                          .then(function (response) {
+	
+	                              console.log('already done  // '+index,response,arrayImg[index].deletehash);
+	                              if(index === arrayImg.length-1){
+	                                console.log('start delete');
+	
+	                                  $http.delete('/product/'+_id).then(function (response) {
+	                                          console.log('All done',response);
+	                                          defer.resolve(response);
+	                                        });
+	
+	
+	                              }
+	                            });
+	
+	                      })( i )
+	
 	
 	        }
 	        return defer.promise;
@@ -15951,9 +15958,7 @@
 	
 	                         },
 	                         function reject(response) {
-	
 	                              modalLogin.errorMessage = response.data.errorMessage;
-	                              console.log(modalLogin.errorMessage);
 	                         }
 	                     );
 	                 };
@@ -15965,7 +15970,6 @@
 	                           templateUrl : './modules/header/views/signup-modal.jade',
 	                           controller: ['$http','modalService',function ($http,modalService) {
 	                             var modalSignup = this ;
-	
 	                             this.modalClose = function () {
 	                               var close = document.getElementById('close');
 	                               angular.element(document).ready(function () {

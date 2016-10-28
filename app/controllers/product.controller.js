@@ -1,5 +1,7 @@
 var moment = require('moment');
 var Product = require('mongoose').model('Product');
+var checkClosingAuction = require('../../config/checkClosingAuction.js');
+
 module.exports = {
   create : function (req,res,next) {
       if(req.user){
@@ -8,7 +10,7 @@ module.exports = {
         var add = {
           name : req.body.name,
           createAt : moment(),
-          bidEnd : moment().add(req.body.time.hours,'hours').add(req.body.time.days, 'days'),
+          bidEnd : moment().add(req.body.time.hours,'seconds').add(req.body.time.days, 'days'),
           creator : {
             _id : req.user._id.toString() ,
             username : req.user.username
@@ -35,11 +37,30 @@ module.exports = {
         product.save(function (err,data) {
           if(err) {
             console.log(err);
-            res.end();
+            return  next(err);
           } else {
             console.log('save data',data);
-            req.product = data;
-            next();
+            ///for checkClosingAuction
+            var forTimecheck = {
+              _id : data._id,
+              bidEnd : data.bidEnd
+            };
+            checkClosingAuction.addProduct(forTimecheck);
+            ///for notification
+            var result ={
+              _id : data._id,
+              name : data.name,
+              creator : data.creator,
+              img : data.img[data.coverImg.index].link,
+              bider : {
+                time: moment(data.bider[0].time).fromNow(),
+                price:data.bider[0].price,
+                name:data.bider[0].name
+              },
+              following : data.following
+            }
+            req.product = result;
+            return next();
             //res.json(data);
 
           }
@@ -77,15 +98,29 @@ module.exports = {
       })
    },
 
-   delete : function (req,res) {
+   delete : function (req,res,next) {
      if( req.user ){
                        var condition = { _id : req.params.id };
-                       Product.findOne(condition,'creator',function (err ,data) {
+                       Product.findOne(condition,'name creator bidEnd',function (err ,data) {
+                         var result = data;
+                         if(data.bidEnd+0 > moment()+0 ){
+                           var forTimecheck = {
+                             _id : data._id,
+                           };
+                           checkClosingAuction.deleteProduct(forTimecheck);
+                         }
+
 
                           if(req.user.username === data.creator.username){
-                            Product.remove(condition,function (err,data) {
-                              res.json(data);
+
+                            Product.remove(condition,function (err) {
+                              console.log('delete data',result);
+                              req.Product = result;
+                              return next();
+                              //res.json(result);
                             });
+
+
                           }else {
                             console.log('error delete',req.user.username , data.creator.username);
                           }
@@ -139,9 +174,10 @@ module.exports = {
    },
 
    offer : function (req,res,next) {
+     console.log('offerrrrrrrrrrr',req.user.username);
      if(req.body.price<req.product.bider[req.product.bider.length-1].price || req.user==undefined){
        console.log('Cannot be add new offer');
-       res.json({
+       res.status(401).json({
          error: 'You should login before take offer'
        });
      } else {
@@ -158,8 +194,6 @@ module.exports = {
        var option = { fields: {
                                 createAt : false ,
                                 bidEnd : false ,
-                                img : false ,
-                                coverImg : false,
                                 bider : { $slice: -1 }
                               },
                        new : true
@@ -189,6 +223,7 @@ module.exports = {
                 _id : data._id,
                 name : data.name,
                 creator : data.creator,
+                img : data.img[data.coverImg.index].link,
                 bider : {
                   time: moment(data.bider[0].time).fromNow(),
                   price:data.bider[0].price,
@@ -300,6 +335,9 @@ module.exports = {
  },
  send : function (req,res) {
     res.json(req.product);
+ },
+ end : function (req,res) {
+    res.end();
  }
 
 

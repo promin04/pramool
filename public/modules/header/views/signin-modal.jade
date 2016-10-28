@@ -6,17 +6,17 @@
   .login.col-xs-12.col-sm-6(ng-style='{"border-right":"1px solid #c7c7c7"}')
     h4(ng-style='{"text-align":"center"}')
       |LOG IN
-    form(name='signup' , ng-submit = 'login.login()' novalidate='')
+    form(name='loginForm' , ng-submit = 'login.login()' novalidate='')
       div(ng-style='{"margin-bottom":"10px"}')
-        span(ng-show='(signup.username.$error.minlength || signup.username.$error.maxlength) && signup.username.$touched' ng-style='{"font-size":"10px" , "margin-right":"8px", "color":"red"}')
+        span(ng-show='(loginForm.username.$error.minlength || loginForm.username.$error.maxlength) && loginForm.username.$touched' ng-style='{"font-size":"10px" , "margin-right":"8px", "color":"red"}')
           |*Require 6-16 characters.
-        span(ng-show='signup.username.$error.pattern && signup.username.$touched' ng-style='{"font-size":"10px", "color":"red"}')
+        span(ng-show='loginForm.username.$error.pattern && loginForm.username.$touched' ng-style='{"font-size":"10px", "color":"red"}')
           |*No allow special character.
         input#myId(name='username' , ng-model = 'login.user.username' , type='text' , placeholder='username' ,ng-style='{"width":"100%"}' , required='' , minlength='6' , maxlength='16' , pattern='[a-zA-Z0-9]{1,16}')
       div
-        span(ng-show='(signup.password.$error.minlength || signup.password.$error.maxlength) && signup.password.$touched' ng-style='{"font-size":"10px" , "margin-right":"8px" , "color":"red"}')
+        span(ng-show='(loginForm.password.$error.minlength || loginForm.password.$error.maxlength) && loginForm.password.$touched' ng-style='{"font-size":"10px" , "margin-right":"8px" , "color":"red"}')
           |*Require 6-16 characters.
-        span(ng-show='signup.password.$error.pattern && signup.username.$touched' ng-style='{"font-size":"10px" , "color":"red"}')
+        span(ng-show='loginForm.password.$error.pattern && loginForm.username.$touched' ng-style='{"font-size":"10px" , "color":"red"}')
           |*No allow special character.
         input(name='password' , ng-model = 'login.user.password' , type='password' , placeholder='password',ng-style='{"width":"100%"}' , required='' , minlength='6' , maxlength='16' , pattern='[a-zA-Z0-9]{1,16}')
       div(ng-style='{"margin-top":"30px"}')

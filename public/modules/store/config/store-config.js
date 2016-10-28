@@ -102,7 +102,7 @@
                       }else {
 
                                     if($rootScope.user !== undefined){
-
+                                            console.log('offer',$rootScope.user);
                                             $http.post('/product/'+$stateParams.id,{price : this.price}).then(function (response) {
 
                                             if(response.data.error){
@@ -110,7 +110,7 @@
                                                   //open login modal
                                                   modalAuthService.open();
                                             } else {
-                                                  
+
                                                   that.active = true;
                                             }
 

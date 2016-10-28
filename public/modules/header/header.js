@@ -41,9 +41,12 @@
             $el.attr( "custom-scroll", "" );
             $el.attr( "noti", "user.notification" );
             $compile($el)($scope);
-            $http.get('/read-notification').then(function (response) {
-               that.notification.unread = response.data.unread;
-            })
+            if( this.notification.unread ){
+                  $http.get('/read-notification').then(function (response) {
+                     that.notification.unread = response.data.unread;
+                  });
+            }
+
       }
 
 

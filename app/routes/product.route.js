@@ -4,14 +4,14 @@ module.exports = function (app) {
   var following = require('../controllers/following.controller.js');
 
   app.route( '/product' )
-     .post( product.create , following.setCreatorFollow , product.send )
+     .post( product.create , following.setCreatorFollow , following.notification , product.send )
      .get( product.list );
 
 
   app.route( '/product/:id' )
      .get( product.read )
      .post( product.offer , following.setBiderFollow ,  product.followProduct , following.notification , product.send )
-     .delete( product.delete );
+     .delete( product.delete , following.setPreDelete , following.notification , product.end);
   app.param( 'id', product.detail );
 
   app.route( '/completed' )

@@ -19,14 +19,14 @@ module.exports = {
                     by : 'follow',
                     mode : req.body.mode
                   };
-      next();
+      return next();
     } else {
       req.follow = {
                     _id : req.body._id ,
                     by : 'follow',
                     mode : req.body.mode
                   };
-      next();
+      return next();
     }
   },
 
@@ -37,10 +37,10 @@ module.exports = {
                     by : 'creator',
                     mode : 'follow'
                   };
-      next();
+      return next();
     } else {
       console.log('error need req.product');
-      next(err);
+      return next(err);
     }
   },
 
@@ -51,16 +51,35 @@ module.exports = {
                     by : 'bider',
                     mode : 'follow'
                   };
-      next();
+      return next();
     } else {
       console.log('error need req.product');
-      next(err);
+      return next(err);
     }
   },
 
+    setPreDelete : function (req,res,next) {
+      if (req.product) {
+        req.follow = {
+                      _id : req.product._id ,
+                      by : 'delete',
+                      mode : 'follow'
+                    };
+        return next();
+      } else {
+        console.log('error need req.product');
+        return next(err);
+      }
+    },
+
   notification : function (req,res,next) {
 
-    var notification;
+    var notification = {};
+    var follower = [];
+    var condition;
+    var option;
+    var update;
+
     switch ( req.follow.by ) {
       case 'bider':
         notification =  { username : req.user.username ,
@@ -68,27 +87,50 @@ module.exports = {
                           message : req.product.bider.price ,
                           product : {
                                       _id : req.product._id ,
-                                      name : req.product.name
+                                      name : req.product.name,
+                                      img : req.product.img
                                     }
                         };
+        follower = req.product.following;
         break;
       case 'creator':
-        notification =  { username : req.user.username ,
+        notification =  {
                           type : 'creator' ,
-                          message : 'Your product has been created' ,
                           product : {
                                       _id : req.product._id ,
-                                      name : req.product.name
+                                      name : req.product.name,
+                                      img : req.product.img
                                     }
                         };
+        follower = [ req.product.creator ];
+        break;
+      case 'delete':
+        notification =  {
+                          type : 'delete' ,
+                          product : {
+                                      _id : req.product._id ,
+                                      name : req.product.name,
+
+                                    }
+                        };
+        follower = req.product.following;
+        break;
+      case 'close':
+        notification =  {
+                          type : 'close' ,
+                          winner : req.product.winner,
+                          product : {
+                                      _id : req.product._id ,
+                                      name : req.product.name,
+                                      img : req.product.img
+                                    }
+                        };
+        follower = req.product.following;
         break;
       default: notification = null;
     }
-    var follower = req.product.following;
-    var condition;
-    var option;
-    var update;
-    var i = 0;
+
+
 
 
 
@@ -100,29 +142,38 @@ module.exports = {
     follower.forEach( function (item) {
       var client; // var for client ID
       //detect follower is online or not & set client ID
+
       for (var i = 0; i < GLOBAL.clients.length; i++) {
         if(GLOBAL.clients[i].username == item.username){
-          client = GLOBAL.clients[i].clientId;
-          console.log(' client ID ' , client);
-          break;
+                client = GLOBAL.clients[i].clientId;
+                console.log(' client ID ' , client);
+
+
+                condition = { user_id : item._id };
+                option = {
+                           new : true ,
+                           fields : {
+                                      notification : { $slice: -1 } ,
+                                      user_id: true
+                                    }
+                         };
+
+                //self-invoke & inject parameter to freeze value for asynchronous process
+                (function (condition , update , option , client ,count) {
+                  //save notification to database for history & offline's users
+                  Following.findOneAndUpdate( condition , update , option , function (err,data) {
+                    if(client) req.io.to(client).emit('notification' , data);   //emit notification to client that online right now
+                    if(err) return next(err);
+                    count++;
+                    if(count === follower.length) return next(); // check last process to call next()
+                  });
+
+                })(condition , update , option , client , count = 0)
+
+
         }
       }
 
-      condition = { user_id : item._id };
-      option = {
-                 new : true ,
-                 fields : {
-                            notification : { $slice: -1 } ,
-                            user_id: true
-                          }
-               };
-      //save notification to database for history & offline's users
-      Following.findOneAndUpdate( condition , update , option , function (err,data) {
-        if(client) req.io.to(client).emit('notification' , data);   //emit notification to client that online right now
-        if(err) next(err);
-        i++;
-        if(i === follower.length) next(); // check last process to call next()
-      });
     });
 
   },
@@ -146,15 +197,15 @@ module.exports = {
   ];
     Following.findOne( condition , option1).lean().exec(
        function (err,data) {
-          if( err ) next(err);
+          if( err ) return next(err);
           //console.log('getNotification',data);
           req.follow = data;
           Following.aggregate(option2 , function (err , num) {
-            if(err) next(err);
+            if(err) return next(err);
 
             req.follow.num = num[0].size;
             console.log('size',req.follow,req.follow.num);
-            next();
+            return next();
           });
 
 
@@ -181,9 +232,9 @@ module.exports = {
                  }
            };
     Following.findOneAndUpdate( condition , update , option , function (err,data) {
-            if( err ) next(err);
+            if( err ) return next(err);
             req.follow = data;
-            next();
+            return next();
         });
     }
   },
