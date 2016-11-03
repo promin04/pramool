@@ -60,7 +60,9 @@ module.exports =function (io) {
       }
       console.log('rooms list',socket.rooms);
     });
-
+    socket.on('error', function(err) {
+        console.log('Socket io error',err);
+    });
 
   })
 }

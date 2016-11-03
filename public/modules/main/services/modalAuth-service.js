@@ -15,7 +15,9 @@
                      this.login = function () {
                        $http.post('/signin',modalLogin.user).then(
                          function success(response) {
-                             $rootScope.user = response.data;
+                              console.log('loginnnnn',response.data);
+                             $rootScope.user = response.data.username;
+                             $rootScope.avatarImage = response.data.avatarImage;
                              $uibModalInstance.close();
 
                          },

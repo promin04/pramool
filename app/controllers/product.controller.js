@@ -241,6 +241,7 @@ module.exports = {
    },
 
   getFollowing: function (req,res) {
+     console.log(req.headers ,'headerssss');
     if(req.user){
       var username = req.user.username;
       var id = req.user._id;

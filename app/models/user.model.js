@@ -12,6 +12,10 @@ var UserSchema = new Schema({
                unique: true,
                required: true
    },
+  avatarImage : {
+    img: Array,
+    pointer: Number
+  },
   email : {
             type: String
 

@@ -3,6 +3,7 @@
     .service('modalService',['$uibModal','$timeout',function ($uibModal,$timeout) {
            var modal = this;
            this.hasModalLogin = false;
+
            this.open =function (option,closed) {
              switch (option.type) {
 
@@ -35,7 +36,7 @@
 
                 //when type modal is signUp
                default:
-                       var modalInstance = $uibModal.open(option).closed.then(function () {
+                       $uibModal.open(option).closed.then(function () {
                          if(closed)
                              closed();
                        });

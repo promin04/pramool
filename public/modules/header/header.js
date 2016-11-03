@@ -31,7 +31,7 @@
 
       this.signin = function () {
         modalAuthService.open();
-        socket.removeListener('notification');
+
       }
 
 
@@ -53,6 +53,7 @@
 
       //get username when user is changed
       $rootScope.$watch('user',function (newValue, oldValue) {
+
           that.username = newValue;
           if(!oldValue && newValue) {
               $http.get('/get-notification/1&0').then(function (response) {
@@ -78,6 +79,9 @@
                 that.notification.unread++;
                 console.log('data',data);
               })
+          } else if (oldValue && !newValue) {
+              socket.removeListener('notification');
+              console.log('removeListener notification');
           }
       });
       ////

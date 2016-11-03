@@ -97,18 +97,19 @@
 	__webpack_require__(119);
 	__webpack_require__(120);
 	__webpack_require__(121);
-	__webpack_require__(122);
 	
+	__webpack_require__(122);
 	__webpack_require__(123);
 	__webpack_require__(124);
 	__webpack_require__(125);
 	__webpack_require__(126);
 	__webpack_require__(127);
-	__webpack_require__(128);
 	
+	__webpack_require__(128);
 	__webpack_require__(129);
 	__webpack_require__(130);
 	__webpack_require__(131);
+	
 	
 	__webpack_require__(132);
 	__webpack_require__(133);
@@ -118,6 +119,7 @@
 	__webpack_require__(136);
 	__webpack_require__(137);
 	__webpack_require__(138);
+	__webpack_require__(139);
 
 
 /***/ },
@@ -14678,7 +14680,7 @@
 	
 	      this.signin = function () {
 	        modalAuthService.open();
-	        socket.removeListener('notification');
+	
 	      }
 	
 	
@@ -14700,6 +14702,7 @@
 	
 	      //get username when user is changed
 	      $rootScope.$watch('user',function (newValue, oldValue) {
+	
 	          that.username = newValue;
 	          if(!oldValue && newValue) {
 	              $http.get('/get-notification/1&0').then(function (response) {
@@ -14725,6 +14728,9 @@
 	                that.notification.unread++;
 	                console.log('data',data);
 	              })
+	          } else if (oldValue && !newValue) {
+	              socket.removeListener('notification');
+	              console.log('removeListener notification');
 	          }
 	      });
 	      ////
@@ -14793,70 +14799,6 @@
 
 /***/ },
 /* 120 */
-/***/ function(module, exports) {
-
-	(function () {
-	  angular.module('addProduct')
-	  .service('imgur',['$http',function ($http) {
-	    this.post = function (file ,processBar, callback) {
-	
-	      console.log(file);
-	      var arrayData = [];
-	
-	      for(var i = 0 ; i < file.length ; i++){
-	
-	
-	      console.log(i,'i');
-	        //closure fn
-	      (function (index) {
-	        //due to title cannot set 0 that result = 'null', so it must i+1 (if i=0)
-	
-	        console.log(index,'index');
-	        var base64 = file[index].link;
-	        var arrayBase64 = base64.split(",");
-	        console.log(arrayBase64[0],arrayBase64.length);
-	
-	        var demo = {
-	            url: 'https://api.imgur.com/3/image',
-	            method: 'POST',
-	            headers: {
-	              Authorization: 'Client-ID 18f8382f95b805f',
-	              Accept: 'application/json'
-	            },
-	            data: {
-	              image: arrayBase64[1],
-	              type: 'base64',
-	              title: file[index].order
-	            }
-	
-	        };
-	
-	          $http(demo).then(function(response) {
-	              //success
-	
-	              arrayData.push(response.data.data);
-	              processBar(arrayData.length,file.length);
-	              if(arrayData.length === file.length){
-	                arrayData.sort(function(a, b){
-	                  return a.title-b.title});
-	                console.log(arrayData);
-	                callback(arrayData,file);
-	              }
-	          }, function(reject) {
-	            console.log('error',reject);
-	          });
-	
-	
-	})(i);
-	    }
-	    }
-	
-	  }])
-	})()
-
-
-/***/ },
-/* 121 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -14976,7 +14918,7 @@
 
 
 /***/ },
-/* 122 */
+/* 121 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -15005,7 +14947,7 @@
 
 
 /***/ },
-/* 123 */
+/* 122 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -15178,7 +15120,7 @@
 
 
 /***/ },
-/* 124 */
+/* 123 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -15239,7 +15181,7 @@
 
 
 /***/ },
-/* 125 */
+/* 124 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -15293,7 +15235,7 @@
 
 
 /***/ },
-/* 126 */
+/* 125 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -15315,7 +15257,7 @@
 
 
 /***/ },
-/* 127 */
+/* 126 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {(function () {
@@ -15429,7 +15371,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(110)))
 
 /***/ },
-/* 128 */
+/* 127 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {(function () {
@@ -15487,7 +15429,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(110)))
 
 /***/ },
-/* 129 */
+/* 128 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {(function () {
@@ -15626,7 +15568,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(110)))
 
 /***/ },
-/* 130 */
+/* 129 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -15644,7 +15586,7 @@
 
 
 /***/ },
-/* 131 */
+/* 130 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -15688,6 +15630,171 @@
 	      };
 	
 	    }])
+	})()
+
+
+/***/ },
+/* 131 */
+/***/ function(module, exports) {
+
+	(function () {
+	  angular.module('dashboard')
+	    .controller( 'profileController' ,[ 'modalService' , '$scope' , '$http' ,function ( modalService , $scope , $http ) {
+	      var option = {
+	        animation : true ,
+	        templateUrl : './modules/dashboard/views/editAvatar.jade',
+	        controller : ['$http','$rootScope','imgur', '$uibModalInstance' ,function ( $http , $rootScope , imgur , $uibModalInstance ) {
+	            var that = this;
+	            var order = 1;
+	            this.oldPic = angular.copy($scope.avatarImage.img);
+	            this.picture = angular.copy($scope.avatarImage.img);
+	            this.pointer = angular.copy($scope.avatarImage.pointer);
+	            this.processBar = 0;
+	
+	
+	            this.prepare = function (files) {
+	                  console.log('work');
+	                  if(Array.isArray(files) && files.length<5-this.picture.length){
+	                    for(var i = 0 ; i < files.length ; i++){
+	                    var fileReader = new FileReader();
+	                    //freeze i for each loop
+	                    (function (order,index) {
+	                    fileReader.onload = function (e) {
+	
+	                    var img64 = {
+	                                  name : files[index].name,
+	                                  link : fileReader.result,
+	                                  order : order,
+	
+	                    };
+	                    $scope.$apply(that.picture.push(img64));
+	                    console.log(that.picture,that.oldPic,$rootScope.avatarImage.img);
+	                    };
+	
+	                  })(order,i)
+	                    order++; //increase every loop to sort by order later
+	                    fileReader.readAsDataURL(files[i]); //encode file to base64
+	                  }
+	
+	                  } else {
+	                    this.state = 1; //show error gallery image
+	                  }
+	            };
+	
+	            this.picRemove = function (index) {
+	
+	              this.picture.splice(index,1);
+	              if(index < this.pointer){
+	                this.pointer -= 1;
+	              } else if (index === this.pointer && !this.picture[index+1]) {
+	                  this.pointer -= 1;
+	                }
+	
+	              console.log(this.pointer,'point');
+	
+	            }
+	
+	            this.combine = function ( oldPic, newPic) {
+	              var lists_remove_add = this.compare( oldPic , newPic );
+	              this.remove( lists_remove_add.remove );
+	              this.add( lists_remove_add.add , lists_remove_add.remain );
+	            }
+	
+	            this.remove = function ( array_remove ) {
+	              var route = '';
+	              for (var i = 0; i < array_remove.length; i++) {
+	                (function () {
+	                  route = 'https://api.imgur.com/3/image/' + array_remove[i].deletehash;
+	                  $http.delete(route).then(function (res) {
+	                    console.log('delete ' + i);
+	                  });
+	                })(i)
+	
+	              }
+	            }
+	
+	            this.compare = function ( oldPic , newPic ) {
+	              var lists = {
+	                remove : angular.copy(oldPic),
+	                add : angular.copy(newPic),
+	                remain : []
+	              };
+	              // filter remove and add
+	              for (var i = 0; i < oldPic.length; i++) {
+	                for (var j = 0 ; j < newPic.length; j++) {
+	                      console.log(oldPic[i].deletehash , newPic[j].deletehash ,i,j,'checkkkkk');
+	                      if(oldPic[i].deletehash === newPic[j].deletehash){
+	                        var removeIndex = lists.remove.findIndex(function (currentValue) {
+	                                          return currentValue.deletehash ===  oldPic[i].deletehash
+	                                        });
+	                        var removeAdd = lists.add.findIndex(function (currentValue) {
+	                                          return currentValue.deletehash ===  oldPic[i].deletehash
+	                                        });
+	                        console.log(removeIndex,removeAdd,'indexxxx');
+	                        var remaining = lists.remove.splice( removeIndex , 1 );
+	                                        lists.add.splice( removeAdd , 1 );
+	                                        lists.remain.push( remaining[0] );
+	                        break;
+	                      }
+	                }
+	              }
+	              console.log(lists,'lists 55555');
+	              return lists;
+	            }
+	
+	            this.add = function ( array_add , array_remain ) {
+	
+	                this.state = 10; //show complete bar&hide submit button
+	                var pro = {
+	                  img : [],
+	                  pointer : 0
+	                };
+	                var data ={};
+	
+	                var createPro = function (array_add , file , array_remain) {
+	                  var arrayData = array_remain.concat( array_add );
+	                  console.log(arrayData, array_remain , array_add ,'arrayData');
+	                  for(var i = 0 ; i<arrayData.length ; i++){
+	                      data = {
+	                          name : arrayData[i].name,
+	                          link : arrayData[i].link,
+	                          deletehash : arrayData[i].deletehash
+	                      };
+	                      pro.img.push(data);
+	                      pro.pointer = that.pointer;
+	                  }
+	                  console.log(pro,'before save');
+	                $http.post('/user-avatar-update',pro).then(function (res) {
+	                  console.log('user-avatar-update res',res.data);
+	                  $rootScope.avatarImage = res.data.avatarImage;
+	                  $uibModalInstance.close();
+	
+	                });
+	                }
+	
+	                var processBar = function (complete,total) {
+	                  that.processBar = complete/total*100;
+	                }
+	                  imgur.post( array_add , processBar , createPro ,array_remain );
+	            };
+	
+	            this.setCover = function (index) {
+	              this.pointer = index;
+	            }
+	
+	
+	        }] ,
+	        controllerAs : 'editAvatar'
+	      }
+	
+	      this.avatarEditor = function () {
+	        modalService.open(option);
+	      };
+	
+	
+	
+	
+	    }]);
 	})()
 
 
@@ -15884,6 +15991,7 @@
 	    .service('modalService',['$uibModal','$timeout',function ($uibModal,$timeout) {
 	           var modal = this;
 	           this.hasModalLogin = false;
+	
 	           this.open =function (option,closed) {
 	             switch (option.type) {
 	
@@ -15916,7 +16024,7 @@
 	
 	                //when type modal is signUp
 	               default:
-	                       var modalInstance = $uibModal.open(option).closed.then(function () {
+	                       $uibModal.open(option).closed.then(function () {
 	                         if(closed)
 	                             closed();
 	                       });
@@ -15953,7 +16061,9 @@
 	                     this.login = function () {
 	                       $http.post('/signin',modalLogin.user).then(
 	                         function success(response) {
-	                             $rootScope.user = response.data;
+	                              console.log('loginnnnn',response.data);
+	                             $rootScope.user = response.data.username;
+	                             $rootScope.avatarImage = response.data.avatarImage;
 	                             $uibModalInstance.close();
 	
 	                         },
@@ -16022,7 +16132,8 @@
 	
 	                if(response.data.username){
 	                  $rootScope.user = response.data.username;
-	                  defer.resolve(response.data.username);
+	                  $rootScope.avatarImage = response.data.avatarImage;
+	                  defer.resolve(response.data);
 	                } else {
 	                  defer.reject('user unlog-in');
 	                }
@@ -16036,6 +16147,74 @@
 	      }
 	
 	    }])
+	})()
+
+
+/***/ },
+/* 139 */
+/***/ function(module, exports) {
+
+	(function () {
+	  angular.module('main')
+	  .service('imgur',['$http',function ($http) {
+	    this.post = function (file ,processBar, callback ,array_remain) {
+	
+	      console.log(file);
+	
+	      var arrayData = [];
+	      if(!file[0]){
+	        return callback( arrayData , file , array_remain );
+	      }
+	      for(var i = 0 ; i < file.length ; i++){
+	
+	
+	      console.log(i,'i');
+	        //closure fn
+	      (function (index) {
+	        //due to title cannot set 0 that result = 'null', so it must i+1 (if i=0)
+	
+	        console.log(index,'index');
+	        var base64 = file[index].link;
+	        var arrayBase64 = base64.split(",");
+	        console.log(arrayBase64[0],arrayBase64.length);
+	
+	        var demo = {
+	            url: 'https://api.imgur.com/3/image',
+	            method: 'POST',
+	            headers: {
+	              Authorization: 'Client-ID 18f8382f95b805f',
+	              Accept: 'application/json'
+	            },
+	            data: {
+	              image: arrayBase64[1],
+	              type: 'base64',
+	              title: file[index].order,
+	              name : file[index].name
+	            }
+	
+	        };
+	
+	          $http(demo).then(function(response) {
+	              //success
+	
+	              arrayData.push(response.data.data);
+	              processBar(arrayData.length,file.length);
+	              if(arrayData.length === file.length){
+	                arrayData.sort(function(a, b){
+	                  return a.title-b.title});
+	                console.log(arrayData);
+	                return callback( arrayData , file , array_remain );
+	              }
+	          }, function(reject) {
+	            console.log('error',reject);
+	          });
+	
+	
+	})(i);
+	    }
+	    }
+	
+	  }])
 	})()
 
 

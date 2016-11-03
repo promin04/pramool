@@ -9,7 +9,8 @@
 
                 if(response.data.username){
                   $rootScope.user = response.data.username;
-                  defer.resolve(response.data.username);
+                  $rootScope.avatarImage = response.data.avatarImage;
+                  defer.resolve(response.data);
                 } else {
                   defer.reject('user unlog-in');
                 }

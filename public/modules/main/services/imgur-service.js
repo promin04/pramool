@@ -1,11 +1,14 @@
 (function () {
-  angular.module('addProduct')
+  angular.module('main')
   .service('imgur',['$http',function ($http) {
-    this.post = function (file ,processBar, callback) {
+    this.post = function (file ,processBar, callback ,array_remain) {
 
       console.log(file);
-      var arrayData = [];
 
+      var arrayData = [];
+      if(!file[0]){
+        return callback( arrayData , file , array_remain );
+      }
       for(var i = 0 ; i < file.length ; i++){
 
 
@@ -29,7 +32,8 @@
             data: {
               image: arrayBase64[1],
               type: 'base64',
-              title: file[index].order
+              title: file[index].order,
+              name : file[index].name
             }
 
         };
@@ -43,7 +47,7 @@
                 arrayData.sort(function(a, b){
                   return a.title-b.title});
                 console.log(arrayData);
-                callback(arrayData,file);
+                return callback( arrayData , file , array_remain );
               }
           }, function(reject) {
             console.log('error',reject);

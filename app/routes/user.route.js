@@ -13,4 +13,7 @@ module.exports = function (app) {
 
   app.route('/user')
     .get(user.username);
+    
+  app.route('/user-avatar-update')
+    .post(user.setAvatar);
 }

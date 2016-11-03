@@ -13,7 +13,6 @@ require("../../modules/header/header.js");
 require("../../modules/header/directives/scroll-directive.js");
 
 require("../../modules/addProduct/addProduct-app.js");
-require("../../modules/addProduct/services/imgur-service.js");
 require("../../modules/addProduct/directives/addProduct.js");
 require("../../modules/addProduct/directives/imageonload.js");
 
@@ -27,6 +26,8 @@ require("../../modules/store/store-completed.js");
 require("../../modules/dashboard/config/dashboard-config.js");
 require("../../modules/dashboard/services/followedProduct.js");
 require("../../modules/dashboard/services/deleteProduct.js");
+require("../../modules/dashboard/controllers/profile-controller.js");
+
 
 require("../../modules/timer/timer.js");
 require("../../modules/gallery/gallery.js");
@@ -36,3 +37,4 @@ require("../../modules/main/config/main-config.js");
 require("../../modules/main/services/modal-service.js");
 require("../../modules/main/services/modalAuth-service.js");
 require("../../modules/main/services/user-service.js");
+require("../../modules/main/services/imgur-service.js");

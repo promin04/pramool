@@ -1,0 +1,31 @@
+.modal-header
+    button.close(type='button', ng-click='$dismiss()', aria-label='Close')
+      span(aria-hidden='true') ×
+    .modal-title(ng-style='{"text-align":"center"}')
+      h3 Choose your Avatar image.
+.modal-body
+  .avatar-modal
+    form(name = 'myForm' ng-submit = 'editAvatar.combine( editAvatar.oldPic , editAvatar.picture )')
+      .row
+        .avatar-preview.col-md-4
+          img.avatar(ng-src='{{editAvatar.picture[editAvatar.pointer].link || "http://www.premiumdxb.com/assets/img/avatar/default-avatar.jpg"}}')
+        .avatar-select.col-md-6
+          .inputfile-btn.btn.btn-primary.col-md-8.btn-lg.col-md-offset-2
+            span
+              span.glyphicon.glyphicon-plus
+              |Browse file
+            input.inputfile-upload(type ='file' , ngf-select="editAvatar.prepare(editAvatar.picFile)" , ng-model="editAvatar.picFile", accept="image/*" , multiple="true" , ngf-max-size="1MB" , ngf-max-files="4")
+      .row
+        .avatar-storage.form-img-space
+            .form-img(ng-show='editAvatar.picture[0]', class='{{ ($index === editAvatar.pointer) ? "cover" : "" }}' , ng-repeat='one in editAvatar.picture')
+
+              //image-Onload that detect width and height then return
+              img(ng-src='{{one.link}}', image-Onload='' , picture ='editAvatar.picture' , index = '{{$index}}' )
+              .form-img-cover(  ng-click = "editAvatar.setCover($index)" )
+                span.glyphicon.glyphicon-picture
+              .form-img-remove( ng-click = "editAvatar.picRemove($index)" )
+                span.glyphicon.glyphicon-remove( ng-style = "{'color' : 'red'}" )
+      input.btn-primary.btn.btn-lg.btn-block(type='submit' value='Save' ng-hide="editAvatar.state==10")
+      .progress(ng-show="editAvatar.state==10")
+        .progress-bar.progress-bar-success(role='progressbar', aria-valuenow='{{editAvatar.processBar}}', aria-valuemin='0', aria-valuemax='100', style='width:{{editAvatar.processBar}}%')
+          | {{editAvatar.processBar}}%
