@@ -13,7 +13,8 @@ var ProductSchema = new Schema({
       name : String,
       price : Number,
       time : Object
-    }]
+    }],
+    comment_id: String
 });
 
 mongoose.model('Product',ProductSchema);

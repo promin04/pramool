@@ -10,7 +10,8 @@ var UserSchema = new Schema({
                unique: true,
                trim: true,
                unique: true,
-               required: true
+               required: true,
+               index:true
    },
   avatarImage : {
     img: Array,

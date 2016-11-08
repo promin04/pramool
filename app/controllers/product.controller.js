@@ -29,7 +29,8 @@ module.exports = {
             name : req.user.username,
             price : req.body.price,
             time : moment()
-          }]
+          }],
+          comment_id : req.comment._id
         }
 
         var product = new Product(add);

@@ -1,5 +1,5 @@
 (function () {
-    angular.module('store',['timer','gallery','addProduct'])
+    angular.module('store',['timer','gallery','addProduct','comment'])
       .config(['$stateProvider','$urlRouterProvider',function ($stateProvider,$urlRouterProvider) {
 
           $stateProvider
@@ -33,6 +33,8 @@
                 'main': {
                   templateUrl: './modules/store/views/store-product-main.jade',
                   controller: ['product',function (product) {
+                    this.comment_id = product.comment_id;
+                    this.product_id = product._id ;
                     this.picture = product.img.reduce(function(total, value, i) {
                           total[i] = value;
                           return total;
@@ -48,7 +50,7 @@
                   controller: ['product','$http','$stateParams','$scope','$rootScope','modalAuthService','following','$timeout',
                   function (product,$http,$stateParams,$scope,$rootScope,modalAuthService,following,$timeout) {
                     var that = this;
-                    this._id = product._id
+                    this._id = product._id ;
                     this.name = product.name;
                     this.description ='i m  hero.';
                     this.bidEnd = product.bidEnd;

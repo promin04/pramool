@@ -103,23 +103,28 @@
 	__webpack_require__(124);
 	__webpack_require__(125);
 	__webpack_require__(126);
-	__webpack_require__(127);
 	
+	__webpack_require__(127);
 	__webpack_require__(128);
 	__webpack_require__(129);
 	__webpack_require__(130);
 	__webpack_require__(131);
-	
-	
 	__webpack_require__(132);
-	__webpack_require__(133);
 	
+	__webpack_require__(133);
 	__webpack_require__(134);
 	__webpack_require__(135);
 	__webpack_require__(136);
+	
 	__webpack_require__(137);
 	__webpack_require__(138);
+	
 	__webpack_require__(139);
+	__webpack_require__(140);
+	__webpack_require__(141);
+	__webpack_require__(142);
+	__webpack_require__(143);
+	__webpack_require__(144);
 
 
 /***/ },
@@ -14951,7 +14956,177 @@
 /***/ function(module, exports) {
 
 	(function () {
-	    angular.module('store',['timer','gallery','addProduct'])
+	  angular.module('comment',[])
+	    .directive('commentBoard',function () {
+	      var link = function (scope ,element , attrs) {
+	
+	      }
+	
+	      return {
+	        restrict : 'A' ,
+	        scope : { pro : '@' , com : '@' },
+	        templateUrl : './modules/comment/views/comment.jade',
+	        controller : 'commentController' ,
+	        controllerAs : 'comment' ,
+	        link : link
+	      }
+	    });
+	
+	})()
+
+
+/***/ },
+/* 123 */
+/***/ function(module, exports) {
+
+	(function () {
+	  angular.module('comment')
+	    .directive('contenteditable', ['$sce', function($sce) {
+	  return {
+	    restrict: 'A', // only activate on element attribute
+	    require: '?ngModel', // get a hold of NgModelController
+	    link: function(scope, element, attrs, ngModel) {
+	      if (!ngModel) return; // do nothing if no ng-model
+	
+	      // Specify how UI should be updated
+	      ngModel.$render = function() {
+	        element.html($sce.getTrustedHtml(ngModel.$viewValue || ''));
+	      };
+	
+	      // Listen for change events to enable binding
+	      element.on('blur keyup change', function() {
+	        scope.$evalAsync(read);
+	      });
+	      read(); // initialize
+	
+	      // Write data to the model
+	      function read() {
+	        var html = element.html();
+	        // When we clear the content editable the browser leaves a <br> behind
+	        // If strip-br attribute is provided then we strip this out
+	        if ( attrs.stripBr && html == '<br>' ) {
+	          html = '';
+	        }
+	        ngModel.$setViewValue(html);
+	      }
+	    }
+	  };
+	}]);
+	})()
+
+
+/***/ },
+/* 124 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function($) {(function () {
+	  angular.module('comment')
+	    .controller( 'commentController' , [ '$http' , '$scope' , '$compile' , function ( $http , $scope , $compile ) {
+	      var that = this ;
+	      this.all_comment = [];
+	      this.state_clicked = true;
+	
+	      this.clicked = function () {
+	        this.state_clicked = false;
+	      };
+	
+	      this.postComment = function () {
+	          var message = {
+	            message : $scope.message,
+	            mode : 'new',
+	            product_id : $scope.pro
+	          };
+	        $http.post('/comment/'+$scope.com , message); //responce by io.emit from server
+	      };
+	
+	      this.trigger_comment = function () {
+	          console.log($scope.com ,'commnet id');
+	          socket.on( 'comment' , function ( comment ) {
+	            console.log(comment,'comment');
+	            that.all_comment.push(comment);
+	          });
+	        $http.get( '/comment/' + $scope.com ).then(function (res) {
+	          that.all_comment = res.data.comment ;
+	          console.log(res.data ,'commnet');
+	        });
+	      };
+	
+	
+	      this.answer = function (index) {
+	        console.log('work');
+	        var select = '.no-' + index;
+	        var element = $compile('<div comment-answer id="'+that.all_comment[index]._id +'"></div>')( $scope );
+	          $( select ).append( element );
+	      };
+	
+	      this.trigger_comment(); // initial
+	
+	      $scope.$on('$destroy', function (event) {
+	        console.log('destroy comment');
+	          socket.removeListener('comment');
+	      });
+	    }]);
+	})()
+	
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(110)))
+
+/***/ },
+/* 125 */
+/***/ function(module, exports) {
+
+	(function () {
+	  angular.module( 'comment' )
+	    .directive( 'commentAnswer' , function () {
+	      var link = function ( scope , element , attr , ctrl ) {
+	        ctrl.close = function () {
+	          element.remove();
+	        };
+	      }
+	      return {
+	        restrict : 'A' ,
+	        scope : { id : '@'  },
+	        templateUrl : './modules/comment/views/answer.jade',
+	        controller : 'answerController',
+	        controllerAs : 'answer',
+	        link : link
+	      };
+	    });
+	})()
+
+
+/***/ },
+/* 126 */
+/***/ function(module, exports) {
+
+	(function () {
+	  angular.module('comment')
+	    .controller( 'answerController' , [ '$http' , '$scope' , function ($http , $scope) {
+	
+	      this.ansComment = function () {
+	      console.log('33333333333');
+	
+	                  var message = {
+	                    _id : $scope.id,
+	                    message : $scope.message,
+	                    mode : 'answer',
+	                    product_id : $scope.$parent.pro
+	                  };
+	
+	        $http.post('/comment/'+$scope.$parent.com , message); //responce by io.emit from server
+	      };
+	      $scope.$on('$destroy' , function () {
+	        console.log('55555+');
+	      })
+	    }] );
+	})()
+
+
+/***/ },
+/* 127 */
+/***/ function(module, exports) {
+
+	(function () {
+	    angular.module('store',['timer','gallery','addProduct','comment'])
 	      .config(['$stateProvider','$urlRouterProvider',function ($stateProvider,$urlRouterProvider) {
 	
 	          $stateProvider
@@ -14985,6 +15160,8 @@
 	                'main': {
 	                  templateUrl: './modules/store/views/store-product-main.jade',
 	                  controller: ['product',function (product) {
+	                    this.comment_id = product.comment_id;
+	                    this.product_id = product._id ;
 	                    this.picture = product.img.reduce(function(total, value, i) {
 	                          total[i] = value;
 	                          return total;
@@ -15000,7 +15177,7 @@
 	                  controller: ['product','$http','$stateParams','$scope','$rootScope','modalAuthService','following','$timeout',
 	                  function (product,$http,$stateParams,$scope,$rootScope,modalAuthService,following,$timeout) {
 	                    var that = this;
-	                    this._id = product._id
+	                    this._id = product._id ;
 	                    this.name = product.name;
 	                    this.description ='i m  hero.';
 	                    this.bidEnd = product.bidEnd;
@@ -15120,7 +15297,7 @@
 
 
 /***/ },
-/* 123 */
+/* 128 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -15181,7 +15358,7 @@
 
 
 /***/ },
-/* 124 */
+/* 129 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -15235,7 +15412,7 @@
 
 
 /***/ },
-/* 125 */
+/* 130 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -15257,7 +15434,7 @@
 
 
 /***/ },
-/* 126 */
+/* 131 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {(function () {
@@ -15371,7 +15548,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(110)))
 
 /***/ },
-/* 127 */
+/* 132 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {(function () {
@@ -15429,7 +15606,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(110)))
 
 /***/ },
-/* 128 */
+/* 133 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {(function () {
@@ -15568,7 +15745,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(110)))
 
 /***/ },
-/* 129 */
+/* 134 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -15586,7 +15763,7 @@
 
 
 /***/ },
-/* 130 */
+/* 135 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -15634,7 +15811,7 @@
 
 
 /***/ },
-/* 131 */
+/* 136 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -15705,7 +15882,11 @@
 	              for (var i = 0; i < array_remove.length; i++) {
 	                (function () {
 	                  route = 'https://api.imgur.com/3/image/' + array_remove[i].deletehash;
-	                  $http.delete(route).then(function (res) {
+	                  $http.delete( route ,{
+	                            headers: {
+	                              Authorization: 'Client-ID 18f8382f95b805f',
+	                            }
+	                  }).then(function (res) {
 	                    console.log('delete ' + i);
 	                  });
 	                })(i)
@@ -15799,7 +15980,7 @@
 
 
 /***/ },
-/* 132 */
+/* 137 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(moment) {(function () {
@@ -15858,7 +16039,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
 
 /***/ },
-/* 133 */
+/* 138 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -15957,7 +16138,7 @@
 
 
 /***/ },
-/* 134 */
+/* 139 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -15968,7 +16149,7 @@
 
 
 /***/ },
-/* 135 */
+/* 140 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -15983,7 +16164,7 @@
 
 
 /***/ },
-/* 136 */
+/* 141 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -16041,7 +16222,7 @@
 
 
 /***/ },
-/* 137 */
+/* 142 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -16118,7 +16299,7 @@
 
 
 /***/ },
-/* 138 */
+/* 143 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -16151,7 +16332,7 @@
 
 
 /***/ },
-/* 139 */
+/* 144 */
 /***/ function(module, exports) {
 
 	(function () {

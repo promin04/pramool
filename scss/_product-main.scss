@@ -5,9 +5,12 @@
   position: relative;
   margin: auto;
   background-color: black;
-
+  margin-bottom: 20px;
 }
 
+.main-gallery {
+  padding-bottom: 200px;
+}
 /* Next & previous buttons */
 .prev, .next {
   cursor: pointer;

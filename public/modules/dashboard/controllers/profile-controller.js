@@ -66,7 +66,11 @@
               for (var i = 0; i < array_remove.length; i++) {
                 (function () {
                   route = 'https://api.imgur.com/3/image/' + array_remove[i].deletehash;
-                  $http.delete(route).then(function (res) {
+                  $http.delete( route ,{
+                            headers: {
+                              Authorization: 'Client-ID 18f8382f95b805f',
+                            }
+                  }).then(function (res) {
                     console.log('delete ' + i);
                   });
                 })(i)

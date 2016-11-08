@@ -39,6 +39,7 @@ module.exports = function (express,app,io) {
     require('../app/routes/product.route.js')(app);
     require('../app/routes/following.route.js')(app);
     require('../app/routes/user.route.js')(app);
+    require('../app/routes/comment.route.js')(app);
     //set static flies
     app.use(express.static('./public'));
 

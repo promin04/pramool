@@ -16,6 +16,12 @@ require("../../modules/addProduct/addProduct-app.js");
 require("../../modules/addProduct/directives/addProduct.js");
 require("../../modules/addProduct/directives/imageonload.js");
 
+require("../../modules/comment/directives/comment-directive.js");
+require("../../modules/comment/directives/contenteditable-directive.js");
+require("../../modules/comment/controllers/comment-controller.js");
+require("../../modules/comment/directives/answer-directive.js");
+require("../../modules/comment/controllers/answer-controller.js");
+
 require("../../modules/store/config/store-config.js");
 require("../../modules/store/config/store-config-run.js");
 require("../../modules/store/services/following.js");
@@ -27,7 +33,6 @@ require("../../modules/dashboard/config/dashboard-config.js");
 require("../../modules/dashboard/services/followedProduct.js");
 require("../../modules/dashboard/services/deleteProduct.js");
 require("../../modules/dashboard/controllers/profile-controller.js");
-
 
 require("../../modules/timer/timer.js");
 require("../../modules/gallery/gallery.js");

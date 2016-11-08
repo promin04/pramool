@@ -1,0 +1,29 @@
+
+.comment-post
+  .comment-title Comment
+  .comment-avatar
+    img( ng-src = 'http://www.premiumdxb.com/assets/img/avatar/default-avatar.jpg' )
+  form.comment-form( name = 'commentForm' ng-submit='comment.postComment()' ng-click = 'comment.clicked()' )
+    .comment-box( name = 'postBox' contenteditable = '' ng-model='message' strip-br="true" ng-class = '{unclicked : comment.state_clicked}')
+    .comment-submit(ng-show = '!comment.state_clicked')
+      input.btn.btn-primary( type='submit' value='Comment' )
+.comment-each( ng-repeat = 'each in comment.all_comment' )
+  .comment-avatar
+    img( ng-src = 'http://www.premiumdxb.com/assets/img/avatar/default-avatar.jpg' )
+  .comment-content(class = 'no-{{$index}}')
+    span.comment-username
+      |{{each.username}}
+    .comment-message
+      |{{each.message}}
+    .comment-answer(ng-click = 'comment.answer($index)')
+      |Answer
+    .comment-answered( ng-repeat = 'eachAns in comment.all_comment[$index].answer')
+        .comment-avatar
+          img( ng-src = 'http://www.premiumdxb.com/assets/img/avatar/default-avatar.jpg' )
+        .comment-content
+          span.comment-username
+            |{{eachAns.username}}
+          .comment-message
+            |{{eachAns.message}}
+          .comment-answer(ng-click = 'comment.answer($parent.$index)')
+            |Answer

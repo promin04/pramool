@@ -6,6 +6,6 @@
 
   a.prev(ng-click='plusSlides(-1)') ❮
   a.next(ng-click='plusSlides(1)') ❯
-br
+  
 div(style='text-align:center')
   img.dot(ng-src='{{value2.link}}',style='width:25%',height='auto' , ng-click='currentSlide(value2.order-1)' , ng-repeat='(key2,value2) in pic')
