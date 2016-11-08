@@ -1,6 +1,6 @@
 (function () {
   angular.module('comment')
-    .controller( 'commentController' , [ '$http' , '$scope' , '$compile' , function ( $http , $scope , $compile ) {
+    .controller( 'commentController' , [ '$http' , '$scope' , '$compile'  , function ( $http , $scope , $compile ) {
       var that = this ;
       this.all_comment = [];
       this.state_clicked = true;
@@ -44,5 +44,6 @@
         console.log('destroy comment');
           socket.removeListener('comment');
       });
+
     }]);
 })()

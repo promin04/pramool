@@ -1,8 +1,14 @@
 (function () {
   angular.module('comment',[])
-    .directive('commentBoard',function () {
+    .directive('commentBoard',function ($timeout) {
       var link = function (scope , element , attrs) {
-    
+
+        $timeout(function () {
+
+          console.log($('.comment-each').height());
+          console.log(element.height());
+        }, 10);
+
       }
 
       return {

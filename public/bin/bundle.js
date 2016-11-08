@@ -103,28 +103,29 @@
 	__webpack_require__(124);
 	__webpack_require__(125);
 	__webpack_require__(126);
-	
 	__webpack_require__(127);
+	
 	__webpack_require__(128);
 	__webpack_require__(129);
 	__webpack_require__(130);
 	__webpack_require__(131);
 	__webpack_require__(132);
-	
 	__webpack_require__(133);
+	
 	__webpack_require__(134);
 	__webpack_require__(135);
 	__webpack_require__(136);
-	
 	__webpack_require__(137);
-	__webpack_require__(138);
 	
+	__webpack_require__(138);
 	__webpack_require__(139);
+	
 	__webpack_require__(140);
 	__webpack_require__(141);
 	__webpack_require__(142);
 	__webpack_require__(143);
 	__webpack_require__(144);
+	__webpack_require__(145);
 
 
 /***/ },
@@ -14953,12 +14954,18 @@
 
 /***/ },
 /* 122 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
-	(function () {
+	/* WEBPACK VAR INJECTION */(function($) {(function () {
 	  angular.module('comment',[])
-	    .directive('commentBoard',function () {
-	      var link = function (scope ,element , attrs) {
+	    .directive('commentBoard',function ($timeout) {
+	      var link = function (scope , element , attrs) {
+	
+	        $timeout(function () {
+	
+	          console.log($('.comment-each').height());
+	          console.log(element.height());
+	        }, 10);
 	
 	      }
 	
@@ -14973,7 +14980,8 @@
 	    });
 	
 	})()
-
+	
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(110)))
 
 /***/ },
 /* 123 */
@@ -15017,11 +15025,37 @@
 
 /***/ },
 /* 124 */
+/***/ function(module, exports) {
+
+	(function () {
+	  angular.module('comment')
+	    .directive('commentHeight' , [ '$timeout' , function ( $timeout ) {
+	      var link = function (scope , element , attrs) {
+	
+	        $timeout(function () {
+	
+	          var hi = element.find('.comment-content').height();
+	          element.height(hi);
+	          console.log(element , element.height() , hi);
+	        }, 10);
+	
+	      }
+	      return {
+	        restrict : 'A' ,
+	        link:link
+	      };
+	    }]
+	  )
+	})()
+
+
+/***/ },
+/* 125 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {(function () {
 	  angular.module('comment')
-	    .controller( 'commentController' , [ '$http' , '$scope' , '$compile' , function ( $http , $scope , $compile ) {
+	    .controller( 'commentController' , [ '$http' , '$scope' , '$compile'  , function ( $http , $scope , $compile ) {
 	      var that = this ;
 	      this.all_comment = [];
 	      this.state_clicked = true;
@@ -15065,13 +15099,14 @@
 	        console.log('destroy comment');
 	          socket.removeListener('comment');
 	      });
+	
 	    }]);
 	})()
 	
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(110)))
 
 /***/ },
-/* 125 */
+/* 126 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -15095,7 +15130,7 @@
 
 
 /***/ },
-/* 126 */
+/* 127 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -15103,7 +15138,6 @@
 	    .controller( 'answerController' , [ '$http' , '$scope' , function ($http , $scope) {
 	
 	      this.ansComment = function () {
-	      console.log('33333333333');
 	
 	                  var message = {
 	                    _id : $scope.id,
@@ -15114,15 +15148,13 @@
 	
 	        $http.post('/comment/'+$scope.$parent.com , message); //responce by io.emit from server
 	      };
-	      $scope.$on('$destroy' , function () {
-	        console.log('55555+');
-	      })
+	
 	    }] );
 	})()
 
 
 /***/ },
-/* 127 */
+/* 128 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -15297,7 +15329,7 @@
 
 
 /***/ },
-/* 128 */
+/* 129 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -15358,7 +15390,7 @@
 
 
 /***/ },
-/* 129 */
+/* 130 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -15412,7 +15444,7 @@
 
 
 /***/ },
-/* 130 */
+/* 131 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -15434,7 +15466,7 @@
 
 
 /***/ },
-/* 131 */
+/* 132 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {(function () {
@@ -15548,7 +15580,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(110)))
 
 /***/ },
-/* 132 */
+/* 133 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {(function () {
@@ -15606,7 +15638,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(110)))
 
 /***/ },
-/* 133 */
+/* 134 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {(function () {
@@ -15745,7 +15777,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(110)))
 
 /***/ },
-/* 134 */
+/* 135 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -15763,7 +15795,7 @@
 
 
 /***/ },
-/* 135 */
+/* 136 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -15811,7 +15843,7 @@
 
 
 /***/ },
-/* 136 */
+/* 137 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -15980,7 +16012,7 @@
 
 
 /***/ },
-/* 137 */
+/* 138 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(moment) {(function () {
@@ -16039,7 +16071,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
 
 /***/ },
-/* 138 */
+/* 139 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -16138,7 +16170,7 @@
 
 
 /***/ },
-/* 139 */
+/* 140 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -16149,7 +16181,7 @@
 
 
 /***/ },
-/* 140 */
+/* 141 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -16164,7 +16196,7 @@
 
 
 /***/ },
-/* 141 */
+/* 142 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -16222,7 +16254,7 @@
 
 
 /***/ },
-/* 142 */
+/* 143 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -16299,7 +16331,7 @@
 
 
 /***/ },
-/* 143 */
+/* 144 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -16332,7 +16364,7 @@
 
 
 /***/ },
-/* 144 */
+/* 145 */
 /***/ function(module, exports) {
 
 	(function () {

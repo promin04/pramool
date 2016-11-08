@@ -22,10 +22,15 @@ module.exports = {
                    };
            var option = {
                       new : true ,
-                      fields : {
-                                 'comment.answer' : {$slice : -1} ,
+                      fields : {  comment : { $elemMatch : { 'comment._id' : req.body._id } },
+                                 'comment.answer' : {$slice : -1}
                                }
                     };
+            Comment.findOneAndUpdate( condition , update , option , function (err,data) {
+              console.log(data,'comment');
+              req.io.to(req.body.product_id).emit('comment',data.comment[0]);
+              return res.end();
+            });
           break;
         case 'new':
         console.log('new');
@@ -44,16 +49,18 @@ module.exports = {
                                  comment : {$slice : -1}
                                }
                     };
+
+            Comment.findOneAndUpdate( condition , update , option , function (err,data) {
+              console.log(data,'comment');
+              req.io.to(req.body.product_id).emit('comment',data.comment[0]);
+              return res.end();
+            });
           break;
         default:
 
       }
 
-      Comment.findOneAndUpdate( condition , update , option , function (err,data) {
-        console.log(data,'comment');
-        req.io.to(req.body.product_id).emit('comment',data.comment[0]);
-        return res.end();
-      });
+
     },
     create : function (req , res , next) {
       var add = {

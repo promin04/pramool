@@ -18,6 +18,7 @@ require("../../modules/addProduct/directives/imageonload.js");
 
 require("../../modules/comment/directives/comment-directive.js");
 require("../../modules/comment/directives/contenteditable-directive.js");
+require("../../modules/comment/directives/heigthFix-directive.js");
 require("../../modules/comment/controllers/comment-controller.js");
 require("../../modules/comment/directives/answer-directive.js");
 require("../../modules/comment/controllers/answer-controller.js");
