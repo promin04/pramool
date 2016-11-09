@@ -1,7 +1,10 @@
 (function () {
   angular.module( 'comment' )
-    .directive( 'commentAnswer' , function () {
+    .directive( 'commentAnswer' , ['$location', '$anchorScroll',function ($location , $anchorScroll) {
       var link = function ( scope , element , attr , ctrl ) {
+        element.find('.comment-box').focus();
+        $location.hash('comment-focus');
+        $anchorScroll();
         ctrl.close = function () {
           element.remove();
         };
@@ -14,5 +17,8 @@
         controllerAs : 'answer',
         link : link
       };
-    });
+    }])
+    .run(['$anchorScroll', function($anchorScroll) {
+  $anchorScroll.yOffset = 280;   // always scroll by 280 extra pixels
+}]);
 })()

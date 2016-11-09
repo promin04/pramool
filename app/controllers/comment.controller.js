@@ -22,13 +22,20 @@ module.exports = {
                    };
            var option = {
                       new : true ,
-                      fields : {  comment : { $elemMatch : { 'comment._id' : req.body._id } },
-                                 'comment.answer' : {$slice : -1}
+                      fields : {  comment :
+                                            {
+                                              $elemMatch : { _id : req.body._id }
+                                            }
                                }
                     };
             Comment.findOneAndUpdate( condition , update , option , function (err,data) {
               console.log(data,'comment');
-              req.io.to(req.body.product_id).emit('comment',data.comment[0]);
+              var result = {
+                _id : req.body._id,
+                data : data.comment[0].answer.pop(),
+                mode : 'answer'
+              };
+              req.io.to(req.body.product_id).emit('comment',result);
               return res.end();
             });
           break;
@@ -52,7 +59,11 @@ module.exports = {
 
             Comment.findOneAndUpdate( condition , update , option , function (err,data) {
               console.log(data,'comment');
-              req.io.to(req.body.product_id).emit('comment',data.comment[0]);
+              var result = {
+                data : data.comment[0],
+                mode : 'new'
+              };
+              req.io.to(req.body.product_id).emit('comment',result);
               return res.end();
             });
           break;

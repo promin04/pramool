@@ -14954,18 +14954,14 @@
 
 /***/ },
 /* 122 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ function(module, exports) {
 
-	/* WEBPACK VAR INJECTION */(function($) {(function () {
+	(function () {
 	  angular.module('comment',[])
 	    .directive('commentBoard',function ($timeout) {
-	      var link = function (scope , element , attrs) {
+	      var link = function (scope , element , attr , ctrl) {
 	
-	        $timeout(function () {
-	
-	          console.log($('.comment-each').height());
-	          console.log(element.height());
-	        }, 10);
+	  
 	
 	      }
 	
@@ -14980,8 +14976,7 @@
 	    });
 	
 	})()
-	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(110)))
+
 
 /***/ },
 /* 123 */
@@ -15033,10 +15028,12 @@
 	      var link = function (scope , element , attrs) {
 	
 	        $timeout(function () {
-	
 	          var hi = element.find('.comment-content').height();
-	          element.height(hi);
-	          console.log(element , element.height() , hi);
+	          if (hi) {
+	            element.height(hi);
+	          }
+	
+	        //  console.log(element , element.height() , hi);
 	        }, 10);
 	
 	      }
@@ -15055,11 +15052,11 @@
 
 	/* WEBPACK VAR INJECTION */(function($) {(function () {
 	  angular.module('comment')
-	    .controller( 'commentController' , [ '$http' , '$scope' , '$compile'  , function ( $http , $scope , $compile ) {
+	    .controller( 'commentController' , [ '$http' , '$scope' , '$compile' , '$timeout' , function ( $http , $scope , $compile , $timeout ) {
 	      var that = this ;
 	      this.all_comment = [];
 	      this.state_clicked = true;
-	
+	      this.state_answer_open = false;
 	      this.clicked = function () {
 	        this.state_clicked = false;
 	      };
@@ -15076,8 +15073,26 @@
 	      this.trigger_comment = function () {
 	          console.log($scope.com ,'commnet id');
 	          socket.on( 'comment' , function ( comment ) {
+	            switch (comment.mode) {
+	
+	              case 'new':
+	                    that.all_comment.push(comment.data);
+	                break;
+	
+	              case 'answer':
+	                    for (var i = 0; i < that.all_comment.length; i++) {
+	                      if(  that.all_comment[i]._id == comment._id ){
+	                        that.all_comment[i].answer.push( comment.data );
+	                      }
+	                    }
+	                break;
+	
+	              default:
+	                      that.all_comment.push(comment.data);
+	                break;
+	            }
 	            console.log(comment,'comment');
-	            that.all_comment.push(comment);
+	
 	          });
 	        $http.get( '/comment/' + $scope.com ).then(function (res) {
 	          that.all_comment = res.data.comment ;
@@ -15087,10 +15102,16 @@
 	
 	
 	      this.answer = function (index) {
-	        console.log('work');
-	        var select = '.no-' + index;
-	        var element = $compile('<div comment-answer id="'+that.all_comment[index]._id +'"></div>')( $scope );
-	          $( select ).append( element );
+	
+	          $timeout(function () {
+	              var close = $('.comment-close');
+	              close.click();
+	              var select = '.no-' + index;
+	              var element = $compile('<div comment-answer id="'+that.all_comment[index]._id +'"></div>')( $scope );
+	                $( select ).append( element );
+	
+	          }, 0);
+	
 	      };
 	
 	      this.trigger_comment(); // initial
@@ -15111,8 +15132,11 @@
 
 	(function () {
 	  angular.module( 'comment' )
-	    .directive( 'commentAnswer' , function () {
+	    .directive( 'commentAnswer' , ['$location', '$anchorScroll',function ($location , $anchorScroll) {
 	      var link = function ( scope , element , attr , ctrl ) {
+	        element.find('.comment-box').focus();
+	        $location.hash('comment-focus');
+	        $anchorScroll();
 	        ctrl.close = function () {
 	          element.remove();
 	        };
@@ -15125,7 +15149,10 @@
 	        controllerAs : 'answer',
 	        link : link
 	      };
-	    });
+	    }])
+	    .run(['$anchorScroll', function($anchorScroll) {
+	  $anchorScroll.yOffset = 280;   // always scroll by 280 extra pixels
+	}]);
 	})()
 
 

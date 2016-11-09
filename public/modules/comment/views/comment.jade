@@ -1,9 +1,8 @@
-
-.comment-post
-  .comment-title Comment
+.comment-title Comment
+.comment-post(comment-height='')
   .comment-avatar
     img( ng-src = 'http://www.premiumdxb.com/assets/img/avatar/default-avatar.jpg' )
-  form.comment-form( name = 'commentForm' ng-submit='comment.postComment()' ng-click = 'comment.clicked()' )
+  form.comment-form.comment-content( name = 'commentForm' ng-submit='comment.postComment()' ng-click = 'comment.clicked()' )
     .comment-box( name = 'postBox' contenteditable = '' ng-model='message' strip-br="true" ng-class = '{unclicked : comment.state_clicked}')
     .comment-submit(ng-show = '!comment.state_clicked')
       input.btn.btn-primary( type='submit' value='Comment' )

@@ -2,7 +2,7 @@
   .comment-avatar
     img( ng-src = 'http://www.premiumdxb.com/assets/img/avatar/default-avatar.jpg' )
   form.comment-form( name = 'commentForm' ng-submit='answer.ansComment("answer")' ng-click = '' )
-    .comment-box( name = 'postBox' contenteditable = '' ng-model='message' strip-br="true" )
+    .comment-box#comment-focus( name = 'postBox' contenteditable = '' ng-model='message' strip-br="true" )
     .comment-submit
-      buttom.btn(ng-click = 'answer.close()') Cancel
+      buttom.btn.btn-default.comment-close(ng-click = 'answer.close()') Cancel
       input.btn.btn-primary( type='submit' value='Comment' )
