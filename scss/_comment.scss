@@ -4,7 +4,7 @@
 }
 
 .comment-post {
-  
+
 }
 
 .comment-username {
@@ -13,23 +13,35 @@
 }
 
   .comment-avatar {
-    width: 80px;
-    height: 80px;
+    width: 55px;
+    height: 55px;
     float: left;
     img {
-      width: 66px;
-      height: 66px;
+      width: 55px;
+      height: 55px;
+      border-radius: 10px;
     }
   }
 
-  .comment-form , .comment-content {
+  .comment-board {
+    border: 0.6px solid $grey;
+    padding: 16px;
+    background-color: #fff;
+  }
+
+  .comment-form {
     float: left;
   }
 
+  .comment-content {
+    float: left;
+    padding-left: 15px;
+
+  }
   .comment-box {
-    width: 400px;
+    width: 350px;
     margin-bottom: 20px;
-    border: 0.5px solid $lightgary;
+    border: 0.5px solid $grey;
     min-height: 66px;
   }
 
@@ -59,5 +71,7 @@ cursor: pointer;
 
 .comment-answered {
   display: block;
+  padding-left: 10px;
   margin-bottom: 10px;
+  border-left: 2px solid $lightgary;
 }

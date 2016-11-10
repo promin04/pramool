@@ -9,7 +9,7 @@
             var order = 1;
             this.oldPic = angular.copy($scope.avatarImage.img);
             this.picture = angular.copy($scope.avatarImage.img);
-            this.pointer = angular.copy($scope.avatarImage.pointer);
+            this.pointer = angular.copy($scope.avatarImage.pointer)||'0';
             this.processBar = 0;
 
 
@@ -47,7 +47,7 @@
               this.picture.splice(index,1);
               if(index < this.pointer){
                 this.pointer -= 1;
-              } else if (index === this.pointer && !this.picture[index+1]) {
+              } else if (index === this.pointer && !this.picture[index+1] && this.picture[index-1]) {
                   this.pointer -= 1;
                 }
 

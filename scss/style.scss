@@ -12,23 +12,27 @@
 @import 'form-validation';
 @import 'comment';
 html {
-background-color: #f9f9f9;
 height:100%;
 width:100%;
 }
 
 body {
-background-color: #f9f9f9 !important;
+height: 100%;
+background-color: #f0f0f0 !important;
+
 }
 
 .row {
+  padding-top: 30px;
   margin: 0px !important;
+
 }
 
 .box {
-  padding-top: 30px;
+
   display: block;
   width: 100%;
+  height: 100%;
   margin: auto;
 }
 .no-animate {

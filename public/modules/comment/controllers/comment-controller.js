@@ -1,7 +1,8 @@
 (function () {
   angular.module('comment')
-    .controller( 'commentController' , [ '$http' , '$scope' , '$compile' , '$timeout' , function ( $http , $scope , $compile , $timeout ) {
+    .controller( 'commentController' , [ '$http' , '$scope' , '$compile' , '$timeout' , '$rootScope', function ( $http , $scope , $compile , $timeout , $rootScope) {
       var that = this ;
+      this.post_avatar =  $rootScope.avatarImage ? $rootScope.avatarImage.img[$rootScope.avatarImage.pointer].link : "http://www.premiumdxb.com/assets/img/avatar/default-avatar.jpg";
       this.all_comment = [];
       this.state_clicked = true;
       this.state_answer_open = false;
@@ -10,8 +11,13 @@
       };
 
       this.postComment = function () {
+        var message = $scope.message
+        .replace( '<div><br></div>' , '<br />&nbsp;' )
+        .replace( '<div>' , '<br />&nbsp;' )
+        .replace( '</div>' , '' );
+        console.log('message goo' , message);
           var message = {
-            message : $scope.message,
+            message : message,
             mode : 'new',
             product_id : $scope.pro
           };
@@ -54,8 +60,9 @@
           $timeout(function () {
               var close = $('.comment-close');
               close.click();
-              var select = '.no-' + index;
-              var element = $compile('<div comment-answer id="'+that.all_comment[index]._id +'"></div>')( $scope );
+              var select = '.comment-content.no-' + index;
+
+              var element = $compile(`<div comment-answer no = "${index}" id = "${that.all_comment[index]._id}" ></div>`)( $scope );
                 $( select ).append( element );
 
           }, 0);
@@ -64,9 +71,19 @@
 
       this.trigger_comment(); // initial
 
+      var clearWatchAvatar = $rootScope.$watch('avatarImage',function (newValue, oldValue) {
+        that.post_avatar = $rootScope.avatarImage ? $rootScope.avatarImage.img[$rootScope.avatarImage.pointer].link : "http://www.premiumdxb.com/assets/img/avatar/default-avatar.jpg";
+                      });
+
       $scope.$on('$destroy', function (event) {
         console.log('destroy comment');
+          clearWatchAvatar();
           socket.removeListener('comment');
+      });
+
+      $scope.$on('$digest', function (event) {
+        console.log('$digest comment');
+
       });
 
     }]);

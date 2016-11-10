@@ -1,9 +1,9 @@
 (function () {
-  angular.module('comment',[])
+  angular.module('comment',['ngSanitize'])
     .directive('commentBoard',function ($timeout) {
       var link = function (scope , element , attr , ctrl) {
 
-  
+
 
       }
 

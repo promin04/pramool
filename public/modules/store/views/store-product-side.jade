@@ -17,9 +17,9 @@
   form(name = 'add' , ng-submit='product.offer()' , style = 'text-align:center' ,  novalidate='' , ng-if='product.bidEnd>0')
       span(ng-show='add.price.$invalid && add.price.$touched') Price should be more than {{product.bider[product.bider.length-1].price}} .
       br
-      input(type = 'number' , name = 'price' , ng-model = 'product.price' min='{{product.bider[product.bider.length-1].price}}+1' , integer='' )
+      input(type = 'number' , name = 'price' , ng-model = 'product.price' min='{{product.bider[product.bider.length-1].price}}+1' , integer=''  placeholder = "Place your offer's price" )
       br
-      input(type = 'submit' , value = 'Offer price' ,class='btn btn-info btn-block')
+      input.btn.btn-info.product-side-submit( type = 'submit' , value = 'Offer price' )
   br
   button.following(ng-click='product.following(product._id)' , ng-class='{"active":product.active,"disabled":product.creator === user,"click":product.creator !== user}'
   , type='button', ng-disabled="product.creator === user")

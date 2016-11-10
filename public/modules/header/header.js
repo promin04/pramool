@@ -24,6 +24,7 @@
 
         $http.get('/signout').then(function () {
             $rootScope.user = null;
+            $rootScope.avatarImage = null;
             socket.emit('clientLogout');
             $state.go('auction');
         });

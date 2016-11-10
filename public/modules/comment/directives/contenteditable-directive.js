@@ -13,21 +13,13 @@
       };
 
       // Listen for change events to enable binding
-      element.on('blur keyup change', function() {
-        scope.$evalAsync(read);
-      });
-      read(); // initialize
-
-      // Write data to the model
-      function read() {
+      element.on('blur keyup change', function(e) {
         var html = element.html();
-        // When we clear the content editable the browser leaves a <br> behind
-        // If strip-br attribute is provided then we strip this out
-        if ( attrs.stripBr && html == '<br>' ) {
-          html = '';
-        }
+        
         ngModel.$setViewValue(html);
-      }
+
+      });
+
     }
   };
 }]);

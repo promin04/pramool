@@ -7,7 +7,7 @@
               var defer = $q.defer();
               $http.get('/user').then(function (response) {
 
-                if(response.data.username){
+                if(response.data){
                   $rootScope.user = response.data.username;
                   $rootScope.avatarImage = response.data.avatarImage;
                   defer.resolve(response.data);

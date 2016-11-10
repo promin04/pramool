@@ -102,7 +102,7 @@ module.exports = {
    delete : function (req,res,next) {
      if( req.user ){
                        var condition = { _id : req.params.id };
-                       Product.findOne(condition,'name creator bidEnd',function (err ,data) {
+                       Product.findOne(condition,'name creator bidEnd comment_id',function (err ,data) {
                          var result = data;
                          if(data.bidEnd+0 > moment()+0 ){
                            var forTimecheck = {

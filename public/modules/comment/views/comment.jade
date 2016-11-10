@@ -1,28 +1,26 @@
 .comment-title Comment
 .comment-post(comment-height='')
   .comment-avatar
-    img( ng-src = 'http://www.premiumdxb.com/assets/img/avatar/default-avatar.jpg' )
+    img( ng-src = '{{comment.post_avatar}}' )
   form.comment-form.comment-content( name = 'commentForm' ng-submit='comment.postComment()' ng-click = 'comment.clicked()' )
-    .comment-box( name = 'postBox' contenteditable = '' ng-model='message' strip-br="true" ng-class = '{unclicked : comment.state_clicked}')
+    .comment-box( name = 'postBox' contenteditable = '' ng-model='message'  ng-class = '{unclicked : comment.state_clicked}')
     .comment-submit(ng-show = '!comment.state_clicked')
       input.btn.btn-primary( type='submit' value='Comment' )
-.comment-each( ng-repeat = 'each in comment.all_comment' comment-height='' )
+.comment-each( ng-repeat = 'each in comment.all_comment' comment-height='' class = 'no-{{$index}}')
   .comment-avatar
-    img( ng-src = 'http://www.premiumdxb.com/assets/img/avatar/default-avatar.jpg' )
+    img( ng-src = '{{ each.avatar.avatarImage.img[each.avatar.avatarImage.pointer].link }}' )
   .comment-content(class = 'no-{{$index}}')
     span.comment-username
       |{{each.username}}
-    .comment-message
-      |{{each.message}}
-    .comment-answer(ng-click = 'comment.answer($index)')
-      |Answer
-    .comment-answered( ng-repeat = 'eachAns in comment.all_comment[$index].answer' comment-height='')
+    .comment-message( ng-bind-html = 'each.message' )
+    .comment-answer
+      span.comment-answer-reply(ng-click = 'comment.answer($index)') Reply
+    .comment-answered( ng-repeat = 'eachAns in comment.all_comment[$index].answer' comment-height='' class = 'no-{{$index}}')
         .comment-avatar
-          img( ng-src = 'http://www.premiumdxb.com/assets/img/avatar/default-avatar.jpg' )
+          img( ng-src = '{{ eachAns.avatar.avatarImage.img[eachAns.avatar.avatarImage.pointer].link }}' )
         .comment-content
           span.comment-username
             |{{eachAns.username}}
-          .comment-message
-            |{{eachAns.message}}
-          .comment-answer(ng-click = 'comment.answer($parent.$index)')
-            |Answer
+          .comment-message( ng-bind-html = 'eachAns.message' )
+          .comment-answer
+            span.comment-answer-reply(ng-click = 'comment.answer($parent.$index)') Reply
