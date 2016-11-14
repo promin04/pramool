@@ -1,8 +1,13 @@
 var Following = require('mongoose').model('Following');
+var Product = require('mongoose').model('Product');
+
 module.exports = {
   createFollow : function (req,res) {
     var following = new Following({
-      user_id : req.user._id,
+      user : {
+              user_id : req.user._id ,
+              username : req.user.username
+              },
       following : [],
       unread : 0,
       notification : []
@@ -10,6 +15,16 @@ module.exports = {
     following.save(function (err,data) {
       res.end();
     })
+  },
+
+  setComment : function (req , res , next) {
+        req.follow = {
+                      _id : req.params._id , //product_id
+                      by : 'comment',
+                      mode : req.comment.mode
+        };
+        console.log(req.follow,'req.follow setcomment');
+        return next();
   },
 
   setPreFollow : function (req,res,next) {
@@ -127,34 +142,57 @@ module.exports = {
                         };
         follower = req.product.following;
         break;
-      default: notification = null;
-    }
+      case 'comment':
 
+        Product.findOne( { comment_id : req.follow._id } , '_id name creator coverImg img',
+        function (err , product) {
+          console.log(product,'product findOne');
+          notification =  { username : req.user.username ,
+                            type : 'comment' ,
+                            message : req.body.message,
+                            product : {
+                                        _id : product._id ,
+                                        name : product.name,
+                                        img : product.img[ product.coverImg.index ].link
+                                      }
+                          };
 
+          switch ( req.comment.mode ) {
+            case 'answer':
+                follower = [ { username : req.comment.replied_username } ];
+              break;
+            case 'new':
+                follower = [ product.creator ];
+              break;
+            default: follower = [ product.creator ];
 
+          }
 
+          /////
+              update = {
+                        $push : { notification : notification } ,
+                        $inc : { unread : 1 }
+                       };
+              console.log(update , follower , 'skill check');
+              follower.forEach( function (item) {
+                console.log(item,'item forEach');
+                var client; // var for client ID
+                //detect follower is online or not & set client ID
 
-    update = {
-              $push : { notification : notification } ,
-              $inc : { unread : 1 }
-             };
+                for (var i = 0; i < GLOBAL.clients.length; i++) {
+                  if(GLOBAL.clients[i].username == item.username){
+                          client = GLOBAL.clients[i].clientId;
+                          console.log(' client ID ' , client);
+                          break;
+                  }
+                }
 
-    follower.forEach( function (item) {
-      var client; // var for client ID
-      //detect follower is online or not & set client ID
-
-      for (var i = 0; i < GLOBAL.clients.length; i++) {
-        if(GLOBAL.clients[i].username == item.username){
-                client = GLOBAL.clients[i].clientId;
-                console.log(' client ID ' , client);
-
-
-                condition = { user_id : item._id };
+                condition = { 'user.username' : item.username };
                 option = {
                            new : true ,
                            fields : {
                                       notification : { $slice: -1 } ,
-                                      user_id: true
+                                      'user.user_id': true
                                     }
                          };
 
@@ -170,24 +208,69 @@ module.exports = {
 
                 })(condition , update , option , client , count = 0)
 
+              });
 
+
+          /////
+        }
+      );
+
+
+
+        break;
+      default: notification = null;
+    }
+
+
+    update = {
+              $push : { notification : notification } ,
+              $inc : { unread : 1 }
+             };
+
+    follower.forEach( function (item) {
+      var client; // var for client ID
+      //detect follower is online or not & set client ID
+
+      for (var i = 0; i < GLOBAL.clients.length; i++) {
+        console.log(GLOBAL.clients[i].username == item.username , GLOBAL.clients[i].username , item.username);
+        if(GLOBAL.clients[i].username == item.username){
+                client = GLOBAL.clients[i].clientId;
+                console.log(' client ID ' , client);
         }
       }
+      condition = { 'user.user_id' : item._id };
+      option = {
+                 new : true ,
+                 fields : {
+                            notification : { $slice: -1 } ,
+                            user_id: true
+                          }
+               };
+      //self-invoke & inject parameter to freeze value for asynchronous process
+      (function (condition , update , option , client ,count) {
+        //save notification to database for history & offline's users
+        Following.findOneAndUpdate( condition , update , option , function (err,data) {
+          if(client) req.io.to(client).emit('notification' , data);   //emit notification to client that online right now
+          if(err) return next(err);
+          count++;
+          if(count === follower.length) return next(); // check last process to call next()
+        });
 
+      })(condition , update , option , client , count = 0)
     });
 
   },
 
   getNotification : function (req,res,next) {
     if( req.user ){
-    var condition = { user_id : req.user._id };
+    var condition = { 'user.user_id' : req.user._id };
     var skip = (+req.params.page * 10) + (+req.params.new);
     var option1 = {
       notification : { $slice: [(-skip),10]  },
       unread: true
     };
     var option2 =[
-      { $match : { user_id : req.user._id.toString() } }
+      { $match : { 'user.user_id' : req.user._id.toString() } }
       ,
       {
           $project: {
@@ -203,8 +286,9 @@ module.exports = {
           Following.aggregate(option2 , function (err , num) {
             if(err) return next(err);
 
-            req.follow.num = num[0].size;
-            console.log('size',req.follow,req.follow.num);
+              req.follow.num = num[0].size;
+              console.log('size',req.follow,req.follow.num);
+
             return next();
           });
 
@@ -221,7 +305,7 @@ module.exports = {
 
   readNotification: function (req,res,next) {
     if( req.user ){
-    var condition = { user_id : req.user._id };
+    var condition = { 'user.user_id' : req.user._id };
     var update = {
                 $set : { unread : 0 }
              };

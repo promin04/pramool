@@ -5,7 +5,8 @@
       this.ansComment = function () {
 
                   var message = {
-                    _id : $scope.id,
+                    _id : $scope.id, //post_id
+                    replied_username : $scope.replied ,
                     message : $scope.message,
                     mode : 'answer',
                     product_id : $scope.$parent.pro

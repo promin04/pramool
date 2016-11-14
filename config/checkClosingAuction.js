@@ -49,7 +49,7 @@ exports.initial = function (io) {
 
                  ///countdown for each of product
                  var countdown =  function () {
-                                     console.log('run',arrayStore.length);
+                                     //console.log('run',arrayStore.length);
                                      for (var j = 0; j < arrayStore.length; j++) {
                                        if( arrayStore[j].bidEnd > 0 ){
                                          arrayStore[j].bidEnd = arrayStore[j].bidEnd-1000 ;

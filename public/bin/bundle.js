@@ -15080,7 +15080,7 @@
 	  angular.module('comment')
 	    .controller( 'commentController' , [ '$http' , '$scope' , '$compile' , '$timeout' , '$rootScope', function ( $http , $scope , $compile , $timeout , $rootScope) {
 	      var that = this ;
-	      this.post_avatar =  $rootScope.avatarImage ? $rootScope.avatarImage.img[$rootScope.avatarImage.pointer].link : "http://www.premiumdxb.com/assets/img/avatar/default-avatar.jpg";
+	      this.post_avatar =  $rootScope.avatarImage && $rootScope.avatarImage.img[0] ? $rootScope.avatarImage.img[$rootScope.avatarImage.pointer].link : "http://www.premiumdxb.com/assets/img/avatar/default-avatar.jpg";
 	      this.all_comment = [];
 	      this.state_clicked = true;
 	      this.state_answer_open = false;
@@ -15089,11 +15089,12 @@
 	      };
 	
 	      this.postComment = function () {
+	        console.log('portComment');
 	        var message = $scope.message
 	        .replace( '<div><br></div>' , '<br />&nbsp;' )
 	        .replace( '<div>' , '<br />&nbsp;' )
 	        .replace( '</div>' , '' );
-	        console.log('message goo' , message);
+	
 	          var message = {
 	            message : message,
 	            mode : 'new',
@@ -15108,19 +15109,19 @@
 	            switch (comment.mode) {
 	
 	              case 'new':
-	                    that.all_comment.push(comment.data);
+	                    $scope.$apply(that.all_comment.push(comment.data));
 	                break;
 	
 	              case 'answer':
 	                    for (var i = 0; i < that.all_comment.length; i++) {
 	                      if(  that.all_comment[i]._id == comment._id ){
-	                        that.all_comment[i].answer.push( comment.data );
+	                        $scope.$apply(that.all_comment[i].answer.push( comment.data ));
 	                      }
 	                    }
 	                break;
 	
 	              default:
-	                      that.all_comment.push(comment.data);
+	                        $scope.$apply(that.all_comment.push(comment.data));
 	                break;
 	            }
 	            console.log(comment,'comment');
@@ -15133,14 +15134,14 @@
 	      };
 	
 	
-	      this.answer = function (index) {
+	      this.answer = function (index , replied_username ) {
 	
 	          $timeout(function () {
 	              var close = $('.comment-close');
 	              close.click();
-	              var select = '.comment-content.no-' + index;
+	              var select = `.comment-content.no-${index}`;
 	
-	              var element = $compile(`<div comment-answer no = "${index}" id = "${that.all_comment[index]._id}" ></div>`)( $scope );
+	              var element = $compile(`<div comment-answer no = "${index}" id = "${that.all_comment[index]._id}" replied = "${replied_username}"></div>`)( $scope );
 	                $( select ).append( element );
 	
 	          }, 0);
@@ -15150,7 +15151,7 @@
 	      this.trigger_comment(); // initial
 	
 	      var clearWatchAvatar = $rootScope.$watch('avatarImage',function (newValue, oldValue) {
-	        that.post_avatar = $rootScope.avatarImage ? $rootScope.avatarImage.img[$rootScope.avatarImage.pointer].link : "http://www.premiumdxb.com/assets/img/avatar/default-avatar.jpg";
+	        that.post_avatar = $rootScope.avatarImage && $rootScope.avatarImage.img[0] ? $rootScope.avatarImage.img[$rootScope.avatarImage.pointer].link : "http://www.premiumdxb.com/assets/img/avatar/default-avatar.jpg";
 	                      });
 	
 	      $scope.$on('$destroy', function (event) {
@@ -15159,10 +15160,7 @@
 	          socket.removeListener('comment');
 	      });
 	
-	      $scope.$on('$digest', function (event) {
-	        console.log('$digest comment');
 	
-	      });
 	
 	    }]);
 	})()
@@ -15195,7 +15193,7 @@
 	      };
 	      return {
 	        restrict : 'A' ,
-	        scope : { id : '@'  },
+	        scope : { id : '@' , replied : '@'  },
 	        templateUrl : './modules/comment/views/answer.jade',
 	        controller : 'answerController',
 	        controllerAs : 'answer',
@@ -15220,7 +15218,8 @@
 	      this.ansComment = function () {
 	
 	                  var message = {
-	                    _id : $scope.id,
+	                    _id : $scope.id, //post_id
+	                    replied_username : $scope.replied ,
 	                    message : $scope.message,
 	                    mode : 'answer',
 	                    product_id : $scope.$parent.pro

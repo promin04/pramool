@@ -40,10 +40,12 @@ module.exports = {
                    var result = {
                      _id : req.body._id,
                      data : data.comment[0].answer.pop(),
-                     mode : 'answer'
+                     mode : 'answer',
+                     replied_username : req.body.replied_username
                    };
                    req.io.to(req.body.product_id).emit('comment',result);
-                   return res.end();
+                   req.comment = result;
+                   return next();
                  }
             );
 
@@ -77,7 +79,8 @@ module.exports = {
                     mode : 'new'
                   };
                   req.io.to(req.body.product_id).emit('comment',result);
-                  return res.end();
+                   req.comment = result;
+                   return next();
                 }
             );
 

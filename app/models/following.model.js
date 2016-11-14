@@ -1,7 +1,10 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var followingSchema = new Schema({
-  user_id : {type:String , index:true} ,
+  user : {
+            user_id : { type:String , index:true } ,
+            username : { type:String , index:true }
+          } ,
   following : Array,
   unread : Number ,
   notification : Array

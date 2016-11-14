@@ -20,7 +20,7 @@
       };
       return {
         restrict : 'A' ,
-        scope : { id : '@'  },
+        scope : { id : '@' , replied : '@'  },
         templateUrl : './modules/comment/views/answer.jade',
         controller : 'answerController',
         controllerAs : 'answer',

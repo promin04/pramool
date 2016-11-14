@@ -14,7 +14,7 @@
       |{{each.username}}
     .comment-message( ng-bind-html = 'each.message' )
     .comment-answer
-      span.comment-answer-reply(ng-click = 'comment.answer($index)') Reply
+      span.comment-answer-reply(ng-click = 'comment.answer( $index , each.username )') Reply
     .comment-answered( ng-repeat = 'eachAns in comment.all_comment[$index].answer' comment-height='' class = 'no-{{$index}}')
         .comment-avatar
           img( ng-src = '{{ eachAns.avatar.avatarImage.img[eachAns.avatar.avatarImage.pointer].link }}' )
@@ -23,4 +23,4 @@
             |{{eachAns.username}}
           .comment-message( ng-bind-html = 'eachAns.message' )
           .comment-answer
-            span.comment-answer-reply(ng-click = 'comment.answer($parent.$index)') Reply
+            span.comment-answer-reply(ng-click = 'comment.answer( $parent.$index , eachAns.username )') Reply
