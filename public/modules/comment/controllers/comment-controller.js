@@ -31,26 +31,26 @@
             switch (comment.mode) {
 
               case 'new':
-                    $scope.$apply(that.all_comment.push(comment.data));
+                    $scope.$apply(that.all_comment.unshift(comment.data));
                 break;
 
               case 'answer':
                     for (var i = 0; i < that.all_comment.length; i++) {
                       if(  that.all_comment[i]._id == comment._id ){
-                        $scope.$apply(that.all_comment[i].answer.push( comment.data ));
+                        $scope.$apply(that.all_comment[i].answer.unshift( comment.data ));
                       }
                     }
                 break;
 
               default:
-                        $scope.$apply(that.all_comment.push(comment.data));
+                        $scope.$apply(that.all_comment.unshift(comment.data));
                 break;
             }
             console.log(comment,'comment');
 
           });
         $http.get( '/comment/' + $scope.com ).then(function (res) {
-          that.all_comment = res.data.comment ;
+          that.all_comment = res.data.comment.reverse() ;
           console.log(res.data ,'commnet');
         });
       };

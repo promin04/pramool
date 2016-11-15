@@ -73,6 +73,7 @@
 .avatar {
   display: block;
   margin: auto;
+  margin-bottom: 15px;
   width: 100px;
   height: 100px;
   border-radius: 50px;
@@ -81,6 +82,11 @@
 .profile {
   margin-bottom: 30px;
 }
+
+  .profile-avatar {
+    text-align: center;
+    margin-bottom: 15px;
+  }
 
 .profile-avatar.click {
   cursor: pointer;

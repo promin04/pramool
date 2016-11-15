@@ -4,7 +4,7 @@
       h3 Profile
     .profile-avatar.col-md-3
       img.avatar(ng-src='{{avatarImage.img[avatarImage.pointer].link||"http://www.premiumdxb.com/assets/img/avatar/default-avatar.jpg"}}')
-      .profile-avatar.click(ng-click='profile.avatarEditor()')
+      .profile-avatar.click.btn.btn-primary(ng-click='profile.avatarEditor()')
         |Edit Avatar
     .profile-info.col-md-9
       b {{user}}
