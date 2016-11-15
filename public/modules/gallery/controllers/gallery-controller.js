@@ -1,11 +1,6 @@
 (function () {
-  var app = angular.module('gallery',[]);
-  app.directive('gallery',function () {
-    return {
-      restrict : 'E',
-      templateUrl : './modules/gallery/views/gallery.jade',
-      scope : {pic : '=' , pointer : '='},
-      controller : ['$scope',function ($scope) {
+  angular.module('gallery')
+    .controller('galleryController', ['$scope',function ($scope) {
         var slides = $scope.pic;
         $scope.$watch('pic',function (newValue, oldValue) {
           //disappear new image was added in gallery for showing cover image
@@ -22,7 +17,7 @@
             $scope.currentSlide($scope.pointer);
           } else if (newValue.length<oldValue.length && newValue.length>0) {
 
-            
+
             console.log('3',$scope.pointer);
             $scope.currentSlide($scope.pointer);
           }
@@ -88,6 +83,5 @@
 
 
     }]
-  }
-  })
+  )
 })()

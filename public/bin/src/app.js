@@ -37,7 +37,8 @@ require("../../modules/dashboard/services/deleteProduct.js");
 require("../../modules/dashboard/controllers/profile-controller.js");
 
 require("../../modules/timer/timer.js");
-require("../../modules/gallery/gallery.js");
+require("../../modules/gallery/directives/gallery.js");
+require("../../modules/gallery/controllers/gallery-controller.js");
 
 require("../../modules/main/main.js");
 require("../../modules/main/config/main-config.js");

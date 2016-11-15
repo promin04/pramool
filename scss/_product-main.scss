@@ -75,6 +75,10 @@
   }
 }
 
+img.gallery {
+  max-height: 450px;
+  max-width: 546px;
+}
 
 /* Fading animation */
 .fadepic {
@@ -87,9 +91,6 @@
 .gallery {
   display: block;
   max-width:100%;
-  max-height:450px;
-  width: auto;
-  height: auto;
   margin: auto;
 }
 .middle {
