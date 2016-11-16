@@ -1,5 +1,5 @@
 .comment-title Comment
-.comment-post(comment-height='')
+.comment-post.row(comment-height='')
   .comment-avatar
     img( ng-src = '{{comment.post_avatar}}' )
   form.comment-form.comment-content( name = 'commentForm' ng-submit='comment.postComment()' ng-click = 'comment.clicked()' )

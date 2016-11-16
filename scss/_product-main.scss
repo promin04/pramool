@@ -8,6 +8,10 @@
   margin-bottom: 20px;
 }
 
+.product-main {
+  margin-bottom: 20px;
+}
+
 .main-gallery {
   padding-bottom: 200px;
 }
@@ -76,8 +80,8 @@
 }
 
 img.gallery {
-  max-height: 450px;
-  max-width: 546px;
+  max-height: 100%;
+  max-width: 100%;
 }
 
 /* Fading animation */
@@ -89,6 +93,7 @@ img.gallery {
 }
 
 .gallery {
+  margin-bottom: 20px;
   display: block;
   max-width:100%;
   margin: auto;

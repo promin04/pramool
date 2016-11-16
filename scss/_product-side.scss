@@ -1,4 +1,5 @@
 .product-sidebar {
+
   background-color: #fff;
   padding-bottom: 30px;
   border: 1px solid $grey;
@@ -24,13 +25,14 @@
     border-left: 1px solid $darkgary;
     border-right: 1px solid $darkgary;
     border-top: 3px solid $darkgary;
-
+    border-bottom: 1px solid $grey;
     .glyphicon-star{
         color: orange;
     }
 
   }
   .following{
+    border-radius: 10px;
     text-align: center;
     padding: 10px 0;
     width: 50%;
@@ -52,7 +54,7 @@
     border-left: 1px solid $darkgary;
     border-right: 1px solid $darkgary;
     border-top: 3px solid $darkgary;
-
+    border-bottom: 1px solid $grey;
     .glyphicon-star{
         color: orange;
     }

@@ -21,7 +21,7 @@
       br
       input.btn.btn-info.product-side-submit( type = 'submit' , value = 'Offer price' )
   br
-  button.following(ng-click='product.following(product._id)' , ng-class='{"active":product.active,"disabled":product.creator === user,"click":product.creator !== user}'
+  button.btn-default.following(ng-click='product.following(product._id)' , ng-class='{"active":product.active,"disabled":product.creator === user,"click":product.creator !== user}'
   , type='button', ng-disabled="product.creator === user")
     span.glyphicon.glyphicon-star
     |FOLLOW

@@ -22,6 +22,7 @@ top-header {
 
 
 .logo {
+  text-align: left;
   font-size: 16px;
   .logo-small {
     font-size: 12px;
@@ -58,9 +59,8 @@ top-header {
 
 .auth {
   .dropdown{
-    display: block;
-    margin: auto;
-    float: none ;
+    margin-left: 25px;
+    float: right ;
   }
   li {
       padding: 10px  0;
@@ -74,7 +74,7 @@ top-header {
   }
   .menu {
     font-size: 25px;
-    margin-top: 8px;
+    margin-top: 5px;
   }
 }
 
@@ -117,8 +117,9 @@ nav-header {
 }
 
 .user {
+  margin-left: 38px;
   margin-top: 8px;
-  float: left;
+  float: right;
   padding: 0 7px 0 7px;
   height: 30px;
   border-radius: 8px;
@@ -150,4 +151,9 @@ background-color: #f9f9f9;
       background-color: $lightgary;
       transition: background-color 1s ease;
     }
+}
+
+.dropdown-menu {
+  left: -89px !important;
+  top : calc(100% + 12px) !important;
 }

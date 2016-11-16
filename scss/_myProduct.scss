@@ -108,11 +108,15 @@
 
 .inputfile-btn {
    position: relative;
-   margin: 10px;
+
    .glyphicon {
      font-size: 19px;
      margin-right: 10px;
    }
+}
+
+.avatar-select {
+  text-align: center;
 }
 
 .avatar-storage {

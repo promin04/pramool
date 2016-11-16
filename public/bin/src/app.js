@@ -10,7 +10,7 @@ require("../../lib/angular-sanitize/angular-sanitize.min.js");
 require("../../lib/masonry/dist/masonry.pkgd.min.js");
 
 require("../../modules/header/config/header-config.js");
-require("../../modules/header/header.js");
+require("../../modules/header/directives/header-directive.js");
 require("../../modules/header/directives/scroll-directive.js");
 
 require("../../modules/addProduct/addProduct-app.js");
@@ -25,6 +25,9 @@ require("../../modules/comment/directives/answer-directive.js");
 require("../../modules/comment/controllers/answer-controller.js");
 
 require("../../modules/store/config/store-config.js");
+require("../../modules/store/controllers/main-controller.js");
+require("../../modules/store/controllers/side-controller.js");
+require("../../modules/store/controllers/bottom-controller.js");
 require("../../modules/store/config/store-config-run.js");
 require("../../modules/store/services/following.js");
 require("../../modules/store/services/notification.js");

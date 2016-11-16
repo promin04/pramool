@@ -1,35 +1,37 @@
-.logo.col-xs-2.col-sm-4
-    |S H O W
-    br
-    span.logo-small
-      |R O O M
+.container
+  .logo.col-xs-0.col-sm-4
+      |S H O W
+      br
+      span.logo-small
+        |R O O M
+  .search-box.col-xs-8.col-sm-4
+    .input-group
+      input.form-control(type='text', placeholder='Search for...')
+      span.input-group-btn
+        button.btn.btn-default(type='button')
+          span.glyphicon.glyphicon-search(aria-hidden='true')
 
-.mid.col-xs-8.col-sm-4
-  form.form-inline.search-form
-    input.search-box(type='text',placeholder="search product's name")
-    input.search-btn(type='submit',value='search')
+  .auth.col-xs-4.col-sm-4(ng-controller='authenticate as user')
 
-.auth.col-xs-2.col-sm-4(ng-controller='authenticate as user')
-
-    button.btn.btn-primary.btn-lg.login(class="sign-in" , ng-click='user.signin()' , ng-if='!user.username')
-      | Log In
-    span(uib-dropdown='')
+      button.btn.btn-primary.login(class="sign-in" , ng-click='user.signin()' , ng-if='!user.username')
+        | Log In
       .user(ng-show='user.username' ui-sref='dashboard.myProduct' ui-sref-active="active")
         img.user-icon(ng-src = '{{avatarImage.img[avatarImage.pointer].link || "http://www.premiumdxb.com/assets/img/avatar/default-avatar.jpg"}}')
         | {{user.username}}
+      span(uib-dropdown='')
+        a(href='', id="dropdown" , uib-dropdown-toggle='')
+          span.menu.glyphicon.glyphicon-menu-hamburger(ng-show='user.username')
+        ul.dropdown-menu(uib-dropdown-menu='', aria-labelledby='dropdown')
+          a(ui-sref='newProduct')
+            li
+              |Add Product
+          a(ui-sref='dashboard.myProduct')
+            li
+              |Dashboard
+          li( ng-click='user.signout()')
+            button.btn.btn-danger
+              |Log Out
       .notification(ng-click='user.infiniteScroll_att()' ng-show='user.username' uib-popover-template="user.popover.templateUrl" popover-title="{{user.popover.title}}" popover-placement="bottom" popover-trigger="'outsideClick'")
         span.bell.glyphicon.glyphicon-bell.notification-icon
         span.badge.notification-unread(ng-show = 'user.notification.unread')
           |{{user.notification.unread}}
-      a(href='', id="dropdown" , uib-dropdown-toggle='')
-        span.menu.glyphicon.glyphicon-menu-hamburger(ng-show='user.username')
-      ul.dropdown-menu(uib-dropdown-menu='', aria-labelledby='dropdown')
-        a(ui-sref='newProduct')
-          li
-            |Add Product
-        a(ui-sref='dashboard.myProduct')
-          li
-            |Dashboard
-        li( ng-click='user.signout()')
-          button.btn.btn-danger
-            |Log Out
