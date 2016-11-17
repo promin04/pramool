@@ -117,19 +117,22 @@ nav-header {
 }
 
 .user {
-  margin-left: 38px;
+  margin-left: 25px;
   margin-top: 8px;
   float: right;
   padding: 0 7px 0 7px;
   height: 30px;
   border-radius: 8px;
 }
+.logout {
+  margin-left: 25px;
+  float: right;
+}
 .user.active {
 background-color: #f9f9f9;
 }
 .user:hover {
 cursor: pointer;
-background-color: #f9f9f9;
 }
 
 .user-icon {
@@ -151,9 +154,4 @@ background-color: #f9f9f9;
       background-color: $lightgary;
       transition: background-color 1s ease;
     }
-}
-
-.dropdown-menu {
-  left: -89px !important;
-  top : calc(100% + 12px) !important;
 }

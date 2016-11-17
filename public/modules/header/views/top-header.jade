@@ -15,9 +15,13 @@
 
       button.btn.btn-primary.login(class="sign-in" , ng-click='user.signin()' , ng-if='!user.username')
         | Log In
+      .logout.button.btn.btn-danger( ng-click='user.signout()' , ng-show='user.username')
+        |Log Out
       .user(ng-show='user.username' ui-sref='dashboard.myProduct' ui-sref-active="active")
         img.user-icon(ng-src = '{{avatarImage.img[avatarImage.pointer].link || "http://www.premiumdxb.com/assets/img/avatar/default-avatar.jpg"}}')
-        | {{user.username}}
+        span.user-name
+          | {{user.username}}
+
       span(uib-dropdown='')
         a(href='', id="dropdown" , uib-dropdown-toggle='')
           span.menu.glyphicon.glyphicon-menu-hamburger(ng-show='user.username')
