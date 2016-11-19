@@ -1,12 +1,12 @@
 (function () {
-    angular.module('store',['timer','gallery','addProduct','comment'])
+    angular.module('store',['timer','gallery','addProduct','comment','ngSanitize'])
       .config(['$stateProvider','$urlRouterProvider',function ($stateProvider,$urlRouterProvider) {
 
           $stateProvider
-            .state('newProduct', {
-                url: '/new-product',
-                template: '<div add-product class="add-product"></div>' //or templateUrl: 'someFile.html'
-            })
+          .state('newProduct', {
+              url: '/new-product',
+              template: '<div add-product class="add-product"></div>' //or templateUrl: 'someFile.html'
+          })
 
             .state('product',{
               abstract: true,

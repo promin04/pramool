@@ -17,7 +17,7 @@
             url:'/my-product',
             views:{
               myProduct:{
-                templateUrl:'./modules/dashboard/views/myProduct.jade',
+                templateUrl:'./modules/dashboard/views/myProduct0.jade',
                 controller:['following','$timeout','deleteProduct','$rootScope','$scope',function (following,$timeout,deleteProduct,$rootScope,$scope) {
                   var that = this;
                   this.product = following.data.filter(function (each) {

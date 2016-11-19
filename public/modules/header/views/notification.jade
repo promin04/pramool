@@ -7,4 +7,4 @@
     .notification-text(ng-if = 'each.type === "creator"')<b>{{each.product.name}}</b> has been <b>created.</b>
     .notification-text(ng-if = 'each.type === "delete"')<b>{{each.product.name}}</b> has been <b>deleted.</b>
     .notification-text(ng-if = 'each.type === "close"')<b>{{each.winner.name}}</b> is a <b>winner.</b><br>By <b>{{each.winner.price}}</b> THB.
-    .notification-text(ng-if = 'each.type === "comment"')<b>{{each.username}}</b> comment "{{each.message}}"
+    .notification-text(ng-if = 'each.type === "comment"')<b>{{each.username}}</b> comment to <b>{{each.product.name}}</b> that "{{each.message}}"

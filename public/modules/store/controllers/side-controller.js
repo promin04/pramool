@@ -5,12 +5,11 @@
       var that = this;
       this._id = product._id ;
       this.name = product.name;
-      this.description ='i m  hero.';
       this.bidEnd = product.bidEnd;
       this.bider = product.bider;
       this.creator = product.creator;
       this.active = product.active;
-
+      this.description = product.description;
       //following service
       this.following = function (productId) {
         if(!that.active){

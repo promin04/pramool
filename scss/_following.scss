@@ -1,8 +1,48 @@
 .follow-box{
-  width: 100%;
+  padding: 0px !important;
   min-height: 150px;
   background-color: $lightgary;
   border-top: 2px solid $darkgary;
   border-right: 1px solid $darkgary;
 
+}
+
+.follow-body {
+
+  border: 1px solid $grey;
+  border-bottom: 2px solid $darkgary;
+  border-radius: 8px;
+  background-color: white;
+  height: 130px;
+}
+
+.follow-img {
+    height: inherit;
+  img {
+    max-width: 100%;
+    max-height: 98%;
+  }
+}
+
+.follow-detail {
+    padding-top: 12px;
+    height: inherit;
+}
+
+.follow-console {
+    height: inherit;
+}
+
+.follow-remove {
+  float: right;
+}
+
+.follow-name,.follow-status-price {
+  font-weight: bold;
+}
+
+.follow-status-price {
+  position: absolute !important;
+  top: 55px;
+  left: 0;
 }

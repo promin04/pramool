@@ -1,6 +1,6 @@
 (function () {
   angular.module('comment')
-    .controller( 'commentController' , [ '$http' , '$scope' , '$compile' , '$timeout' , '$rootScope', function ( $http , $scope , $compile , $timeout , $rootScope) {
+    .controller( 'commentController' , [ '$http' , '$scope' , '$compile' , '$timeout' , '$rootScope' , 'replaceDiv' , function ( $http , $scope , $compile , $timeout , $rootScope , replaceDiv) {
       var that = this ;
       this.post_avatar =  $rootScope.avatarImage && $rootScope.avatarImage.img[0] ? $rootScope.avatarImage.img[$rootScope.avatarImage.pointer].link : "http://www.premiumdxb.com/assets/img/avatar/default-avatar.jpg";
       this.all_comment = [];
@@ -12,17 +12,20 @@
 
       this.postComment = function () {
         console.log('portComment');
-        var message = $scope.message
-        .replace( '<div><br></div>' , '<br />&nbsp;' )
-        .replace( '<div>' , '<br />&nbsp;' )
-        .replace( '</div>' , '' );
+
+        var message = replaceDiv.clear($scope.message);
+
 
           var message = {
             message : message,
             mode : 'new',
             product_id : $scope.pro
           };
-        $http.post('/comment/'+$scope.com , message); //responce by io.emit from server
+        $http.post('/comment/'+$scope.com , message).then(
+          function (responce) {
+            $scope.message = '';
+          }
+        ); //responce by io.emit from server
       };
 
       this.trigger_comment = function () {

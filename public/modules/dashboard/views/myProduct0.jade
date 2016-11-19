@@ -1,0 +1,18 @@
+.content-header
+  h3
+    |My Product
+.follow-box.col-sm-10.col-xs-12
+    h3(ng-if='store.product.length===0' , ng-style='{"text-align":"center"}') There isn't your product. Let's
+      a(ui-sref='newProduct')  Create new .
+    .follow-body.row( ng-repeat='product in store.product' )
+      .follow-img.col-xs-4
+        img(ng-src = '{{product.img[product.coverImg.index].link}}')
+      .follow-detail.col-xs-5
+          .follow-name.col-xs-12
+            |{{product.name}}
+          .follow-status-result.col-xs-12
+            timer( milisec = '{{product.bidEnd}}' )
+      .follow-console.col-xs-3
+        span.follow-remove.glyphicon.glyphicon-remove(ng-click='preDelete = !preDelete' , ng-class="{'active' : preDelete}")
+        .follow-status-price.col-xs-12
+          |{{product.bider[product.bider.length-1].price}} THB

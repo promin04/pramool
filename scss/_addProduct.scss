@@ -1,3 +1,44 @@
+.add-product-box {
+ width: 100%;
+}
+.add-product-slide-1 {
+  position: relative;
+  right: 0;
+  transition: right 0.5s ease;
+}
+
+.add-product-slide-2 {
+  position: absolute;
+  width: 100%;
+  top: 0;
+  right: 100%;
+  transition: right 0.5s ease;
+  .product-sidebar {
+    position: relative !important;
+  }
+}
+
+.add-product-button {
+  position: relative;
+  text-align: center;
+  background-color: white;
+}
+@media screen and (max-width: 767px) {
+  .add-product-button {
+      position: fixed;
+      bottom: 0px;
+      width: 100%;
+
+  }
+}
+.add-product {
+  padding-top: 8px;
+  margin-bottom: 10px;
+  overflow: hidden;
+  position: relative;
+
+}
+
 .form-img-space {
   margin-top: 15px;
   height: 168px;
@@ -66,4 +107,11 @@
 .preview-min {
   text-align: center;
   width: 100%;
+}
+
+.short-description {
+  background-color: white;
+  border: 0.5px solid $grey;
+  min-height: 66px;
+  width: 100%
 }

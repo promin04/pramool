@@ -147,9 +147,10 @@ module.exports = {
         Product.findOne( { comment_id : req.follow._id } , '_id name creator coverImg img',
         function (err , product) {
           console.log(product,'product findOne');
+          var firstRow = req.body.message.split('<br />');
           notification =  { username : req.user.username ,
                             type : 'comment' ,
-                            message : req.body.message,
+                            message : firstRow[0] + '....',
                             product : {
                                         _id : product._id ,
                                         name : product.name,
@@ -203,7 +204,9 @@ module.exports = {
                     if(client) req.io.to(client).emit('notification' , data);   //emit notification to client that online right now
                     if(err) return next(err);
                     count++;
-                    if(count === follower.length) return next(); // check last process to call next()
+                    if(count === follower.length){
+                      return res.end(); // check last process to call
+                    }
                   });
 
                 })(condition , update , option , client , count = 0)

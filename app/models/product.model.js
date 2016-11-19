@@ -6,6 +6,12 @@ var ProductSchema = new Schema({
     createAt : Object,
     bidEnd : Object,
     creator : Object,
+    description : {
+      size : Object,
+      weight : String,
+      detail : String,
+      condition : String
+    },
     following: Array,
     img : Array,
     coverImg : Object,

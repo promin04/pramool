@@ -12,11 +12,12 @@ module.exports = {
           createAt : moment(),
           bidEnd : moment().add(req.body.time.hours,'seconds').add(req.body.time.days, 'days'),
           creator : {
-            _id : req.user._id.toString() ,
+            _id : req.user._id ,
             username : req.user.username
           },
+          description : req.body.description,
           following: [{
-            _id : req.user._id.toString() ,
+            _id : req.user._id,
             username : req.user.username
           }],
           img : req.body.img,

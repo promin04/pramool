@@ -41,8 +41,11 @@
   .user-name {
     display: none;
   }
-
-
+}
+@media screen and (max-width: 767px) {
+  .logo {
+      display: none;
+  }
 }
 
 @media screen and (max-width: 750px) {
@@ -52,9 +55,7 @@
   .user {
     display: none;
   }
-  .logo {
-      display: none;
-  }
+
 
 }
 

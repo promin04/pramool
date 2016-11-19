@@ -98,29 +98,29 @@
 	__webpack_require__(120);
 	__webpack_require__(121);
 	__webpack_require__(122);
-	
 	__webpack_require__(123);
 	__webpack_require__(124);
+	
 	__webpack_require__(125);
 	__webpack_require__(126);
 	__webpack_require__(127);
 	__webpack_require__(128);
-	
 	__webpack_require__(129);
 	__webpack_require__(130);
 	__webpack_require__(131);
+	
+	
 	__webpack_require__(132);
 	__webpack_require__(133);
 	__webpack_require__(134);
 	__webpack_require__(135);
 	__webpack_require__(136);
 	__webpack_require__(137);
-	
 	__webpack_require__(138);
 	__webpack_require__(139);
 	__webpack_require__(140);
-	__webpack_require__(141);
 	
+	__webpack_require__(141);
 	__webpack_require__(142);
 	__webpack_require__(143);
 	__webpack_require__(144);
@@ -128,9 +128,13 @@
 	__webpack_require__(145);
 	__webpack_require__(146);
 	__webpack_require__(147);
+	
 	__webpack_require__(148);
 	__webpack_require__(149);
 	__webpack_require__(150);
+	__webpack_require__(151);
+	__webpack_require__(152);
+	__webpack_require__(153);
 
 
 /***/ },
@@ -14827,132 +14831,232 @@
 /***/ function(module, exports) {
 
 	(function () {
-	  angular.module('addProduct',['timer','gallery']);
+	  angular.module('addProduct',['timer','gallery','comment','ngSanitize']);
 	})()
 
 
 /***/ },
 /* 121 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function($) {(function () {
+	  angular.module( 'addProduct' )
+	    .controller( 'addProductController' , ['$http','imgur','$state','$timeout','$scope','replaceDiv',
+	    function ($http,imgur,$state,$timeout,$scope,replaceDiv,modalService) {
+	      console.log($scope , 'long do');
+	            var that = this;
+	            var imgWidth;
+	            var imgHeight;
+	            var order = 1;
+	            this.picFile = null;
+	            this.state = null;
+	            this.picture = [];
+	            this.pointer = 0; //position of array picture that is a cover image.
+	            this.processBar = 0;
+	            this.classImg = true ;
+	            this.changeClass = function () {
+	
+	              if (this.picture[this.pointer]) {
+	                if (this.picture[this.pointer].autoH >= this.picture[this.pointer].autoW) {
+	                   this.classImg = true;
+	                } else {
+	                   this.classImg = false;
+	                }
+	
+	              }
+	            }
+	
+	
+	            this.picRemove = function (index) {
+	
+	              this.picture.splice(index,1);
+	              if(index < this.pointer){
+	                this.pointer -= 1;
+	              } else if (index === this.pointer && this.picture.length>0) {
+	                  this.pointer -= 1;
+	                }
+	
+	              console.log(this.pointer,'point');
+	              this.changeClass();
+	            }
+	
+	            this.prepare = function (files) {
+	              console.log(files);
+	                  if(Array.isArray(files) && files.length<5-this.picture.length){
+	                    for(var i = 0 ; i < files.length ; i++){
+	                    var fileReader = new FileReader();
+	                    //freeze i for each loop
+	                    (function (order,index) {
+	                    fileReader.onload = function (e) {
+	
+	                    var img64 = {
+	                                  name : files[index].name,
+	                                  link : fileReader.result,
+	                                  order : order
+	                    };
+	
+	                    $scope.$apply(that.picture.push(img64));
+	                    console.log(that.picture);
+	                    };
+	
+	                  })(order,i)
+	                    order++; //increase every loop to sort by order later
+	                    fileReader.readAsDataURL(files[i]); //encode file to base64
+	                  }
+	
+	                  } else {
+	                    this.state = 1; //show error gallery image
+	                  }
+	            };
+	
+	            this.add = function () {
+	                this.state = 10; //show complete bar&hide submit button
+	                var pro = {
+	                  name : $scope.product.input.name ,
+	                  time : $scope.product.input.time ,
+	                  description : $scope.product.input.description ,
+	                  img : [] ,
+	                  coverImg : 0 ,
+	                  price : $scope.product.input.price
+	                };
+	                var data ={};
+	              //  pro.img = [];
+	                var createPro = function (arrayData,file) {
+	                  for(var i = 0 ; i<arrayData.length ; i++){
+	                      data = {
+	                          link: arrayData[i].link,
+	                          deletehash: arrayData[i].deletehash,
+	                          order: arrayData[i].title,
+	                          width: file[i].width,
+	                          height: file[i].height
+	                      };
+	                      pro.img.push(data);
+	                      pro.coverImg = that.pointer;
+	                  }
+	
+	                $http.post('/product',pro).then(function (res) {
+	                  $state.go('auction');
+	                });
+	                }
+	
+	                var processBar = function (complete,total) {
+	                  that.processBar = complete/total*100;
+	                }
+	                  imgur.post(that.picture,processBar,createPro);
+	            };
+	
+	            this.setCover = function (index) {
+	              this.pointer = index;
+	              this.changeClass();
+	            }
+	
+	            $scope.$on('$destroy', function (event) {
+	              console.log('destroy');
+	                $( window ).off('resize');
+	                $(".short-description").off('keyup');
+	            });
+	
+	
+	  }]
+	 );
+	})()
+	
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(110)))
+
+/***/ },
+/* 122 */
 /***/ function(module, exports) {
 
 	(function () {
 	  angular.module('addProduct')
-	    .directive('addProduct',function () {
-	    return  {
-	        restrict: 'A',
+	    .controller( 'sidebarReviewController' , [ '$scope' , function ( $scope ) {
+	      var that = this;
+	      console.log($scope , '55555555555+');
+	      this.name = $scope.$parent.product.input.name;
+	      this.bidEnd = ($scope.$parent.product.input.time.days * 24 * 60 * 60 * 1000) + ($scope.$parent.product.input.time.hours * 60 * 60 * 1000);
+	      this.description = $scope.$parent.product.input.description;
 	
-	        templateUrl : './modules/addProduct/views/addProduct.jade',
+	      this.bider = [{
+	        price : $scope.$parent.product.input.price,
+	        name : $scope.user,
+	        time : 'few second ago',
+	      }];
 	
-	        controller : ['$http','imgur','$state','$timeout','$scope',function ($http,imgur,$state,$timeout,$scope) {
-	
-	                var that = this;
-	                var imgWidth;
-	                var imgHeight;
-	                var order = 1;
-	                this.picFile = null;
-	                this.state = null;
-	                this.picture = [];
-	                this.pointer = 0; //position of array picture that is a cover image.
-	                this.processBar = 0;
-	                this.classImg = true ;
-	                this.changeClass = function () {
-	
-	                  if (this.picture[this.pointer]) {
-	                    if (this.picture[this.pointer].autoH >= this.picture[this.pointer].autoW) {
-	                       this.classImg = true;
-	                    } else {
-	                       this.classImg = false;
-	                    }
-	
-	                  }
-	                }
-	
-	
-	                this.picRemove = function (index) {
-	                  
-	                  this.picture.splice(index,1);
-	                  if(index < this.pointer){
-	                    this.pointer -= 1;
-	                  } else if (index === this.pointer && this.picture.length>0) {
-	                      this.pointer -= 1;
-	                    }
-	
-	                  console.log(this.pointer,'point');
-	                  this.changeClass();
-	                }
-	
-	                this.prepare = function (files) {
-	                  console.log(files);
-	                      if(Array.isArray(files) && files.length<5-this.picture.length){
-	                        for(var i = 0 ; i < files.length ; i++){
-	                        var fileReader = new FileReader();
-	                        //freeze i for each loop
-	                        (function (order,index) {
-	                        fileReader.onload = function (e) {
-	
-	                        var img64 = {
-	                                      name : files[index].name,
-	                                      link : fileReader.result,
-	                                      order : order
-	                        };
-	                        $scope.$apply(that.picture.push(img64));
-	                        console.log(that.picture);
-	                        };
-	
-	                      })(order,i)
-	                        order++; //increase every loop to sort by order later
-	                        fileReader.readAsDataURL(files[i]); //encode file to base64
-	                      }
-	
-	                      } else {
-	                        this.state = 1; //show error gallery image
-	                      }
-	                };
-	
-	                this.add = function () {
-	                    this.state = 10; //show complete bar&hide submit button
-	                    var pro = this.stuff;
-	                    var data ={};
-	                    pro.img = [];
-	                    var createPro = function (arrayData,file) {
-	                      for(var i = 0 ; i<arrayData.length ; i++){
-	                          data = {
-	                              link: arrayData[i].link,
-	                              deletehash: arrayData[i].deletehash,
-	                              order: arrayData[i].title,
-	                              width: file[i].width,
-	                              height: file[i].height
-	                          };
-	                          pro.img.push(data);
-	                          pro.coverImg = that.pointer;
-	                      }
-	
-	                    $http.post('/product',pro).then(function (res) {
-	                      $state.go('auction');
-	                    });
-	                    }
-	
-	                    var processBar = function (complete,total) {
-	                      that.processBar = complete/total*100;
-	                    }
-	                      imgur.post(that.picture,processBar,createPro);
-	                };
-	
-	                this.setCover = function (index) {
-	                  this.pointer = index;
-	                  this.changeClass();
-	                }
-	
-	
-	      }],
-	      controllerAs : 'product'
-	      };
-	    })
+	      $scope.$watch('user',function(newValue, oldValue) {
+	        that.bider[0].name = newValue;
+	      });
+	      $scope.$parent.$watch('product.input',function(newValue, oldValue) {
+	        that.name = newValue.name;
+	        that.bidEnd = (newValue.time.days * 24 * 60 * 60 * 1000) + (newValue.time.hours * 60 * 60 * 1000);
+	        that.description = newValue.description;
+	        that.bider[0].price = newValue.price;
+	      },true);
+	    }] );
 	})()
 
 
 /***/ },
-/* 122 */
+/* 123 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function($) {(function () {
+	  angular.module('addProduct')
+	    .directive('addProduct',function () {
+	      var link = function (scope , element , attr , ctrl) {
+	        var el_container = $('.add-product-container');
+	        var el1 = $('.add-product-slide-1');
+	        var el2 = $('.add-product-slide-2');
+	        var slide = 1 ;
+	
+	        ctrl.preview = function () {
+	          slide = 2 ;
+	          var hi = el2.height() + 100;
+	          el_container.height(hi);
+	          el1.css({"right": "-100%"});
+	          el2.css({"right": "0px"});
+	        }
+	
+	        ctrl.previewBack = function () {
+	          slide = 1 ;
+	          var hi = el1.height();
+	          el_container.height(hi);
+	          el1.css({"right": "0"});
+	          el2.css({"right": "100%"});
+	        }
+	
+	          $(".short-description").keyup(function(event){
+	            if(event.keyCode == 13){
+	              var hi = el1.height();
+	              el_container.height(hi);
+	            }
+	          });
+	
+	          $( window ).resize(function() {
+	            if (slide === 1) {
+	              var hi = el1.height();
+	              el_container.height(hi);
+	            }
+	            else if (slide === 2) {
+	              var hi = el2.height() + 100;
+	              el_container.height(hi);
+	            }
+	          });
+	
+	      }
+	    return  {
+	        restrict: 'A',
+	        templateUrl : './modules/addProduct/views/addProduct.jade',
+	        controller : 'addProductController',
+	        controllerAs : 'product',
+	        link : link
+	      };
+	    })
+	})()
+	
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(110)))
+
+/***/ },
+/* 124 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -14981,17 +15085,13 @@
 
 
 /***/ },
-/* 123 */
+/* 125 */
 /***/ function(module, exports) {
 
 	(function () {
 	  angular.module('comment',['ngSanitize'])
 	    .directive('commentBoard',function ($timeout) {
-	      var link = function (scope , element , attr , ctrl) {
-	
-	
-	
-	      }
+	      
 	
 	      return {
 	        restrict : 'A' ,
@@ -14999,7 +15099,7 @@
 	        templateUrl : './modules/comment/views/comment.jade',
 	        controller : 'commentController' ,
 	        controllerAs : 'comment' ,
-	        link : link
+	
 	      }
 	    });
 	
@@ -15007,7 +15107,7 @@
 
 
 /***/ },
-/* 124 */
+/* 126 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -15039,7 +15139,7 @@
 
 
 /***/ },
-/* 125 */
+/* 127 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -15077,12 +15177,12 @@
 
 
 /***/ },
-/* 126 */
+/* 128 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {(function () {
 	  angular.module('comment')
-	    .controller( 'commentController' , [ '$http' , '$scope' , '$compile' , '$timeout' , '$rootScope', function ( $http , $scope , $compile , $timeout , $rootScope) {
+	    .controller( 'commentController' , [ '$http' , '$scope' , '$compile' , '$timeout' , '$rootScope' , 'replaceDiv' , function ( $http , $scope , $compile , $timeout , $rootScope , replaceDiv) {
 	      var that = this ;
 	      this.post_avatar =  $rootScope.avatarImage && $rootScope.avatarImage.img[0] ? $rootScope.avatarImage.img[$rootScope.avatarImage.pointer].link : "http://www.premiumdxb.com/assets/img/avatar/default-avatar.jpg";
 	      this.all_comment = [];
@@ -15094,17 +15194,20 @@
 	
 	      this.postComment = function () {
 	        console.log('portComment');
-	        var message = $scope.message
-	        .replace( '<div><br></div>' , '<br />&nbsp;' )
-	        .replace( '<div>' , '<br />&nbsp;' )
-	        .replace( '</div>' , '' );
+	
+	        var message = replaceDiv.clear($scope.message);
+	
 	
 	          var message = {
 	            message : message,
 	            mode : 'new',
 	            product_id : $scope.pro
 	          };
-	        $http.post('/comment/'+$scope.com , message); //responce by io.emit from server
+	        $http.post('/comment/'+$scope.com , message).then(
+	          function (responce) {
+	            $scope.message = '';
+	          }
+	        ); //responce by io.emit from server
 	      };
 	
 	      this.trigger_comment = function () {
@@ -15172,7 +15275,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(110)))
 
 /***/ },
-/* 127 */
+/* 129 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {(function () {
@@ -15212,7 +15315,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(110)))
 
 /***/ },
-/* 128 */
+/* 130 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -15237,18 +15340,40 @@
 
 
 /***/ },
-/* 129 */
+/* 131 */
 /***/ function(module, exports) {
 
 	(function () {
-	    angular.module('store',['timer','gallery','addProduct','comment'])
+	  angular.module('comment')
+	    .service('replaceDiv',[
+	    function () {
+	      this.clear = function (message) {
+	
+	        var newMessage = message
+	        .replace( new RegExp('<div><br></div>', 'g') , '<br />' )
+	        .replace( new RegExp('<div>', 'g') , '<br />' )
+	        .replace( new RegExp('</div>', 'g') , '' );
+	
+	        return newMessage;
+	      };
+	
+	    }])
+	})()
+
+
+/***/ },
+/* 132 */
+/***/ function(module, exports) {
+
+	(function () {
+	    angular.module('store',['timer','gallery','addProduct','comment','ngSanitize'])
 	      .config(['$stateProvider','$urlRouterProvider',function ($stateProvider,$urlRouterProvider) {
 	
 	          $stateProvider
-	            .state('newProduct', {
-	                url: '/new-product',
-	                template: '<div add-product class="add-product"></div>' //or templateUrl: 'someFile.html'
-	            })
+	          .state('newProduct', {
+	              url: '/new-product',
+	              template: '<div add-product class="add-product"></div>' //or templateUrl: 'someFile.html'
+	          })
 	
 	            .state('product',{
 	              abstract: true,
@@ -15302,7 +15427,7 @@
 
 
 /***/ },
-/* 130 */
+/* 133 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -15321,7 +15446,7 @@
 
 
 /***/ },
-/* 131 */
+/* 134 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -15331,12 +15456,11 @@
 	      var that = this;
 	      this._id = product._id ;
 	      this.name = product.name;
-	      this.description ='i m  hero.';
 	      this.bidEnd = product.bidEnd;
 	      this.bider = product.bider;
 	      this.creator = product.creator;
 	      this.active = product.active;
-	
+	      this.description = product.description;
 	      //following service
 	      this.following = function (productId) {
 	        if(!that.active){
@@ -15438,7 +15562,7 @@
 
 
 /***/ },
-/* 132 */
+/* 135 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -15452,7 +15576,7 @@
 
 
 /***/ },
-/* 133 */
+/* 136 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -15513,7 +15637,7 @@
 
 
 /***/ },
-/* 134 */
+/* 137 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -15567,7 +15691,7 @@
 
 
 /***/ },
-/* 135 */
+/* 138 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -15589,7 +15713,7 @@
 
 
 /***/ },
-/* 136 */
+/* 139 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {(function () {
@@ -15703,7 +15827,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(110)))
 
 /***/ },
-/* 137 */
+/* 140 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {(function () {
@@ -15761,7 +15885,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(110)))
 
 /***/ },
-/* 138 */
+/* 141 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {(function () {
@@ -15783,7 +15907,7 @@
 	            url:'/my-product',
 	            views:{
 	              myProduct:{
-	                templateUrl:'./modules/dashboard/views/myProduct.jade',
+	                templateUrl:'./modules/dashboard/views/myProduct0.jade',
 	                controller:['following','$timeout','deleteProduct','$rootScope','$scope',function (following,$timeout,deleteProduct,$rootScope,$scope) {
 	                  var that = this;
 	                  this.product = following.data.filter(function (each) {
@@ -15900,7 +16024,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(110)))
 
 /***/ },
-/* 139 */
+/* 142 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -15918,7 +16042,7 @@
 
 
 /***/ },
-/* 140 */
+/* 143 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -15966,7 +16090,7 @@
 
 
 /***/ },
-/* 141 */
+/* 144 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -16135,7 +16259,7 @@
 
 
 /***/ },
-/* 142 */
+/* 145 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(moment) {(function () {
@@ -16194,7 +16318,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
 
 /***/ },
-/* 143 */
+/* 146 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -16212,7 +16336,7 @@
 
 
 /***/ },
-/* 144 */
+/* 147 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -16305,7 +16429,7 @@
 
 
 /***/ },
-/* 145 */
+/* 148 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -16316,7 +16440,7 @@
 
 
 /***/ },
-/* 146 */
+/* 149 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -16331,7 +16455,7 @@
 
 
 /***/ },
-/* 147 */
+/* 150 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -16389,7 +16513,7 @@
 
 
 /***/ },
-/* 148 */
+/* 151 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -16466,7 +16590,7 @@
 
 
 /***/ },
-/* 149 */
+/* 152 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -16499,7 +16623,7 @@
 
 
 /***/ },
-/* 150 */
+/* 153 */
 /***/ function(module, exports) {
 
 	(function () {
