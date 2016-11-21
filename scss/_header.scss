@@ -118,14 +118,14 @@ nav-header {
 
 .user {
   margin-left: 25px;
-  margin-top: 8px;
+  margin-top: 3px;
   float: right;
-  padding: 0 7px 0 7px;
+  padding: 2px 7px 0 7px;
   height: 30px;
   border-radius: 8px;
 }
 .logout {
-  margin-left: 25px;
+  margin-left: 25px !important;
   float: right;
 }
 .user.active {

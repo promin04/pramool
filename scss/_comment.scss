@@ -36,6 +36,7 @@
   .comment-content {
     float: left;
     padding-left: 15px;
+    width: calc(100% - 55px);
 
   }
   .comment-box {
@@ -51,6 +52,10 @@
 
   .comment-submit {
     float: right;
+
+  }
+  .vis-hidden {
+    visibility: hidden;
   }
 
 .comment-each {

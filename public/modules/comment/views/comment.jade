@@ -2,9 +2,9 @@
 .comment-post.row(comment-height='')
   .comment-avatar
     img( ng-src = '{{comment.post_avatar}}' )
-  form.comment-form.comment-content( name = 'commentForm' ng-submit='comment.postComment()' ng-click = 'comment.clicked()' )
-    .comment-box( name = 'postBox' contenteditable = '' ng-model='message'  ng-class = '{unclicked : comment.state_clicked}')
-    .comment-submit(ng-show = '!comment.state_clicked')
+  form.comment-form.comment-content( name = 'commentForm' ng-submit='comment.postComment()' )
+    .comment-box( name = 'postBox' contenteditable = '' ng-model='message' ng-click = 'comment.clicked()' ng-class = '{unclicked : comment.state_clicked}')
+    .comment-submit(ng-class = '{"vis-hidden" : comment.state_clicked}')
       input.btn.btn-primary( type='submit' value='Comment' )
 .comment-each( ng-repeat = 'each in comment.all_comment' comment-height='' class = 'no-{{$index}}')
   .comment-avatar

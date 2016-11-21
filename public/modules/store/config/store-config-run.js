@@ -27,7 +27,7 @@
               function (reject) {
                 console.log(reject);
                   //check state
-                  if(toState.name !== 'auction' && toState.name !== 'completed' && toState.name !== 'product.detail' ){
+                  if(toState.name !== 'auction' && toState.name !== 'completed' && toState.name !== 'product.detail' && toState.name !== '404' ){
 
                       modalAuthService.open(closed);
                   }

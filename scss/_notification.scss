@@ -39,7 +39,8 @@
 
 
 .notification {
-  margin-top: 8px;
+  margin-top: 3px;
+  padding-top: 3px;
   position: relative;
   float: right;
   width: 38px;
@@ -58,7 +59,8 @@
 
 .notification-unread {
   position : absolute;
-  left : 11px;
+  right : 0px;
+  top: -8px;
   font-size : 12px;
 }
 

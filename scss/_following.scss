@@ -2,31 +2,90 @@
   padding: 0px !important;
   min-height: 150px;
   background-color: $lightgary;
-  border-top: 2px solid $darkgary;
-  border-right: 1px solid $darkgary;
+}
 
+.follow-modal-remove {
+    position: absolute;
+    text-align: center;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+}
+
+.follow-modal-remove-cancel {
+  margin-left: 34px;
+  top: 47px;
+  position: relative;
+}
+
+.follow-modal-remove-delete {
+  position: relative;
+  top: 47px;
 }
 
 .follow-body {
-
+  position: relative;
+  margin-bottom: 8px;
   border: 1px solid $grey;
-  border-bottom: 2px solid $darkgary;
-  border-radius: 8px;
   background-color: white;
   height: 130px;
 }
 
 .follow-img {
     height: inherit;
+    background-color: black;
+    position: relative;
+
   img {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    margin: auto;
     max-width: 100%;
     max-height: 98%;
   }
 }
 
+.follow-status-result {
+  color: $darkgary;
+}
+
 .follow-detail {
     padding-top: 12px;
     height: inherit;
+}
+.follow-status-button-edit {
+  margin-left: 8px;
+}
+@media screen and (max-width: 434px) {
+  .follow-status-button-edit {
+    margin-left: 0px;
+  }
+  .follow-status-button {
+    padding: 0px !important;
+  }
+  .follow-status-result  {
+    padding: 0px !important;
+
+  }
+  .follow-name {
+    padding: 0px !important;
+  }
+  .follow-detail {
+    padding: 8px !important;
+  }
+  .follow-console {
+    padding: 8px !important;
+  }
+  .follow-remove {
+    margin-top: 0px !important;
+  }
+  .follow-status {
+    padding: 0px !important;
+  }
 }
 
 .follow-console {
@@ -34,15 +93,26 @@
 }
 
 .follow-remove {
+  margin-top: 8px;
+  font-size: 16px;
   float: right;
+}
+
+.follow-remove.active {
+  color: orange;
+}
+
+.follow-remove:hover {
+  cursor: pointer;
+  color: orange;
 }
 
 .follow-name,.follow-status-price {
   font-weight: bold;
 }
 
-.follow-status-price {
+.follow-status {
   position: absolute !important;
-  top: 55px;
+  top: 30px;
   left: 0;
 }

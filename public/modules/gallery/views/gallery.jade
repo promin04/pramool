@@ -1,8 +1,8 @@
 .slideshow-container
   .mySlides.no-animate(ng-repeat='(key1, value1) in pic')
-    .numbertext {{value1.order}} / {{lengthPage()}}
+    //.numbertext {{value1.order}} / {{lengthPage()}}
     img.gallery.middle.fadepic(ng-src='{{value1.link}}')
-    .text Caption Text
+    //.text Caption Text
 
   a.prev(ng-click='plusSlides(-1)') ❮
   a.next(ng-click='plusSlides(1)') ❯

@@ -1,6 +1,6 @@
 (function () {
   angular.module('comment')
-    .controller( 'commentController' , [ '$http' , '$scope' , '$compile' , '$timeout' , '$rootScope' , 'replaceDiv' , function ( $http , $scope , $compile , $timeout , $rootScope , replaceDiv) {
+    .controller( 'commentController' , [ '$http' , '$scope' , '$compile' , '$timeout' , '$rootScope'  , function ( $http , $scope , $compile , $timeout , $rootScope ) {
       var that = this ;
       this.post_avatar =  $rootScope.avatarImage && $rootScope.avatarImage.img[0] ? $rootScope.avatarImage.img[$rootScope.avatarImage.pointer].link : "http://www.premiumdxb.com/assets/img/avatar/default-avatar.jpg";
       this.all_comment = [];
@@ -13,7 +13,7 @@
       this.postComment = function () {
         console.log('portComment');
 
-        var message = replaceDiv.clear($scope.message);
+        var message = $scope.message;
 
 
           var message = {

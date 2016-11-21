@@ -107,9 +107,8 @@
 	__webpack_require__(128);
 	__webpack_require__(129);
 	__webpack_require__(130);
+	
 	__webpack_require__(131);
-	
-	
 	__webpack_require__(132);
 	__webpack_require__(133);
 	__webpack_require__(134);
@@ -118,23 +117,22 @@
 	__webpack_require__(137);
 	__webpack_require__(138);
 	__webpack_require__(139);
-	__webpack_require__(140);
 	
+	__webpack_require__(140);
 	__webpack_require__(141);
 	__webpack_require__(142);
 	__webpack_require__(143);
-	__webpack_require__(144);
 	
+	__webpack_require__(144);
 	__webpack_require__(145);
 	__webpack_require__(146);
-	__webpack_require__(147);
 	
+	__webpack_require__(147);
 	__webpack_require__(148);
 	__webpack_require__(149);
 	__webpack_require__(150);
 	__webpack_require__(151);
 	__webpack_require__(152);
-	__webpack_require__(153);
 
 
 /***/ },
@@ -14841,8 +14839,8 @@
 
 	/* WEBPACK VAR INJECTION */(function($) {(function () {
 	  angular.module( 'addProduct' )
-	    .controller( 'addProductController' , ['$http','imgur','$state','$timeout','$scope','replaceDiv',
-	    function ($http,imgur,$state,$timeout,$scope,replaceDiv,modalService) {
+	    .controller( 'addProductController' , ['$http','imgur','$state','$timeout','$scope',
+	    function ( $http , imgur , $state , $timeout , $scope , modalService ) {
 	      console.log($scope , 'long do');
 	            var that = this;
 	            var imgWidth;
@@ -15125,11 +15123,15 @@
 	      };
 	
 	      // Listen for change events to enable binding
-	      element.on('blur keyup change', function(e) {
-	        var html = element.html();
-	        
-	        ngModel.$setViewValue(html);
 	
+	      element.on('keyup ', function(event) {
+	        var html = element.html();
+	        html = html
+	        .replace( new RegExp('<div><br></div>', 'g') , '<br />' )
+	        .replace( new RegExp('<div>', 'g') , '<br />' )
+	        .replace( new RegExp('</div>', 'g') , '' )
+	        .replace( new RegExp('^<br />') , '' );
+	        ngModel.$setViewValue(html);
 	      });
 	
 	    }
@@ -15182,7 +15184,7 @@
 
 	/* WEBPACK VAR INJECTION */(function($) {(function () {
 	  angular.module('comment')
-	    .controller( 'commentController' , [ '$http' , '$scope' , '$compile' , '$timeout' , '$rootScope' , 'replaceDiv' , function ( $http , $scope , $compile , $timeout , $rootScope , replaceDiv) {
+	    .controller( 'commentController' , [ '$http' , '$scope' , '$compile' , '$timeout' , '$rootScope'  , function ( $http , $scope , $compile , $timeout , $rootScope ) {
 	      var that = this ;
 	      this.post_avatar =  $rootScope.avatarImage && $rootScope.avatarImage.img[0] ? $rootScope.avatarImage.img[$rootScope.avatarImage.pointer].link : "http://www.premiumdxb.com/assets/img/avatar/default-avatar.jpg";
 	      this.all_comment = [];
@@ -15195,7 +15197,7 @@
 	      this.postComment = function () {
 	        console.log('portComment');
 	
-	        var message = replaceDiv.clear($scope.message);
+	        var message = $scope.message;
 	
 	
 	          var message = {
@@ -15344,28 +15346,6 @@
 /***/ function(module, exports) {
 
 	(function () {
-	  angular.module('comment')
-	    .service('replaceDiv',[
-	    function () {
-	      this.clear = function (message) {
-	
-	        var newMessage = message
-	        .replace( new RegExp('<div><br></div>', 'g') , '<br />' )
-	        .replace( new RegExp('<div>', 'g') , '<br />' )
-	        .replace( new RegExp('</div>', 'g') , '' );
-	
-	        return newMessage;
-	      };
-	
-	    }])
-	})()
-
-
-/***/ },
-/* 132 */
-/***/ function(module, exports) {
-
-	(function () {
 	    angular.module('store',['timer','gallery','addProduct','comment','ngSanitize'])
 	      .config(['$stateProvider','$urlRouterProvider',function ($stateProvider,$urlRouterProvider) {
 	
@@ -15374,7 +15354,10 @@
 	              url: '/new-product',
 	              template: '<div add-product class="add-product"></div>' //or templateUrl: 'someFile.html'
 	          })
-	
+	          .state('404', {
+	              url: '/404',
+	              templateUrl:'./modules/store/views/404.jade'
+	          })
 	            .state('product',{
 	              abstract: true,
 	
@@ -15385,14 +15368,19 @@
 	              url: '/product/:id',
 	
 	              resolve: {
-	                product : ['$http','$stateParams','$rootScope','following',function ($http,$stateParams,$rootScope,following) {
+	                product : ['$http','$stateParams','$rootScope','following','$state',function ($http,$stateParams,$rootScope,following,$state) {
 	                              return $http.get('/product/'+$stateParams.id)
-	                                .then(function (response) {
-	                                  var result = response.data;
-	                                  console.log('result',result);
-	                                  result.active = following.check(result.following,$rootScope.user);
-	                                  return result;
-	                              });
+	                                .then(
+	                                  function (response) {
+	                                    var result = response.data;
+	                                    console.log('result',result);
+	                                    result.active = following.check(result.following,$rootScope.user);
+	                                    return result;
+	                                  } ,
+	                                  function (err) {
+	                                    $state.go('404');
+	                                    console.log(err,'error');
+	                                  });
 	                          }]
 	              },
 	              views: {
@@ -15427,7 +15415,7 @@
 
 
 /***/ },
-/* 133 */
+/* 132 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -15446,7 +15434,7 @@
 
 
 /***/ },
-/* 134 */
+/* 133 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -15562,7 +15550,7 @@
 
 
 /***/ },
-/* 135 */
+/* 134 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -15576,7 +15564,7 @@
 
 
 /***/ },
-/* 136 */
+/* 135 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -15608,7 +15596,7 @@
 	              function (reject) {
 	                console.log(reject);
 	                  //check state
-	                  if(toState.name !== 'auction' && toState.name !== 'completed' && toState.name !== 'product.detail' ){
+	                  if(toState.name !== 'auction' && toState.name !== 'completed' && toState.name !== 'product.detail' && toState.name !== '404' ){
 	
 	                      modalAuthService.open(closed);
 	                  }
@@ -15637,7 +15625,7 @@
 
 
 /***/ },
-/* 137 */
+/* 136 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -15691,7 +15679,7 @@
 
 
 /***/ },
-/* 138 */
+/* 137 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -15713,7 +15701,7 @@
 
 
 /***/ },
-/* 139 */
+/* 138 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {(function () {
@@ -15827,7 +15815,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(110)))
 
 /***/ },
-/* 140 */
+/* 139 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {(function () {
@@ -15885,7 +15873,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(110)))
 
 /***/ },
-/* 141 */
+/* 140 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {(function () {
@@ -16024,7 +16012,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(110)))
 
 /***/ },
-/* 142 */
+/* 141 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -16042,7 +16030,7 @@
 
 
 /***/ },
-/* 143 */
+/* 142 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -16090,7 +16078,7 @@
 
 
 /***/ },
-/* 144 */
+/* 143 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -16259,7 +16247,7 @@
 
 
 /***/ },
-/* 145 */
+/* 144 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(moment) {(function () {
@@ -16318,7 +16306,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
 
 /***/ },
-/* 146 */
+/* 145 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -16336,7 +16324,7 @@
 
 
 /***/ },
-/* 147 */
+/* 146 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -16429,7 +16417,7 @@
 
 
 /***/ },
-/* 148 */
+/* 147 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -16440,7 +16428,7 @@
 
 
 /***/ },
-/* 149 */
+/* 148 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -16455,7 +16443,7 @@
 
 
 /***/ },
-/* 150 */
+/* 149 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -16513,7 +16501,7 @@
 
 
 /***/ },
-/* 151 */
+/* 150 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -16590,7 +16578,7 @@
 
 
 /***/ },
-/* 152 */
+/* 151 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -16623,7 +16611,7 @@
 
 
 /***/ },
-/* 153 */
+/* 152 */
 /***/ function(module, exports) {
 
 	(function () {

@@ -8,6 +8,7 @@
       p Size (mm.) : {{product.description.size.width}} x {{product.description.size.long}} x {{product.description.size.height}}
       p Weight (g.) : {{product.description.weight}}
       p Condition : {{product.description.condition}}
+      p Seller : {{product.creator.username}}
     h3(ng-style='{"color" : "orange" , "margin-bottom" : "20px"}' , ng-if='product.bidEnd<=0') Time Over
     h4(ng-if='product.bidEnd>0' ng-style='{"background-color" : " #e1e1e1"}') Time Remaining
     timer( milisec = '{{product.bidEnd}}' , ng-if='product.bidEnd>0')
@@ -26,7 +27,8 @@
       br
       input.btn.btn-info.product-side-submit( type = 'submit' , value = 'Offer price' )
   br
-  button.btn-default.following(ng-click='product.following(product._id)' , ng-class='{"active":product.active,"disabled":product.creator === user,"click":product.creator !== user}'
-  , type='button', ng-disabled="product.creator === user")
+
+  button.btn-default.following( ng-if = 'product.creator.username != user' ,ng-click='product.following(product._id)' , ng-class='{"active":product.active,"disabled":product.creator === user,"click":product.creator !== user}'
+  , type='button', ng-disabled="product.creator.username == user")
     span.glyphicon.glyphicon-star
     |FOLLOW

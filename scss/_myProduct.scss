@@ -1,32 +1,11 @@
+
+
 .myproduct-footage {
   background-color : #c7c7c7;
   height: 44px;
   padding: 0 16px;
   border-bottom: 2px solid $darkgary;
   border-radius: 0 0 8px 8px;
-
-
-  .glyphicon-wrench{
-    padding: 12.5px 30px;
-    color: yellow;
-    font-size: 16px;
-  }
-  .glyphicon-wrench:hover,
-  .glyphicon-remove:hover {
-    cursor: pointer;
-    background-color: $darkgary;
-  }
-
-  .glyphicon-remove.active{
-    background-color: $darkgary;
-  }
-
-  .glyphicon-remove{
-    padding: 12.5px 30px;
-    font-size: 16px;
-    color: red;
-    float: right;
-  }
 
 }
 
@@ -122,3 +101,54 @@
 .avatar-storage {
   margin-bottom: 10px;
 }
+
+.button.hollow {
+  border: 1px solid #2ba6cb;
+  color: #2ba6cb; }
+  .button.hollow, .button.hollow:hover, .button.hollow:focus {
+    background-color: transparent; }
+  .button.hollow:hover, .button.hollow:focus {
+    border-color: #165366;
+    color: #165366; }
+  .button.hollow.primary {
+    border: 1px solid #2ba6cb;
+    color: #2ba6cb; }
+    .button.hollow.primary:hover, .button.hollow.primary:focus {
+      border-color: #165366;
+      color: #165366; }
+  .button.hollow.secondary {
+    border: 1px solid #e9e9e9;
+    color: #e9e9e9; }
+    .button.hollow.secondary:hover, .button.hollow.secondary:focus {
+      border-color: #757575;
+      color: #757575; }
+  .button.hollow.alert {
+    border: 1px solid #c60f13;
+    color: #c60f13; }
+    .button.hollow.alert:hover, .button.hollow.alert:focus {
+      border-color: #63080a;
+      color: #63080a; }
+  .button.hollow.success {
+    border: 1px solid #5da423;
+    color: #5da423; }
+    .button.hollow.success:hover, .button.hollow.success:focus {
+      border-color: #2f5212;
+      color: #2f5212; }
+  .button.hollow.warning {
+    border: 1px solid #ffae00;
+    color: #ffae00; }
+    .button.hollow.warning:hover, .button.hollow.warning:focus {
+      border-color: #805700;
+      color: #805700; }
+  .button.hollow.body-font {
+    border: 1px solid #222222;
+    color: #222222; }
+    .button.hollow.body-font:hover, .button.hollow.body-font:focus {
+      border-color: #111111;
+      color: #111111; }
+  .button.hollow.header {
+    border: 1px solid #222222;
+    color: #222222; }
+    .button.hollow.header:hover, .button.hollow.header:focus {
+      border-color: #111111;
+      color: #111111; }

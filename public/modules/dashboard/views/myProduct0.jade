@@ -4,15 +4,30 @@
 .follow-box.col-sm-10.col-xs-12
     h3(ng-if='store.product.length===0' , ng-style='{"text-align":"center"}') There isn't your product. Let's
       a(ui-sref='newProduct')  Create new .
+
     .follow-body.row( ng-repeat='product in store.product' )
-      .follow-img.col-xs-4
+      .follow-modal-remove(ng-show = "preDelete" )
+        buttom.btn.btn-danger.follow-modal-remove-delete.btn-lg(ng-click='store.removeProduct(product._id,product.img,$index)')
+          |Delete
+        buttom.btn.btn-default.follow-modal-remove-cancel.btn-lg(ng-click='preDelete = !preDelete')
+          |Cancel
+      a.follow-img.col-xs-4( ui-sref = 'product.detail( {id: product._id} )' )
         img(ng-src = '{{product.img[product.coverImg.index].link}}')
       .follow-detail.col-xs-5
-          .follow-name.col-xs-12
+          a.follow-name.col-xs-12( ui-sref = 'product.detail( {id: product._id} )' )
             |{{product.name}}
           .follow-status-result.col-xs-12
             timer( milisec = '{{product.bidEnd}}' )
+          .follow-status-button.col-xs-12
+            a.button.hollow.btn.follow-status-button-detail( ui-sref = 'product.detail( {id: product._id} )' )
+              |Detail
+            .button.warning.hollow.btn.follow-status-button-edit
+              |Edit
+              
       .follow-console.col-xs-3
         span.follow-remove.glyphicon.glyphicon-remove(ng-click='preDelete = !preDelete' , ng-class="{'active' : preDelete}")
-        .follow-status-price.col-xs-12
-          |{{product.bider[product.bider.length-1].price}} THB
+        .follow-status.col-xs-12
+          .follow-status-price
+            |{{product.bider[product.bider.length-1].price}} THB
+          p
+            |{{product.bider[product.bider.length-1].name}}

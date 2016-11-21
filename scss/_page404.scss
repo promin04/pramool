@@ -1,0 +1,28 @@
+.page404 {
+  text-align: center;
+  position: relative;
+  top:100px;
+}
+
+.page404-home {
+  position: relative;
+  display: block;
+  margin: auto;
+  font-size: 40px;
+  height: 100px;
+  width: 100px;
+  border: 0.6px solid $grey;
+  border-radius: 25px;
+  top:20px;
+
+  span {
+    position: absolute;
+  margin: auto;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 40px;
+  height: 47px;
+  }
+}

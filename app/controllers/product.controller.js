@@ -170,9 +170,15 @@ module.exports = {
    },
 
    read : function (req,res) {
-     req.product.bidEnd = moment(req.product.bidEnd).diff(moment());
-     req.product.bider[req.product.bider.length-1].time = moment(req.product.bider[req.product.bider.length-1].time).fromNow();
-     res.json(req.product);
+     
+     if ( req.product ) {
+       req.product.bidEnd = moment(req.product.bidEnd).diff(moment());
+       req.product.bider[req.product.bider.length-1].time = moment(req.product.bider[req.product.bider.length-1].time).fromNow();
+       res.json(req.product);
+     } else {
+       res.status(404).end();
+     }
+
    },
 
    offer : function (req,res,next) {

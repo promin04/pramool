@@ -7,7 +7,10 @@
               url: '/new-product',
               template: '<div add-product class="add-product"></div>' //or templateUrl: 'someFile.html'
           })
-
+          .state('404', {
+              url: '/404',
+              templateUrl:'./modules/store/views/404.jade'
+          })
             .state('product',{
               abstract: true,
 
@@ -18,14 +21,19 @@
               url: '/product/:id',
 
               resolve: {
-                product : ['$http','$stateParams','$rootScope','following',function ($http,$stateParams,$rootScope,following) {
+                product : ['$http','$stateParams','$rootScope','following','$state',function ($http,$stateParams,$rootScope,following,$state) {
                               return $http.get('/product/'+$stateParams.id)
-                                .then(function (response) {
-                                  var result = response.data;
-                                  console.log('result',result);
-                                  result.active = following.check(result.following,$rootScope.user);
-                                  return result;
-                              });
+                                .then(
+                                  function (response) {
+                                    var result = response.data;
+                                    console.log('result',result);
+                                    result.active = following.check(result.following,$rootScope.user);
+                                    return result;
+                                  } ,
+                                  function (err) {
+                                    $state.go('404');
+                                    console.log(err,'error');
+                                  });
                           }]
               },
               views: {

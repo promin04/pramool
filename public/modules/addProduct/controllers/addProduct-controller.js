@@ -1,7 +1,7 @@
 (function () {
   angular.module( 'addProduct' )
-    .controller( 'addProductController' , ['$http','imgur','$state','$timeout','$scope','replaceDiv',
-    function ($http,imgur,$state,$timeout,$scope,replaceDiv,modalService) {
+    .controller( 'addProductController' , ['$http','imgur','$state','$timeout','$scope',
+    function ( $http , imgur , $state , $timeout , $scope , modalService ) {
       console.log($scope , 'long do');
             var that = this;
             var imgWidth;

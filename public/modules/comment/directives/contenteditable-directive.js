@@ -13,11 +13,15 @@
       };
 
       // Listen for change events to enable binding
-      element.on('blur keyup change', function(e) {
-        var html = element.html();
-        
-        ngModel.$setViewValue(html);
 
+      element.on('keyup ', function(event) {
+        var html = element.html();
+        html = html
+        .replace( new RegExp('<div><br></div>', 'g') , '<br />' )
+        .replace( new RegExp('<div>', 'g') , '<br />' )
+        .replace( new RegExp('</div>', 'g') , '' )
+        .replace( new RegExp('^<br />') , '' );
+        ngModel.$setViewValue(html);
       });
 
     }

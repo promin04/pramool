@@ -1,6 +1,15 @@
 .add-product-box {
  width: 100%;
 }
+.preview-product-small {
+    margin-top: 50px;
+}
+@media screen and (max-width: 767px) {
+  .preview-product-small {
+      display: none;
+  }
+}
+
 .add-product-slide-1 {
   position: relative;
   right: 0;

@@ -28,16 +28,15 @@
 }
 
 @media screen and (min-width: 450px) {
-
   .dropdown-menu {
     left: -105px !important;
   }
-
 }
 
-
 @media screen and (max-width: 995px) {
-
+  .user-icon {
+    margin-right: 0px !important;
+  }
   .user-name {
     display: none;
   }
@@ -45,6 +44,9 @@
 @media screen and (max-width: 767px) {
   .logo {
       display: none;
+  }
+  .user {
+    margin-left: 15px !important;
   }
 }
 
