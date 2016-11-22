@@ -1,6 +1,6 @@
 
 
-var scss = require('node-sass-middleware');
+
 var bodyParser = require('body-parser');
 var session = require('express-session');
 var passport = require('passport');
@@ -18,13 +18,6 @@ module.exports = function (express,app,io) {
 
     app.use(bodyParser.urlencoded({ extended: false }));
     app.use(bodyParser.json());
-    app.use(scss({
-      src: './scss',
-      dest: './public/css',
-      outputStyle: 'compressed',
-      prefix: '/css',
-      debug: true
-  }));
     app.use(session({
       secret: 'secret_key',
       resave: false,

@@ -136,11 +136,11 @@
 	__webpack_require__(161);
 	
 	__webpack_require__(162);
-	__webpack_require__(163);
-	__webpack_require__(164);
-	__webpack_require__(165);
-	__webpack_require__(166);
 	__webpack_require__(167);
+	__webpack_require__(168);
+	__webpack_require__(169);
+	__webpack_require__(170);
+	__webpack_require__(171);
 
 
 /***/ },
@@ -17443,8 +17443,11 @@
 
 /***/ },
 /* 162 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
+	// load scss file
+	__webpack_require__(163);
+	
 	(function () {
 	
 	  var app = angular.module('main',['ui.router','ngAnimate','ui.bootstrap','ngFileUpload','header','store','dashboard']);
@@ -17454,6 +17457,354 @@
 
 /***/ },
 /* 163 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(164);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(166)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../node_modules/css-loader/index.js!./../node_modules/sass-loader/index.js!./style.scss", function() {
+				var newContent = require("!!./../node_modules/css-loader/index.js!./../node_modules/sass-loader/index.js!./style.scss");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 164 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(165)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, "@media screen and (min-width: 915px) {\n  .box {\n    width: 900px !important; }\n  .product-sidebar {\n    width: 300px !important;\n    right: calc((100% - 900px)/2) !important; } }\n\n@media screen and (min-width: 768px) {\n  .product-sidebar {\n    position: fixed !important;\n    right: 0; } }\n\n@media screen and (min-width: 750px) {\n  .dropdown-toggle {\n    display: none; }\n  .dropdown-menu {\n    display: none !important; } }\n\n@media screen and (min-width: 450px) {\n  .dropdown-menu {\n    left: -105px !important; } }\n\n@media screen and (max-width: 995px) {\n  .user-icon {\n    margin-right: 0px !important; }\n  .user-name {\n    display: none; } }\n\n@media screen and (max-width: 767px) {\n  .logo {\n    display: none; }\n  .user {\n    margin-left: 15px !important; } }\n\n@media screen and (max-width: 750px) {\n  .logout {\n    display: none !important; }\n  .user {\n    display: none; } }\n\n@media screen and (max-width: 450px) {\n  .comment-avatar {\n    width: 40px !important;\n    height: 40px !important; }\n  .vertical .product-img {\n    height: auto !important;\n    width: 100px !important; }\n  .vertical .product-auction {\n    font-size: 11px; }\n  .horizontal .product-img {\n    height: 100px !important;\n    width: auto !important; }\n  .horizontal .product-auction {\n    font-size: 11px; }\n  .auth {\n    padding: 0px !important; }\n  .search-box {\n    padding: 0px !important; }\n  .dropdown {\n    margin-left: 12px !important; }\n  .dropdown-menu {\n    left: -120px !important; } }\n\nheader {\n  background: #c7c7c7;\n  padding: 0 !important;\n  margin: 0;\n  border-bottom: 2px solid #878686;\n  width: 100%; }\n\ntop-header {\n  background-color: #e1e1e1;\n  display: block;\n  margin: 0;\n  padding: 10px 0 10px 0;\n  font-family: 'Baloo Bhai', cursive; }\n\n.logo {\n  text-align: left;\n  font-size: 16px; }\n  .logo .logo-small {\n    font-size: 12px; }\n\n.search-form {\n  margin-top: 5px; }\n\n.search-box {\n  height: 30px;\n  border-bottom-width: 0px;\n  border-top-width: 2px;\n  border-right-width: 1px;\n  border-left-width: 1px;\n  padding-bottom: 1px;\n  border-radius: 5px 0 0 5px; }\n\n.search-btn {\n  background-color: white;\n  height: 31px;\n  border-top-width: 1px;\n  border-left-width: 1px;\n  border-right-width: 1px;\n  border-bottom-width: 1px;\n  border-radius: 0 5px 5px 0; }\n\n.bell {\n  font-size: 18px; }\n\n.auth .dropdown {\n  margin-left: 25px;\n  float: right; }\n\n.auth li {\n  padding: 10px  0;\n  text-align: center;\n  border-bottom: 1px solid #e1e1e1; }\n\n.auth .menu {\n  font-size: 25px;\n  margin-top: 5px; }\n\nnav-header {\n  display: block;\n  height: 36px;\n  padding: 0 !important; }\n\n.header-menu {\n  margin: auto;\n  padding: 0;\n  display: block; }\n  .header-menu li {\n    display: inline-block;\n    padding: 6px 15px;\n    border-bottom: 4px solid #878686;\n    border-left: 4px solid #c7c7c7;\n    border-right: 4px solid #c7c7c7; }\n  .header-menu li:hover {\n    border-left: 4px solid #e1e1e1;\n    border-right: 4px solid #e1e1e1;\n    cursor: pointer;\n    background-color: #e1e1e1;\n    transition: background-color 1s ease; }\n  .header-menu .active {\n    background-color: #e1e1e1;\n    border-left: 4px solid #e1e1e1;\n    border-right: 4px solid #e1e1e1;\n    font-weight: bold;\n    border-bottom: 4px solid #40a5e3; }\n\n.user {\n  margin-left: 25px;\n  margin-top: 3px;\n  float: right;\n  padding: 2px 7px 0 7px;\n  height: 30px;\n  border-radius: 8px; }\n\n.logout {\n  margin-left: 25px !important;\n  float: right; }\n\n.user.active {\n  background-color: #f9f9f9; }\n\n.user:hover {\n  cursor: pointer; }\n\n.user-icon {\n  height: 25px;\n  width: 25px;\n  border-radius: 25px;\n  margin-right: 8px; }\n\n.header-user {\n  display: inline-block; }\n  .header-user li {\n    display: inline-block;\n    float: right; }\n  .header-user li:hover {\n    cursor: pointer;\n    background-color: #e1e1e1;\n    transition: background-color 1s ease; }\n\n.vertical .product-img {\n  width: 170px;\n  max-height: 340px; }\n\n.vertical img {\n  max-width: 100%;\n  max-height: 100%; }\n\n.horizontal .product-img {\n  height: 170px;\n  max-width: 340px; }\n\n.horizontal img {\n  max-width: 100%;\n  max-height: 100%; }\n\n.horizontal .timer {\n  display: inline-block;\n  width: 50%; }\n\n.horizontal .product-price {\n  display: inline-block;\n  width: 50%;\n  vertical-align: middle; }\n\n.past-ago {\n  color: #c7c7c7; }\n\n.product-box {\n  padding: 16px;\n  display: inline-block;\n  text-align: center;\n  border: 1px solid #c7c7c7;\n  border-bottom: 2px solid #878686;\n  border-radius: 8px;\n  background-color: white; }\n\n.product-box:hover {\n  cursor: pointer;\n  border: 1px solid #40a5e3;\n  border-bottom: 2px solid #40a5e3; }\n\n.box {\n  clear: both; }\n\n.content-header {\n  margin-top: 30px;\n  margin-bottom: 20px;\n  padding-left: 10px;\n  border-left: 5px solid #40a5e3; }\n\n/* Slideshow container */\n.slideshow-container {\n  max-width: 1000px;\n  height: 450px;\n  position: relative;\n  margin: auto;\n  background-color: black;\n  margin-bottom: 20px; }\n\n.product-main {\n  margin-bottom: 20px; }\n\n.main-gallery {\n  padding-bottom: 200px; }\n\n/* Next & previous buttons */\n.prev, .next {\n  cursor: pointer;\n  position: absolute;\n  top: 50%;\n  width: auto;\n  margin-top: -22px;\n  padding: 16px;\n  color: white;\n  font-weight: bold;\n  font-size: 30px;\n  transition: 0.6s ease;\n  border-radius: 0 3px 3px 0; }\n\n/* Position the \"next button\" to the right */\n.next {\n  right: 0;\n  border-radius: 3px 0 0 3px; }\n\n/* On hover, add a black background color with a little bit see-through */\n.prev:hover, .next:hover {\n  background-color: rgba(0, 0, 0, 0.8); }\n\n/* Caption text */\n.text {\n  color: #f2f2f2;\n  font-size: 15px;\n  padding: 8px 12px;\n  position: absolute;\n  bottom: 8px;\n  text-align: center;\n  background-color: rgba(0, 0, 0, 0.4); }\n\n/* Number text (1/3 etc) */\n.numbertext {\n  color: #f2f2f2;\n  font-size: 12px;\n  padding: 8px 12px;\n  position: absolute;\n  top: 0;\n  background-color: rgba(0, 0, 0, 0.4); }\n\n/* The dots/bullets/indicators */\n.dot {\n  cursor: pointer;\n  margin: 0 2px;\n  display: inline-block;\n  opacity: 0.6;\n  transition: opacity 0.6s ease;\n  border: 1px solid #c7c7c7; }\n\n.gallery .active, .gallery .dot:hover {\n  opacity: 1;\n  border: 1px solid #40a5e3; }\n\nimg.gallery {\n  max-height: 100%;\n  max-width: 100%; }\n\n/* Fading animation */\n.fadepic {\n  animation-name: fade;\n  animation-duration: 1.5s;\n  animation-fill-mode: forwards; }\n\n.gallery {\n  margin-bottom: 20px;\n  display: block;\n  max-width: 100%;\n  margin: auto; }\n\n.middle {\n  position: absolute;\n  top: 0;\n  bottom: 0;\n  left: 0;\n  right: 0; }\n\n@-webkit-keyframes fade {\n  from {\n    opacity: .4; }\n  to {\n    opacity: 1; } }\n\n@keyframes fade {\n  from {\n    opacity: .4; }\n  to {\n    opacity: 1; } }\n\n.product-sidebar {\n  background-color: #fff;\n  padding-bottom: 30px;\n  border: 1px solid #c7c7c7;\n  border-bottom: 2px solid #c7c7c7;\n  border-radius: 8px; }\n\n.product-side-description-guide {\n  text-align: left; }\n\n.product-side-submit {\n  margin-top: 12px;\n  width: 175px; }\n\n.product-side {\n  text-align: center; }\n  .product-side .following.disabled {\n    opacity: 0.4; }\n  .product-side .following.click:hover {\n    cursor: pointer;\n    background-color: #c7c7c7;\n    border-left: 1px solid #878686;\n    border-right: 1px solid #878686;\n    border-top: 3px solid #878686;\n    border-bottom: 1px solid #c7c7c7; }\n    .product-side .following.click:hover .glyphicon-star {\n      color: orange; }\n  .product-side .following {\n    border-radius: 10px;\n    text-align: center;\n    padding: 10px 0;\n    width: 50%;\n    font-weight: bold;\n    border-top: 1px solid #c7c7c7;\n    border-left: 1px solid #c7c7c7;\n    border-right: 1px solid #c7c7c7;\n    border-bottom: 3px solid #c7c7c7; }\n    .product-side .following .glyphicon-star {\n      font-size: 16px;\n      padding: 5px; }\n  .product-side .following.active {\n    cursor: pointer;\n    background-color: #c7c7c7;\n    border-left: 1px solid #878686;\n    border-right: 1px solid #878686;\n    border-top: 3px solid #878686;\n    border-bottom: 1px solid #c7c7c7; }\n    .product-side .following.active .glyphicon-star {\n      color: orange; }\n\n.ng-enter {\n  transition: 800ms cubic-bezier(0.25, 0.1, 0.25, 1) all;\n  position: relative; }\n\n.ng-enter.ng-enter-active {\n  opacity: 1;\n  left: 0; }\n\n.ng-enter {\n  opacity: 0;\n  left: -300px; }\n\n.myproduct-footage {\n  background-color: #c7c7c7;\n  height: 44px;\n  padding: 0 16px;\n  border-bottom: 2px solid #878686;\n  border-radius: 0 0 8px 8px; }\n\n.myproduct-body {\n  position: relative;\n  text-align: center;\n  padding: 16px 16px 16px 16px;\n  border-top: 1px solid #c7c7c7;\n  border-left: 1px solid #c7c7c7;\n  border-right: 1px solid #c7c7c7;\n  border-radius: 8px 8px 0 0;\n  background-color: white; }\n\n.myproduct-body:hover {\n  cursor: pointer;\n  border-top: 1px solid #40a5e3;\n  border-left: 1px solid #40a5e3;\n  border-right: 1px solid #40a5e3;\n  opacity: 0.6; }\n\n.preDelete {\n  position: absolute;\n  top: 0;\n  left: 0;\n  background-color: rgba(255, 255, 255, 0.6);\n  width: 100%;\n  height: 100%; }\n\n.preDelete-selector {\n  position: absolute;\n  top: 40%;\n  left: 15%; }\n  .preDelete-selector .delete {\n    margin-right: 20px; }\n\n.avatar-modal {\n  margin: 20px; }\n\n.avatar {\n  display: block;\n  margin: auto;\n  margin-bottom: 15px;\n  width: 100px;\n  height: 100px;\n  border-radius: 50px; }\n\n.profile {\n  margin-bottom: 30px; }\n\n.profile-avatar {\n  text-align: center;\n  margin-bottom: 15px; }\n\n.profile-avatar.click {\n  cursor: pointer; }\n\n.inputfile-upload {\n  position: absolute;\n  width: 100%;\n  height: 100%;\n  margin: 0;\n  top: 0;\n  left: 0;\n  padding: 0;\n  font-size: 20px;\n  cursor: pointer;\n  opacity: 0; }\n\n.inputfile-btn {\n  position: relative; }\n  .inputfile-btn .glyphicon {\n    font-size: 19px;\n    margin-right: 10px; }\n\n.avatar-select {\n  text-align: center; }\n\n.avatar-storage {\n  margin-bottom: 10px; }\n\n.button.hollow {\n  border: 1px solid #2ba6cb;\n  color: #2ba6cb; }\n\n.button.hollow, .button.hollow:hover, .button.hollow:focus {\n  background-color: transparent; }\n\n.button.hollow:hover, .button.hollow:focus {\n  border-color: #165366;\n  color: #165366; }\n\n.button.hollow.primary {\n  border: 1px solid #2ba6cb;\n  color: #2ba6cb; }\n\n.button.hollow.primary:hover, .button.hollow.primary:focus {\n  border-color: #165366;\n  color: #165366; }\n\n.button.hollow.secondary {\n  border: 1px solid #e9e9e9;\n  color: #e9e9e9; }\n\n.button.hollow.secondary:hover, .button.hollow.secondary:focus {\n  border-color: #757575;\n  color: #757575; }\n\n.button.hollow.alert {\n  border: 1px solid #c60f13;\n  color: #c60f13; }\n\n.button.hollow.alert:hover, .button.hollow.alert:focus {\n  border-color: #63080a;\n  color: #63080a; }\n\n.button.hollow.success {\n  border: 1px solid #5da423;\n  color: #5da423; }\n\n.button.hollow.success:hover, .button.hollow.success:focus {\n  border-color: #2f5212;\n  color: #2f5212; }\n\n.button.hollow.warning {\n  border: 1px solid #ffae00;\n  color: #ffae00; }\n\n.button.hollow.warning:hover, .button.hollow.warning:focus {\n  border-color: #805700;\n  color: #805700; }\n\n.button.hollow.body-font {\n  border: 1px solid #222222;\n  color: #222222; }\n\n.button.hollow.body-font:hover, .button.hollow.body-font:focus {\n  border-color: #111111;\n  color: #111111; }\n\n.button.hollow.header {\n  border: 1px solid #222222;\n  color: #222222; }\n\n.button.hollow.header:hover, .button.hollow.header:focus {\n  border-color: #111111;\n  color: #111111; }\n\n.follow-box {\n  padding: 0px !important;\n  min-height: 150px;\n  background-color: #e1e1e1; }\n\n.follow-modal-remove {\n  position: absolute;\n  text-align: center;\n  width: 100%;\n  height: 100%;\n  background: rgba(0, 0, 0, 0.5);\n  z-index: 1; }\n\n.follow-modal-remove-cancel {\n  margin-left: 34px;\n  top: 47px;\n  position: relative; }\n\n.follow-modal-remove-delete {\n  position: relative;\n  top: 47px; }\n\n.follow-body {\n  position: relative;\n  margin-bottom: 8px;\n  border: 1px solid #c7c7c7;\n  background-color: white;\n  height: 130px; }\n\n.follow-img {\n  height: inherit;\n  background-color: black;\n  position: relative; }\n  .follow-img img {\n    position: absolute;\n    top: 0;\n    bottom: 0;\n    right: 0;\n    left: 0;\n    margin: auto;\n    max-width: 100%;\n    max-height: 98%; }\n\n.follow-status-result {\n  color: #878686; }\n\n.follow-detail {\n  padding-top: 12px;\n  height: inherit; }\n\n.follow-status-button-edit {\n  margin-left: 8px; }\n\n@media screen and (max-width: 434px) {\n  .follow-status-button-edit {\n    margin-left: 0px; }\n  .follow-status-button {\n    padding: 0px !important; }\n  .follow-status-result {\n    padding: 0px !important; }\n  .follow-name {\n    padding: 0px !important; }\n  .follow-detail {\n    padding: 8px !important; }\n  .follow-console {\n    padding: 8px !important; }\n  .follow-remove {\n    margin-top: 0px !important; }\n  .follow-status {\n    padding: 0px !important; } }\n\n.follow-console {\n  height: inherit; }\n\n.follow-remove {\n  margin-top: 8px;\n  font-size: 16px;\n  float: right; }\n\n.follow-remove.active {\n  color: orange; }\n\n.follow-remove:hover {\n  cursor: pointer;\n  color: orange; }\n\n.follow-name, .follow-status-price {\n  font-weight: bold; }\n\n.follow-status {\n  position: absolute !important;\n  top: 30px;\n  left: 0; }\n\n.add-product-box {\n  width: 100%; }\n\n.preview-product-small {\n  margin-top: 50px; }\n\n@media screen and (max-width: 767px) {\n  .preview-product-small {\n    display: none; } }\n\n.add-product-slide-1 {\n  position: relative;\n  right: 0;\n  transition: right 0.5s ease; }\n\n.add-product-slide-2 {\n  position: absolute;\n  width: 100%;\n  top: 0;\n  right: 100%;\n  transition: right 0.5s ease; }\n  .add-product-slide-2 .product-sidebar {\n    position: relative !important; }\n\n.add-product-button {\n  position: relative;\n  text-align: center;\n  background-color: white; }\n\n@media screen and (max-width: 767px) {\n  .add-product-button {\n    position: fixed;\n    bottom: 0px;\n    width: 100%; } }\n\n.add-product {\n  padding-top: 8px;\n  margin-bottom: 10px;\n  overflow: hidden;\n  position: relative; }\n\n.form-img-space {\n  margin-top: 15px;\n  height: 168px;\n  width: 100%;\n  background-color: #e1e1e1;\n  border-top: 2px solid #c7c7c7;\n  border-right: 1px solid #c7c7c7;\n  border-left: 1px solid #c7c7c7; }\n\n.form-img {\n  position: relative;\n  display: inline-block;\n  max-width: 25%;\n  max-height: 165px;\n  background-color: black; }\n  .form-img img {\n    width: 100%;\n    max-height: 130px;\n    height: auto; }\n\n.form-img.cover img {\n  border: 1px solid #40a5e3; }\n\n.form-img.cover .glyphicon-picture {\n  color: green; }\n\n.form-img-cover {\n  display: inline-block;\n  padding: 8px 0;\n  width: 50%;\n  text-align: center;\n  border-left: 1px solid #e1e1e1;\n  border-bottom: 3px solid #e1e1e1;\n  background-color: white; }\n\n.form-img-cover:hover {\n  cursor: pointer;\n  background-color: #c7c7c7; }\n\n.form-img-remove {\n  display: inline-block;\n  padding: 8px 0;\n  width: 50%;\n  text-align: center;\n  border-left: 1px solid #e1e1e1;\n  border-bottom: 3px solid #e1e1e1;\n  border-right: 1px solid #e1e1e1;\n  background-color: white; }\n\n.form-img-remove:hover {\n  cursor: pointer;\n  background-color: #c7c7c7; }\n\n.preview-min {\n  text-align: center;\n  width: 100%; }\n\n.short-description {\n  background-color: white;\n  border: 0.5px solid #c7c7c7;\n  min-height: 66px;\n  width: 100%; }\n\n.popover-content {\n  max-height: 400px;\n  overflow: auto; }\n\n.popover-repeat {\n  display: inline-block;\n  border-bottom: 0.6px solid #e1e1e1;\n  padding-top: 10px;\n  padding-bottom: 10px; }\n\n.popover-repeat:hover {\n  cursor: pointer;\n  background-color: #f9f9f9; }\n\n.notification-img {\n  float: left;\n  width: 50px; }\n  .notification-img img {\n    width: 50px;\n    height: 50px; }\n\n.notification-text {\n  min-height: 50px;\n  margin-left: 70px; }\n\n.notification {\n  margin-top: 3px;\n  padding-top: 3px;\n  position: relative;\n  float: right;\n  width: 38px;\n  height: 30px;\n  border-radius: 8px; }\n\n.notification:hover {\n  cursor: pointer;\n  color: #878686; }\n\n.notification-icon {\n  position: relative; }\n\n.notification-unread {\n  position: absolute;\n  right: 0px;\n  top: -8px;\n  font-size: 12px; }\n\n.badge {\n  font-weight: normal !important;\n  background-color: red !important; }\n\ninput.ng-invalid.ng-dirty {\n  border-color: red; }\n\ninput.ng-invalid.ng-dirty :hover {\n  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #ce8483 !important; }\n\n.comment-title {\n  margin-bottom: 10px;\n  font-weight: bold; }\n\n.comment-username {\n  font-weight: bold;\n  margin-bottom: 6px; }\n\n.comment-avatar {\n  width: 55px;\n  height: 55px;\n  float: left; }\n  .comment-avatar img {\n    max-width: 100%;\n    max-height: 100%;\n    border-radius: 10px; }\n\n.comment-board {\n  margin-top: 15px;\n  border: 0.6px solid #c7c7c7;\n  padding: 16px;\n  background-color: #fff; }\n\n.comment-form {\n  width: calc(100% - 55px);\n  float: left; }\n\n.comment-content {\n  float: left;\n  padding-left: 15px;\n  width: calc(100% - 55px); }\n\n.comment-box {\n  margin-bottom: 20px;\n  border: 0.5px solid #c7c7c7;\n  min-height: 66px; }\n\n.comment-box.unclicked:hover {\n  cursor: pointer; }\n\n.comment-submit {\n  float: right; }\n\n.vis-hidden {\n  visibility: hidden; }\n\n.comment-each {\n  clear: both;\n  margin-bottom: 16px; }\n\n.comment-answer {\n  margin-top: 8px;\n  margin-bottom: 10px;\n  font-size: 12px;\n  color: #878686; }\n\n.comment-answer:hover {\n  cursor: pointer; }\n\n.comment-answered {\n  display: block;\n  padding-left: 10px;\n  padding-top: 12px;\n  border-left: 2px solid #e1e1e1; }\n\n.page404 {\n  text-align: center;\n  position: relative;\n  top: 100px; }\n\n.page404-home {\n  position: relative;\n  display: block;\n  margin: auto;\n  font-size: 40px;\n  height: 100px;\n  width: 100px;\n  border: 0.6px solid #c7c7c7;\n  border-radius: 25px;\n  top: 20px; }\n  .page404-home span {\n    position: absolute;\n    margin: auto;\n    top: 0;\n    right: 0;\n    bottom: 0;\n    left: 0;\n    width: 40px;\n    height: 47px; }\n\nbody {\n  width: 100%;\n  height: 100%;\n  background-color: #f0f0f0 !important; }\n\n.row {\n  margin-left: 0px !important;\n  margin-right: 0px !important; }\n\n.container {\n  padding: 0px !important; }\n\n.box {\n  position: relative;\n  top: 50px;\n  display: block;\n  width: 100%;\n  height: 100%;\n  margin: auto; }\n\n.no-animate {\n  transition: none !important;\n  animation-duration: 0 !important; }\n\n::-webkit-input-placeholder {\n  text-align: center; }\n\n:-moz-placeholder {\n  /* Firefox 18- */\n  text-align: center; }\n\n::-moz-placeholder {\n  /* Firefox 19+ */\n  text-align: center; }\n\n:-ms-input-placeholder {\n  text-align: center; }\n", ""]);
+	
+	// exports
+
+
+/***/ },
+/* 165 */
+/***/ function(module, exports) {
+
+	/*
+		MIT License http://www.opensource.org/licenses/mit-license.php
+		Author Tobias Koppers @sokra
+	*/
+	// css base code, injected by the css-loader
+	module.exports = function() {
+		var list = [];
+	
+		// return the list of modules as css string
+		list.toString = function toString() {
+			var result = [];
+			for(var i = 0; i < this.length; i++) {
+				var item = this[i];
+				if(item[2]) {
+					result.push("@media " + item[2] + "{" + item[1] + "}");
+				} else {
+					result.push(item[1]);
+				}
+			}
+			return result.join("");
+		};
+	
+		// import a list of modules into the list
+		list.i = function(modules, mediaQuery) {
+			if(typeof modules === "string")
+				modules = [[null, modules, ""]];
+			var alreadyImportedModules = {};
+			for(var i = 0; i < this.length; i++) {
+				var id = this[i][0];
+				if(typeof id === "number")
+					alreadyImportedModules[id] = true;
+			}
+			for(i = 0; i < modules.length; i++) {
+				var item = modules[i];
+				// skip already imported module
+				// this implementation is not 100% perfect for weird media query combinations
+				//  when a module is imported multiple times with different media queries.
+				//  I hope this will never occur (Hey this way we have smaller bundles)
+				if(typeof item[0] !== "number" || !alreadyImportedModules[item[0]]) {
+					if(mediaQuery && !item[2]) {
+						item[2] = mediaQuery;
+					} else if(mediaQuery) {
+						item[2] = "(" + item[2] + ") and (" + mediaQuery + ")";
+					}
+					list.push(item);
+				}
+			}
+		};
+		return list;
+	};
+
+
+/***/ },
+/* 166 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/*
+		MIT License http://www.opensource.org/licenses/mit-license.php
+		Author Tobias Koppers @sokra
+	*/
+	var stylesInDom = {},
+		memoize = function(fn) {
+			var memo;
+			return function () {
+				if (typeof memo === "undefined") memo = fn.apply(this, arguments);
+				return memo;
+			};
+		},
+		isOldIE = memoize(function() {
+			return /msie [6-9]\b/.test(window.navigator.userAgent.toLowerCase());
+		}),
+		getHeadElement = memoize(function () {
+			return document.head || document.getElementsByTagName("head")[0];
+		}),
+		singletonElement = null,
+		singletonCounter = 0,
+		styleElementsInsertedAtTop = [];
+	
+	module.exports = function(list, options) {
+		if(false) {
+			if(typeof document !== "object") throw new Error("The style-loader cannot be used in a non-browser environment");
+		}
+	
+		options = options || {};
+		// Force single-tag solution on IE6-9, which has a hard limit on the # of <style>
+		// tags it will allow on a page
+		if (typeof options.singleton === "undefined") options.singleton = isOldIE();
+	
+		// By default, add <style> tags to the bottom of <head>.
+		if (typeof options.insertAt === "undefined") options.insertAt = "bottom";
+	
+		var styles = listToStyles(list);
+		addStylesToDom(styles, options);
+	
+		return function update(newList) {
+			var mayRemove = [];
+			for(var i = 0; i < styles.length; i++) {
+				var item = styles[i];
+				var domStyle = stylesInDom[item.id];
+				domStyle.refs--;
+				mayRemove.push(domStyle);
+			}
+			if(newList) {
+				var newStyles = listToStyles(newList);
+				addStylesToDom(newStyles, options);
+			}
+			for(var i = 0; i < mayRemove.length; i++) {
+				var domStyle = mayRemove[i];
+				if(domStyle.refs === 0) {
+					for(var j = 0; j < domStyle.parts.length; j++)
+						domStyle.parts[j]();
+					delete stylesInDom[domStyle.id];
+				}
+			}
+		};
+	}
+	
+	function addStylesToDom(styles, options) {
+		for(var i = 0; i < styles.length; i++) {
+			var item = styles[i];
+			var domStyle = stylesInDom[item.id];
+			if(domStyle) {
+				domStyle.refs++;
+				for(var j = 0; j < domStyle.parts.length; j++) {
+					domStyle.parts[j](item.parts[j]);
+				}
+				for(; j < item.parts.length; j++) {
+					domStyle.parts.push(addStyle(item.parts[j], options));
+				}
+			} else {
+				var parts = [];
+				for(var j = 0; j < item.parts.length; j++) {
+					parts.push(addStyle(item.parts[j], options));
+				}
+				stylesInDom[item.id] = {id: item.id, refs: 1, parts: parts};
+			}
+		}
+	}
+	
+	function listToStyles(list) {
+		var styles = [];
+		var newStyles = {};
+		for(var i = 0; i < list.length; i++) {
+			var item = list[i];
+			var id = item[0];
+			var css = item[1];
+			var media = item[2];
+			var sourceMap = item[3];
+			var part = {css: css, media: media, sourceMap: sourceMap};
+			if(!newStyles[id])
+				styles.push(newStyles[id] = {id: id, parts: [part]});
+			else
+				newStyles[id].parts.push(part);
+		}
+		return styles;
+	}
+	
+	function insertStyleElement(options, styleElement) {
+		var head = getHeadElement();
+		var lastStyleElementInsertedAtTop = styleElementsInsertedAtTop[styleElementsInsertedAtTop.length - 1];
+		if (options.insertAt === "top") {
+			if(!lastStyleElementInsertedAtTop) {
+				head.insertBefore(styleElement, head.firstChild);
+			} else if(lastStyleElementInsertedAtTop.nextSibling) {
+				head.insertBefore(styleElement, lastStyleElementInsertedAtTop.nextSibling);
+			} else {
+				head.appendChild(styleElement);
+			}
+			styleElementsInsertedAtTop.push(styleElement);
+		} else if (options.insertAt === "bottom") {
+			head.appendChild(styleElement);
+		} else {
+			throw new Error("Invalid value for parameter 'insertAt'. Must be 'top' or 'bottom'.");
+		}
+	}
+	
+	function removeStyleElement(styleElement) {
+		styleElement.parentNode.removeChild(styleElement);
+		var idx = styleElementsInsertedAtTop.indexOf(styleElement);
+		if(idx >= 0) {
+			styleElementsInsertedAtTop.splice(idx, 1);
+		}
+	}
+	
+	function createStyleElement(options) {
+		var styleElement = document.createElement("style");
+		styleElement.type = "text/css";
+		insertStyleElement(options, styleElement);
+		return styleElement;
+	}
+	
+	function createLinkElement(options) {
+		var linkElement = document.createElement("link");
+		linkElement.rel = "stylesheet";
+		insertStyleElement(options, linkElement);
+		return linkElement;
+	}
+	
+	function addStyle(obj, options) {
+		var styleElement, update, remove;
+	
+		if (options.singleton) {
+			var styleIndex = singletonCounter++;
+			styleElement = singletonElement || (singletonElement = createStyleElement(options));
+			update = applyToSingletonTag.bind(null, styleElement, styleIndex, false);
+			remove = applyToSingletonTag.bind(null, styleElement, styleIndex, true);
+		} else if(obj.sourceMap &&
+			typeof URL === "function" &&
+			typeof URL.createObjectURL === "function" &&
+			typeof URL.revokeObjectURL === "function" &&
+			typeof Blob === "function" &&
+			typeof btoa === "function") {
+			styleElement = createLinkElement(options);
+			update = updateLink.bind(null, styleElement);
+			remove = function() {
+				removeStyleElement(styleElement);
+				if(styleElement.href)
+					URL.revokeObjectURL(styleElement.href);
+			};
+		} else {
+			styleElement = createStyleElement(options);
+			update = applyToTag.bind(null, styleElement);
+			remove = function() {
+				removeStyleElement(styleElement);
+			};
+		}
+	
+		update(obj);
+	
+		return function updateStyle(newObj) {
+			if(newObj) {
+				if(newObj.css === obj.css && newObj.media === obj.media && newObj.sourceMap === obj.sourceMap)
+					return;
+				update(obj = newObj);
+			} else {
+				remove();
+			}
+		};
+	}
+	
+	var replaceText = (function () {
+		var textStore = [];
+	
+		return function (index, replacement) {
+			textStore[index] = replacement;
+			return textStore.filter(Boolean).join('\n');
+		};
+	})();
+	
+	function applyToSingletonTag(styleElement, index, remove, obj) {
+		var css = remove ? "" : obj.css;
+	
+		if (styleElement.styleSheet) {
+			styleElement.styleSheet.cssText = replaceText(index, css);
+		} else {
+			var cssNode = document.createTextNode(css);
+			var childNodes = styleElement.childNodes;
+			if (childNodes[index]) styleElement.removeChild(childNodes[index]);
+			if (childNodes.length) {
+				styleElement.insertBefore(cssNode, childNodes[index]);
+			} else {
+				styleElement.appendChild(cssNode);
+			}
+		}
+	}
+	
+	function applyToTag(styleElement, obj) {
+		var css = obj.css;
+		var media = obj.media;
+	
+		if(media) {
+			styleElement.setAttribute("media", media)
+		}
+	
+		if(styleElement.styleSheet) {
+			styleElement.styleSheet.cssText = css;
+		} else {
+			while(styleElement.firstChild) {
+				styleElement.removeChild(styleElement.firstChild);
+			}
+			styleElement.appendChild(document.createTextNode(css));
+		}
+	}
+	
+	function updateLink(linkElement, obj) {
+		var css = obj.css;
+		var sourceMap = obj.sourceMap;
+	
+		if(sourceMap) {
+			// http://stackoverflow.com/a/26603875
+			css += "\n/*# sourceMappingURL=data:application/json;base64," + btoa(unescape(encodeURIComponent(JSON.stringify(sourceMap)))) + " */";
+		}
+	
+		var blob = new Blob([css], { type: "text/css" });
+	
+		var oldSrc = linkElement.href;
+	
+		linkElement.href = URL.createObjectURL(blob);
+	
+		if(oldSrc)
+			URL.revokeObjectURL(oldSrc);
+	}
+
+
+/***/ },
+/* 167 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -17468,7 +17819,7 @@
 
 
 /***/ },
-/* 164 */
+/* 168 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -17526,7 +17877,7 @@
 
 
 /***/ },
-/* 165 */
+/* 169 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -17603,7 +17954,7 @@
 
 
 /***/ },
-/* 166 */
+/* 170 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -17636,7 +17987,7 @@
 
 
 /***/ },
-/* 167 */
+/* 171 */
 /***/ function(module, exports) {
 
 	(function () {

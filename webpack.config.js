@@ -18,7 +18,18 @@ module.exports = {
           jQuery: "jquery",
           moment: "moment"
       })
-
     ],
+      module: {
+        loaders: [
+          {
+            test: /\.scss$/,
+            loaders: ["style", "css", "sass"]
+          },
+          {
+            test: /\.css$/,
+            loaders: ["style", "css"]
+          }
+        ]
+      },
     devtool: 'source-map'
   }
