@@ -25,7 +25,7 @@ require("../../modules/addProduct/addProduct-app.js");
 require("../../modules/addProduct/controllers/addProduct-controller.js");
 require("../../modules/addProduct/controllers/sidebarReview-controller.js");
 require("../../modules/addProduct/directives/addProduct.js");
-require("../../modules/addProduct/directives/imageonload.js");
+require("../../modules/addProduct/directives/imageOnload.js");
 
 require("../../modules/comment/directives/comment-directive.js");
 require("../../modules/comment/directives/contenteditable-directive.js");
