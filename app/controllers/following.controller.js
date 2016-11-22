@@ -74,6 +74,7 @@ module.exports = {
   },
 
     setPreDelete : function (req,res,next) {
+      console.log('setPreDelete');
       if (req.product) {
         req.follow = {
                       _id : req.product._id ,
@@ -88,7 +89,7 @@ module.exports = {
     },
 
   notification : function (req,res,next) {
-
+    console.log('notification');
     var notification = {};
     var follower = [];
     var condition;
@@ -256,7 +257,10 @@ module.exports = {
           if(client) req.io.to(client).emit('notification' , data);   //emit notification to client that online right now
           if(err) return next(err);
           count++;
-          if(count === follower.length) return next(); // check last process to call next()
+          if(count === follower.length) {
+            console.log('final');
+            return next(); // check last process to call next()
+          }
         });
 
       })(condition , update , option , client , count = 0)

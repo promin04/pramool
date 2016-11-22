@@ -6,7 +6,7 @@
       $stateProvider
         .state('auction',{
           url : '/',
-          templateUrl : './modules/store/views/store.jade'
+            template : '<div store class="store"></div>'
 
       })
         .state('completed',{

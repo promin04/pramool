@@ -69,7 +69,7 @@
             url:'/following',
             views:{
               following:{
-                templateUrl:'./modules/dashboard/views/following.jade',
+                templateUrl:'./modules/dashboard/views/following0.jade',
                 controller:['following','$timeout','$rootScope','$scope',function ( following , $timeout , $rootScope, $scope ) {
                   var that = this;
 

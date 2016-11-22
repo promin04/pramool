@@ -1,0 +1,25 @@
+.content-header
+  h3
+    |product you were followed.
+.follow-box.col-sm-10.col-xs-12
+    h3(ng-if='store.product.length===0' , ng-style='{"text-align":"center"}') There isn't your product. Let's
+      a(ui-sref='newProduct')  Create new .
+
+    .follow-body.row( ng-repeat='product in store.product' )
+      a.follow-img.col-xs-4( ui-sref = 'product.detail( {id: product._id} )' )
+        img(ng-src = '{{product.img[product.coverImg.index].link}}')
+      .follow-detail.col-xs-5
+          a.follow-name.col-xs-12( ui-sref = 'product.detail( {id: product._id} )' )
+            |{{product.name}}
+          .follow-status-result.col-xs-12
+            timer( milisec = '{{product.bidEnd}}' )
+          .follow-status-button.col-xs-12
+            a.button.hollow.btn.follow-status-button-detail( ui-sref = 'product.detail( {id: product._id} )' )
+              |Detail
+
+      .follow-console.col-xs-3
+        .follow-status.col-xs-12
+          .follow-status-price
+            |{{product.bider[product.bider.length-1].price}} THB
+          p
+            |{{product.bider[product.bider.length-1].name}}

@@ -99,6 +99,7 @@ module.exports = {
    },
 
    delete : function (req,res,next) {
+     console.log('product delete');
      if( req.user ){
                        var condition = { _id : req.params.id };
                        Product.findOne(condition,'name creator bidEnd comment_id',function (err ,data) {
@@ -114,7 +115,6 @@ module.exports = {
                           if(req.user.username === data.creator.username){
 
                             Product.remove(condition,function (err) {
-                              console.log('delete data',result);
                               req.Product = result;
                               return next();
                               //res.json(result);
@@ -359,6 +359,7 @@ module.exports = {
  },
 
  end : function (req,res) {
+   console.log('end');
     res.end();
  },
 

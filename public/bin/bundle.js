@@ -14842,7 +14842,7 @@
 	      $stateProvider
 	        .state('auction',{
 	          url : '/',
-	          templateUrl : './modules/store/views/store.jade'
+	            template : '<div store class="store"></div>'
 	
 	      })
 	        .state('completed',{
@@ -15883,7 +15883,6 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {(function () {
-	
 	  var app = angular.module('store');
 	  app.directive('store',function () {
 	    return {
@@ -15893,43 +15892,15 @@
 	
 	        var that = this;
 	
-	      this.delete = function () {
-	        for(var j = 0; j < that.product.length ; j++){
-	        var count = 0;
-	        for (var i = 0; i < that.product[j].img.length; i++) {
-	
-	
-	        $http.delete('https://api.imgur.com/3/image/'+that.product[0].img[i].deletehash,
-	        {
-	            headers: {
-	              Authorization: 'Client-ID 18f8382f95b805f',
-	            }
-	        }
-	      ).then(function (response) {
-	          count++;
-	          console.log('already done '+j+' // '+count);
-	          if(count === that.product[0].img.length){
-	            $http.delete('/product');
-	          }
-	
-	        });
-	      }
-	      }
-	    };
-	
 	      this.product = [];
 	
 	      this.getNew = function () {
 	        $http.get('/product').then(function(response) {
 	          var data = response.data;
 	          that.product = data;
-	          console.log(that.product);
 	        });
 	      }
 	
-	      this.test = function () {
-	        this.product.pop();
-	      }
 	      //countdown service
 	      this.countdown = function () {
 	        for(var i = 0 ; i < that.product.length ; i++){
@@ -15960,18 +15931,6 @@
 	        }
 	
 	      });
-	      $scope.$on('$destroy', function (event) {
-	        console.log('destroy');
-	
-	
-	
-	        //socket.removeAllListeners();
-	        socket.removeListener('offer');
-	        socket.emit('leave','store');
-	        $timeout.cancel($scope.timeout);
-	
-	      });
-	      ///////
 	
 	      //set masonry layout
 	      $timeout(function () {
@@ -15981,7 +15940,15 @@
 	          columnWidth: 20
 	        });
 	      }, 100);
-	      ///////
+	
+	      $scope.$on('$destroy', function (event) {
+	        console.log('destroy');
+	        //socket.removeAllListeners();
+	        socket.removeListener('offer');
+	        socket.emit('leave','store');
+	        $timeout.cancel($scope.timeout);
+	
+	      });
 	      }],
 	      controllerAs : 'store'
 	    };
@@ -16126,7 +16093,7 @@
 	            url:'/following',
 	            views:{
 	              following:{
-	                templateUrl:'./modules/dashboard/views/following.jade',
+	                templateUrl:'./modules/dashboard/views/following0.jade',
 	                controller:['following','$timeout','$rootScope','$scope',function ( following , $timeout , $rootScope, $scope ) {
 	                  var that = this;
 	
