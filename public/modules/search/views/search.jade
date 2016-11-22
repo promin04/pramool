@@ -1,0 +1,5 @@
+.input-group
+  input.form-control(type='text', ng-model = 'searchText' ,placeholder='Search for...' ng-keypress = 'searchBar.enter($event)')
+  span.input-group-btn
+    button.btn.btn-default(type='button' ng-click='searchBar.search()')
+      span.glyphicon.glyphicon-search(aria-hidden='true')

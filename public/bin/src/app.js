@@ -9,6 +9,14 @@ require("../../lib/angular-ui-router/release/angular-ui-router.min.js");
 require("../../lib/angular-sanitize/angular-sanitize.min.js");
 require("../../lib/masonry/dist/masonry.pkgd.min.js");
 
+require("../../modules/search/search-app.js");
+require("../../modules/search/search-config.js");
+require("../../modules/search/services/search-service.js");
+require("../../modules/search/controllers/search-controller.js");
+require("../../modules/search/controllers/searchPage-controller.js");
+require("../../modules/search/directives/search-directive.js");
+require("../../modules/search/directives/searchPage-directive.js");
+
 require("../../modules/header/config/header-config.js");
 require("../../modules/header/directives/header-directive.js");
 require("../../modules/header/directives/scroll-directive.js");

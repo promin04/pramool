@@ -79,9 +79,10 @@
       $scope.$on('$destroy', function (event) {
         console.log('destroy');
 
-          socket.removeListener('offer');
+
 
         //socket.removeAllListeners();
+        socket.removeListener('offer');
         socket.emit('leave','store');
         $timeout.cancel($scope.timeout);
 

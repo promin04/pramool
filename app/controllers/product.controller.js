@@ -71,8 +71,6 @@ module.exports = {
         console.log('need user log in');
         res.end();
       }
-
-
    },
 
    list : function (req,res) {
@@ -169,12 +167,24 @@ module.exports = {
      })
    },
 
-   read : function (req,res) {
-     
+   read : function (req , res , next) {
+
      if ( req.product ) {
-       req.product.bidEnd = moment(req.product.bidEnd).diff(moment());
-       req.product.bider[req.product.bider.length-1].time = moment(req.product.bider[req.product.bider.length-1].time).fromNow();
-       res.json(req.product);
+           if( Array.isArray(req.product) ) {
+              var data = req.product;
+             for (var i = 0; i < data.length; i++) {
+               data[i].bidEnd = moment(data[i].bidEnd).diff(moment());
+               data[i].bider = data[i].bider[data[i].bider.length-1];
+               data[i].bider.time = moment(data[i].bider.time).fromNow();
+             }
+             req.product = data;
+             next();
+           }else {
+             req.product.bidEnd = moment(req.product.bidEnd).diff(moment());
+             req.product.bider[req.product.bider.length-1].time = moment(req.product.bider[req.product.bider.length-1].time).fromNow();
+             res.json(req.product);
+           }
+
      } else {
        res.status(404).end();
      }
@@ -273,6 +283,7 @@ module.exports = {
      }
    )
     }else {
+      res.status(401).end();
       console.log('need user log in');
     }
 
@@ -342,13 +353,27 @@ module.exports = {
      res.end();
    }
  },
+
  send : function (req,res) {
     res.json(req.product);
  },
+
  end : function (req,res) {
     res.end();
- }
+ },
 
+search : function (req , res , next ) {
+  var condition = { name : { $regex : req.query.searchText } };
+  Product.find( condition , '_id name bider bidEnd img coverImg' )
+  .lean()
+  .exec(
+      function (err, data){
+        console.log(data);
+        req.product = data;
+        next();
+      }
+  );
+}
 
 
 }

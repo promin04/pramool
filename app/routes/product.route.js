@@ -21,4 +21,7 @@ module.exports = function (app) {
       .get( product.getFollowing )
       .post( product.followProduct , following.setPreFollow , following.send );
 
+  app.route('/search')
+      .get( product.search , product.read , product.send );
+
 };

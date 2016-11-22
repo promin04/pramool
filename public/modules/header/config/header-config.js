@@ -1,12 +1,12 @@
 (function () {
-  angular.module('header',[])
+  angular.module('header',['search'])
     .config(['$stateProvider','$urlRouterProvider',function ($stateProvider,$urlRouterProvider) {
       $urlRouterProvider
         .otherwise('/');
       $stateProvider
         .state('auction',{
           url : '/',
-          template : '<div store class="store"></div>'
+          templateUrl : './modules/store/views/store.jade'
 
       })
         .state('completed',{

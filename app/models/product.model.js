@@ -2,7 +2,11 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var ProductSchema = new Schema({
-    name : String,
+    name :  {
+                 type: String ,
+                 required: true,
+                 index: true
+     },
     createAt : Object,
     bidEnd : Object,
     creator : Object,
@@ -22,5 +26,7 @@ var ProductSchema = new Schema({
     }],
     comment_id: String
 });
+
+//ProductSchema.index({name: 'text'});
 
 mongoose.model('Product',ProductSchema);

@@ -1,0 +1,21 @@
+h3 There are {{store.product.length}} result of "{{store.searchText}}"
+br
+.grid
+  .grid-item.product-box( ng-repeat='product in store.product' ui-sref='product.detail({id: product._id})',\
+  ng-class='[ \
+  { "vertical" : {{ product.coverImg.autoH >= product.coverImg.autoW }} } ,\
+  { "horizontal" : {{ product.coverImg.autoH < product.coverImg.autoW }} }]')
+    .product-img(\
+    ng-style= '{\
+    "height":(product.coverImg.autoH > product.coverImg.autoW ?product.coverImg.autoH:null)+"px" ,\
+    "width":(product.coverImg.autoH < product.coverImg.autoW ?product.coverImg.autoW:null)+"px" } ')
+      img(ng-src = '{{product.img[product.coverImg.index].link}}')
+
+    div(class = 'product-detail ')
+      h4 {{product.name}}
+      div( class = 'product-auction' )
+        timer( milisec = '{{product.bidEnd}}' )
+        div(class = 'product-price')
+          |{{product.bider.price}} THB
+          br
+          | By {{product.bider.name}}

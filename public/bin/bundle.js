@@ -94,35 +94,34 @@
 	__webpack_require__(117);
 	__webpack_require__(118);
 	__webpack_require__(119);
-	
 	__webpack_require__(120);
 	__webpack_require__(121);
 	__webpack_require__(122);
 	__webpack_require__(123);
-	__webpack_require__(124);
 	
+	__webpack_require__(124);
 	__webpack_require__(125);
 	__webpack_require__(126);
+	
 	__webpack_require__(127);
 	__webpack_require__(128);
 	__webpack_require__(129);
 	__webpack_require__(130);
-	
 	__webpack_require__(131);
+	
 	__webpack_require__(132);
 	__webpack_require__(133);
 	__webpack_require__(134);
 	__webpack_require__(135);
 	__webpack_require__(136);
 	__webpack_require__(137);
+	
 	__webpack_require__(138);
 	__webpack_require__(139);
-	
 	__webpack_require__(140);
 	__webpack_require__(141);
 	__webpack_require__(142);
 	__webpack_require__(143);
-	
 	__webpack_require__(144);
 	__webpack_require__(145);
 	__webpack_require__(146);
@@ -131,8 +130,17 @@
 	__webpack_require__(148);
 	__webpack_require__(149);
 	__webpack_require__(150);
+	
 	__webpack_require__(151);
 	__webpack_require__(152);
+	__webpack_require__(153);
+	
+	__webpack_require__(154);
+	__webpack_require__(155);
+	__webpack_require__(156);
+	__webpack_require__(157);
+	__webpack_require__(158);
+	__webpack_require__(159);
 
 
 /***/ },
@@ -14657,14 +14665,184 @@
 /***/ function(module, exports) {
 
 	(function () {
-	  angular.module('header',[])
+	  angular.module('search',[]);
+	})()
+
+
+/***/ },
+/* 118 */
+/***/ function(module, exports) {
+
+	(function () {
+	  angular.module('search')
+	    .config(['$stateProvider' , function ($stateProvider) {
+	      $stateProvider
+	      .state('search' ,{
+	        url: '/search?name',
+	        template:'<div search-page></div>'
+	      });
+	    }]);
+	})()
+
+
+/***/ },
+/* 119 */
+/***/ function(module, exports) {
+
+	(function () {
+	  angular.module('search')
+	    .service('search',['$http',function ($http) {
+	      this.get = function (name) {
+	        return $http.get(`/search?searchText=${name}`);
+	      }
+	    }]);
+	})()
+
+
+/***/ },
+/* 120 */
+/***/ function(module, exports) {
+
+	(function () {
+	  angular.module('search')
+	    .controller( 'searchController' , [ '$http' , '$scope' , '$state' , function ( $http , $scope , $state) {
+	          this.search = function () {
+	            $state.go('search' , {name : $scope.searchText});
+	          }
+	
+	          this.enter = function (event) {
+	            if(event.keyCode == 13){
+	              this.search();
+	            }
+	          }
+	    }]);
+	})()
+
+
+/***/ },
+/* 121 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function($) {(function () {
+	  angular.module('search')
+	    .controller('searchPageController', ['$http','$timeout','$scope','search','$stateParams',function ($http,$timeout,$scope,search,$stateParams) {
+	      var that = this;
+	
+	      this.product =  [];
+	      this.searchText = $stateParams.name;
+	
+	      this.getSearch = function () {
+	            that.product = search.get( $stateParams.name ).then(
+	              function (res) {
+	                that.product = res.data;
+	                console.log(that.product);
+	              }
+	            );
+	      }
+	
+	      //countdown servic
+	
+	      this.countdown = function () {
+	        for(var i = 0 ; i < that.product.length ; i++){
+	          that.product[i].bidEnd = that.product[i].bidEnd - 1000 ;
+	
+	        }
+	        $scope.timeout =  $timeout(function () {
+	                that.countdown();
+	        }, 1000);
+	      }
+	      //init completed page
+	      this.getSearch();
+	      this.countdown();
+	      ////////web socket
+	      socket.emit('join','store');
+	      socket.on('offer',function (offer) {
+	        var id;
+	        var result = [];
+	        var re = new RegExp(offer.product_id, 'i');
+	        for( var i = 0 ; i < that.product.length ; i++ ){
+	          id = that.product[i]._id;
+	          result = id.match(re);
+	          if(result){
+	            that.product[i].bider.push(offer.data);
+	            console.log('update completed',that.product[i]);
+	          }
+	        }
+	
+	      });
+	      //set masonry layout
+	      $timeout(function () {
+	
+	        $('.grid').masonry({
+	          itemSelector: '.grid-item',
+	          columnWidth: 20
+	        });
+	      }, 100);
+	
+	      $scope.$on('$destroy', function (event) {
+	        console.log('destroy');
+	
+	
+	          //socket.removeAllListeners();
+	          socket.removeListener('offer');
+	          socket.emit('leave','store');
+	
+	         $timeout.cancel($scope.timeout);
+	      });
+	
+	    }]
+	    );
+	})()
+	
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(110)))
+
+/***/ },
+/* 122 */
+/***/ function(module, exports) {
+
+	(function () {
+	  angular.module('search')
+	    .directive('searchBar' , function () {
+	      return {
+	        templateUrl : './modules/search/views/search.jade',
+	        controller : 'searchController',
+	        controllerAs : 'searchBar',
+	        restrict: 'E'
+	      };
+	    });
+	})()
+
+
+/***/ },
+/* 123 */
+/***/ function(module, exports) {
+
+	(function () {
+	  angular.module('search')
+	    .directive('searchPage' , function () {
+	      return {
+	        templateUrl : './modules/search/views/searchPage.jade',
+	        controller : 'searchPageController',
+	        controllerAs : 'store',
+	        restrict: 'A'
+	      };
+	    });
+	})()
+
+
+/***/ },
+/* 124 */
+/***/ function(module, exports) {
+
+	(function () {
+	  angular.module('header',['search'])
 	    .config(['$stateProvider','$urlRouterProvider',function ($stateProvider,$urlRouterProvider) {
 	      $urlRouterProvider
 	        .otherwise('/');
 	      $stateProvider
 	        .state('auction',{
 	          url : '/',
-	          template : '<div store class="store"></div>'
+	          templateUrl : './modules/store/views/store.jade'
 	
 	      })
 	        .state('completed',{
@@ -14679,7 +14857,7 @@
 
 
 /***/ },
-/* 118 */
+/* 125 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {(function () {
@@ -14781,7 +14959,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(110)))
 
 /***/ },
-/* 119 */
+/* 126 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -14825,7 +15003,7 @@
 
 
 /***/ },
-/* 120 */
+/* 127 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -14834,7 +15012,7 @@
 
 
 /***/ },
-/* 121 */
+/* 128 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {(function () {
@@ -14962,7 +15140,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(110)))
 
 /***/ },
-/* 122 */
+/* 129 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -14994,7 +15172,7 @@
 
 
 /***/ },
-/* 123 */
+/* 130 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {(function () {
@@ -15054,7 +15232,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(110)))
 
 /***/ },
-/* 124 */
+/* 131 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -15083,7 +15261,7 @@
 
 
 /***/ },
-/* 125 */
+/* 132 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -15105,7 +15283,7 @@
 
 
 /***/ },
-/* 126 */
+/* 133 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -15141,7 +15319,7 @@
 
 
 /***/ },
-/* 127 */
+/* 134 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -15179,7 +15357,7 @@
 
 
 /***/ },
-/* 128 */
+/* 135 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {(function () {
@@ -15277,7 +15455,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(110)))
 
 /***/ },
-/* 129 */
+/* 136 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {(function () {
@@ -15317,7 +15495,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(110)))
 
 /***/ },
-/* 130 */
+/* 137 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -15342,7 +15520,7 @@
 
 
 /***/ },
-/* 131 */
+/* 138 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -15415,7 +15593,7 @@
 
 
 /***/ },
-/* 132 */
+/* 139 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -15434,7 +15612,7 @@
 
 
 /***/ },
-/* 133 */
+/* 140 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -15550,7 +15728,7 @@
 
 
 /***/ },
-/* 134 */
+/* 141 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -15564,7 +15742,7 @@
 
 
 /***/ },
-/* 135 */
+/* 142 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -15596,7 +15774,7 @@
 	              function (reject) {
 	                console.log(reject);
 	                  //check state
-	                  if(toState.name !== 'auction' && toState.name !== 'completed' && toState.name !== 'product.detail' && toState.name !== '404' ){
+	                  if(toState.name !== 'auction' && toState.name !== 'completed' && toState.name !== 'product.detail' && toState.name !== '404' && toState.name !== 'search'){
 	
 	                      modalAuthService.open(closed);
 	                  }
@@ -15625,7 +15803,7 @@
 
 
 /***/ },
-/* 136 */
+/* 143 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -15679,7 +15857,7 @@
 
 
 /***/ },
-/* 137 */
+/* 144 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -15701,7 +15879,7 @@
 
 
 /***/ },
-/* 138 */
+/* 145 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {(function () {
@@ -15785,9 +15963,10 @@
 	      $scope.$on('$destroy', function (event) {
 	        console.log('destroy');
 	
-	          socket.removeListener('offer');
+	
 	
 	        //socket.removeAllListeners();
+	        socket.removeListener('offer');
 	        socket.emit('leave','store');
 	        $timeout.cancel($scope.timeout);
 	
@@ -15815,7 +15994,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(110)))
 
 /***/ },
-/* 139 */
+/* 146 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {(function () {
@@ -15873,7 +16052,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(110)))
 
 /***/ },
-/* 140 */
+/* 147 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function($) {(function () {
@@ -16012,17 +16191,22 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(110)))
 
 /***/ },
-/* 141 */
+/* 148 */
 /***/ function(module, exports) {
 
 	(function () {
 	  angular.module('dashboard')
-	    .service('followed',['$http',function ($http) {
+	    .service('followed',['$http','$state',function ($http,$state) {
 	        this.product = function () {
 	
-	        return  $http.get('/following').then(function (response) {
-	                  return response;
-	                });
+	        return  $http.get('/following').then(
+	                  function (response) {
+	                    return response;
+	                  },
+	                  function (err) {
+	                    $state.go('auction');
+	                  }
+	                );
 	        }
 	
 	    }])
@@ -16030,7 +16214,7 @@
 
 
 /***/ },
-/* 142 */
+/* 149 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -16078,7 +16262,7 @@
 
 
 /***/ },
-/* 143 */
+/* 150 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -16247,7 +16431,7 @@
 
 
 /***/ },
-/* 144 */
+/* 151 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(moment) {(function () {
@@ -16306,7 +16490,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
 
 /***/ },
-/* 145 */
+/* 152 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -16324,7 +16508,7 @@
 
 
 /***/ },
-/* 146 */
+/* 153 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -16417,7 +16601,7 @@
 
 
 /***/ },
-/* 147 */
+/* 154 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -16428,7 +16612,7 @@
 
 
 /***/ },
-/* 148 */
+/* 155 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -16443,7 +16627,7 @@
 
 
 /***/ },
-/* 149 */
+/* 156 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -16501,7 +16685,7 @@
 
 
 /***/ },
-/* 150 */
+/* 157 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -16578,7 +16762,7 @@
 
 
 /***/ },
-/* 151 */
+/* 158 */
 /***/ function(module, exports) {
 
 	(function () {
@@ -16611,7 +16795,7 @@
 
 
 /***/ },
-/* 152 */
+/* 159 */
 /***/ function(module, exports) {
 
 	(function () {

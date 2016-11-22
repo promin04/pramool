@@ -8,34 +8,34 @@
       label(for = 'username') Username:
       input(name = 'username', ng-model = 'signup.user.username' , type = 'text' , placeholder = 'username' , ng-style = '{"margin-left":"5px"}' ,
       required='' , minlength='6' , maxlength='16' , pattern='[a-zA-Z0-9]{1,16}' ,
-      uib-popover-template = "'./modules/header/views/username-popover.jade'" , popover-trigger = "'focus'" , popover-placement='bottom' ,
+      uib-popover-template = "'./modules/header/views/username-popover.jade'" , popover-trigger = "'focus'" , popover-placement='top' ,
       popover-enable='(signupForm.username.$error.pattern || signupForm.username.$error.minlength || signupForm.username.$error.maxlength || signupForm.username.$error.required) && signupForm.username.$touched')
 
     div
       label(for = 'password') Password:
       input(name = 'password' , ng-model = 'signup.user.password' , type = 'password' , placeholder = 'password' , ng-style = '{"margin-left":"5px"}',
       required='' , minlength='6' , maxlength='16' , pattern='[a-zA-Z0-9]{1,16}' ,
-      uib-popover-template = "'./modules/header/views/password-popover.jade'" , popover-trigger = "'focus'" , popover-placement='bottom' ,
+      uib-popover-template = "'./modules/header/views/password-popover.jade'" , popover-trigger = "'focus'" , popover-placement='top' ,
       popover-enable='(signupForm.password.$error.pattern || signupForm.password.$error.minlength || signupForm.password.$error.maxlength || signupForm.password.$error.required) && signupForm.password.$touched')
     br
     div
       label(for = 'firstname') Firstname:
       input(name = 'firstname' , ng-model = 'signup.user.firstname' , type = 'text' , placeholder = 'firstname' , ng-style = '{"margin-left":"5px"}' ,
       required='' , minlength='1' , maxlength='16' , pattern='[a-zA-Z0-9]{1,16}' ,
-      uib-popover-template = "'./modules/header/views/firstname-popover.jade'" , popover-trigger = "'focus'" , popover-placement='bottom' ,
+      uib-popover-template = "'./modules/header/views/firstname-popover.jade'" , popover-trigger = "'focus'" , popover-placement='top' ,
       popover-enable='(signupForm.firstname.$error.pattern || signupForm.firstname.$error.minlength || signupForm.firstname.$error.maxlength || signupForm.firstname.$error.required) && signupForm.firstname.$touched')
     div
       label(for = 'lastname') Lastname:
       input(name = 'lastname' , ng-model = 'signup.user.lastname', type = 'text' , placeholder = 'lastname',ng-style = '{"margin-left":"5px"}' ,
       required='' , minlength='1' , maxlength='16' , pattern='[a-zA-Z0-9]{1,16}' ,
-      uib-popover-template = "'./modules/header/views/lastname-popover.jade'" , popover-trigger = "'focus'" , popover-placement='bottom' ,
+      uib-popover-template = "'./modules/header/views/lastname-popover.jade'" , popover-trigger = "'focus'" , popover-placement='top' ,
       popover-enable='(signupForm.lastname.$error.pattern || signupForm.lastname.$error.minlength || signupForm.lastname.$error.maxlength || signupForm.lastname.$error.required) && signupForm.lastname.$touched')
     div
       label(for = 'email') Email:
       input(name = 'email' , ng-model = 'signup.user.email', type = 'email' , placeholder = 'youremail@email.com',ng-style = '{"margin-left":"35px"}' ,
       required='' ,
-      uib-popover-template = "'./modules/header/views/email-popover.jade'" , popover-trigger = "'focus'" , popover-placement='bottom' ,
+      uib-popover-template = "'./modules/header/views/email-popover.jade'" , popover-trigger = "'focus'" , popover-placement='top' ,
       popover-enable='signupForm.email.$error.required && signupForm.email.$touched')
-    div(ng-style = '{"margin-top":"30px"}')
+    div(ng-style = '{"margin-top":"16px"}')
       input.btn.btn-success.btn-block(type = 'submit' , value = 'Register')
 .modal-footer
