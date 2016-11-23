@@ -18,7 +18,7 @@ module.exports = {
   },
 
   setComment : function (req , res , next) {
-        if(req.user.username == req.comment.creator.username){
+        if( (req.user.username == req.comment.creator.username) && (req.comment.mode === 'answer') ){
           console.log('all end');
           return res.end();
         }
