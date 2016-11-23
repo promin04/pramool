@@ -11,7 +11,7 @@ module.exports = function (app) {
   app.route( '/product/:id' )
      .get( product.read )
      .post( product.offer , following.setBiderFollow ,  product.followProduct , following.notification , product.send )
-     .delete( product.delete , comment.delete , following.setPreDelete , following.notification , product.end);
+     .delete( product.delete , comment.delete , following.setPreDelete , following.notification );
   app.param( 'id', product.detail );
 
   app.route( '/completed' )
