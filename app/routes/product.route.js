@@ -4,7 +4,7 @@ module.exports = function (app) {
   var following = require('../controllers/following.controller.js');
   var comment = require('../controllers/comment.controller.js');
   app.route( '/product' )
-     .post( comment.create , product.create , following.setCreatorFollow , following.notification , product.send )
+     .post( comment.create , product.create  , comment.update , following.setCreatorFollow , following.notification , product.send )
      .get( product.list );
 
 

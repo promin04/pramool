@@ -18,6 +18,10 @@ module.exports = {
   },
 
   setComment : function (req , res , next) {
+        if(req.user.username == req.comment.creator.username){
+          console.log('all end');
+          return res.end();
+        }
         req.follow = {
                       _id : req.params._id , //product_id
                       by : 'comment',

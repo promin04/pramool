@@ -66,6 +66,7 @@ module.exports = {
            var option = {
                       new : true ,
                       fields : {
+                                 creator : 1 ,
                                  comment : {$slice : -1}
                                }
                     };
@@ -79,6 +80,7 @@ module.exports = {
                     mode : 'new'
                   };
                   req.io.to(req.body.product_id).emit('comment',result);
+                   result.creator = data.creator;
                    req.comment = result;
                    return next();
                 }
@@ -95,6 +97,8 @@ module.exports = {
     },
     create : function (req , res , next) {
       var add = {
+        product_id : '',
+        creator : {},
         comment : []
       };
       var comment = new Comment(add);
@@ -102,6 +106,28 @@ module.exports = {
         req.comment = data;
         return next();
       });
+    },
+
+    update : function (req , res , next) {
+      console.log( req.product ,'req.product');
+      var condition = { _id : req.product.comment_id };
+      var update = {
+        $set : {
+                  product_id : req.product._id,
+                  creator : req.product.creator
+
+        }
+      };
+      var option = {
+        new: true,
+        fields: 'creator'
+      };
+      Comment.findOneAndUpdate( condition , update , option )
+      .exec(
+        function (err , data) {
+          return next();
+        }
+      );
     },
 
     delete : function ( req , res , next ) {

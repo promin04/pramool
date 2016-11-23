@@ -53,6 +53,7 @@ module.exports = {
               _id : data._id,
               name : data.name,
               creator : data.creator,
+              comment_id : data.comment_id,
               img : data.img[data.coverImg.index].link,
               bider : {
                 time: moment(data.bider[0].time).fromNow(),
@@ -104,6 +105,7 @@ module.exports = {
                        var condition = { _id : req.params.id };
                        Product.findOne(condition,'name creator bidEnd comment_id',function (err ,data) {
                          var result = data;
+                         console.log(result,'result');
                          if(data.bidEnd+0 > moment()+0 ){
                            var forTimecheck = {
                              _id : data._id,
