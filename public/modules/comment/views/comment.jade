@@ -8,7 +8,7 @@
       input.btn.btn-primary( type='submit' value='Comment' )
 .comment-each( ng-repeat = 'each in comment.all_comment' comment-height='' class = 'no-{{$index}}')
   .comment-avatar
-    img( ng-src = '{{ each.avatar.avatarImage.img[each.avatar.avatarImage.pointer].link }}' )
+    img( ng-src = '{{ each.avatar.avatarImage.img[each.avatar.avatarImage.pointer].link || "http://www.premiumdxb.com/assets/img/avatar/default-avatar.jpg" }}' )
   .comment-content(class = 'no-{{$index}}')
     span.comment-username
       |{{each.username}}
@@ -17,7 +17,7 @@
       span.comment-answer-reply(ng-click = 'comment.answer( $index , each.username )') Reply
     .comment-answered( ng-repeat = 'eachAns in comment.all_comment[$index].answer' comment-height='' class = 'no-{{$index}}')
         .comment-avatar
-          img( ng-src = '{{ eachAns.avatar.avatarImage.img[eachAns.avatar.avatarImage.pointer].link }}' )
+          img( ng-src = '{{ eachAns.avatar.avatarImage.img[eachAns.avatar.avatarImage.pointer].link || "http://www.premiumdxb.com/assets/img/avatar/default-avatar.jpg" }}' )
         .comment-content
           span.comment-username
             |{{eachAns.username}}

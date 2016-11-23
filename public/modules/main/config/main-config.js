@@ -1,7 +1,8 @@
 (function () {
   angular.module('main')
-  .config(['$uibTooltipProvider',function ($uibTooltipProvider) {
-    
+  .config(['$animateProvider',function ($animateProvider) {
+
+     $animateProvider.classNameFilter(/^((?!(modal)).)*$/);
 
     }
   ]);

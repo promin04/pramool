@@ -1,4 +1,5 @@
 // load scss file
+require('style!css!../../lib/bootstrap/dist/css/bootstrap.min.css');
 require('../../../scss/style.scss');
 
 (function () {
