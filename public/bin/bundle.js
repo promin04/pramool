@@ -16240,8 +16240,10 @@
 
 	/* WEBPACK VAR INJECTION */(function($) {(function () {
 	  angular.module('comment')
-	    .controller( 'commentController' , [ '$http' , '$scope' , '$compile' , '$timeout' , '$rootScope'  , function ( $http , $scope , $compile , $timeout , $rootScope ) {
+	    .controller( 'commentController' , [ '$http' , '$scope' , '$compile' , '$timeout' , '$rootScope' , 'modalAuthService' ,
+	     function ( $http , $scope , $compile , $timeout , $rootScope , modalAuthService) {
 	      var that = this ;
+	
 	      this.post_avatar =  $rootScope.avatarImage && $rootScope.avatarImage.img[0] ? $rootScope.avatarImage.img[$rootScope.avatarImage.pointer].link : "http://www.premiumdxb.com/assets/img/avatar/default-avatar.jpg";
 	      this.all_comment = [];
 	      this.state_clicked = true;
@@ -16251,25 +16253,31 @@
 	      };
 	
 	      this.postComment = function () {
-	        console.log('portComment');
+	          //check user login
+	        if ($rootScope.user !== undefined || $rootScope.user){
+	              var message = $scope.message;
+	              //check is there message
+	              if (!$scope.message[0]) {
+	                return null;
+	              }
+	              var messages = {
+	                message : message,
+	                mode : 'new',
+	                product_id : $scope.pro
+	              };
+	            $http.post('/comment/'+$scope.com , messages).then(
+	              function (responce) {
+	                $scope.message = '';
+	              }
+	            ); //responce by io.emit from server
+	        } else {
+	          modalAuthService.open();
+	        }
 	
-	        var message = $scope.message;
-	
-	
-	          var message = {
-	            message : message,
-	            mode : 'new',
-	            product_id : $scope.pro
-	          };
-	        $http.post('/comment/'+$scope.com , message).then(
-	          function (responce) {
-	            $scope.message = '';
-	          }
-	        ); //responce by io.emit from server
 	      };
 	
 	      this.trigger_comment = function () {
-	          console.log($scope.com ,'commnet id');
+	
 	          socket.on( 'comment' , function ( comment ) {
 	            switch (comment.mode) {
 	
@@ -16300,17 +16308,18 @@
 	
 	
 	      this.answer = function (index , replied_username ) {
+	            if ($rootScope.user !== undefined || $rootScope.user){
+	              $timeout(function () {
+	                  var close = $('.comment-close');
+	                  close.click();
+	                  var select = `.comment-content.no-${index}`;
 	
-	          $timeout(function () {
-	              var close = $('.comment-close');
-	              close.click();
-	              var select = `.comment-content.no-${index}`;
-	
-	              var element = $compile(`<div comment-answer no = "${index}" id = "${that.all_comment[index]._id}" replied = "${replied_username}"></div>`)( $scope );
-	                $( select ).append( element );
-	
-	          }, 0);
-	
+	                  var element = $compile(`<div comment-answer no = "${index}" id = "${that.all_comment[index]._id}" replied = "${replied_username}"></div>`)( $scope );
+	                    $( select ).append( element );
+	              }, 0);
+	            } else {
+	              modalAuthService.open();
+	            }
 	      };
 	
 	      this.trigger_comment(); // initial
@@ -16378,10 +16387,15 @@
 
 	(function () {
 	  angular.module('comment')
-	    .controller( 'answerController' , [ '$http' , '$scope' , function ($http , $scope) {
+	    .controller( 'answerController' , [ '$http' , '$scope' , '$rootScope' , function ($http , $scope , $rootScope) {
 	
 	      this.ansComment = function () {
-	
+	                //check user login
+	              if ($rootScope.user !== undefined || $rootScope.user){
+	                  //check is there message
+	                  if (!$scope.message[0]) {
+	                    return null;
+	                  }
 	                  var message = {
 	                    _id : $scope.id, //post_id
 	                    replied_username : $scope.replied ,
@@ -16390,7 +16404,8 @@
 	                    product_id : $scope.$parent.pro
 	                  };
 	
-	        $http.post('/comment/'+$scope.$parent.com , message); //responce by io.emit from server
+	                    $http.post('/comment/'+$scope.$parent.com , message); //responce by io.emit from server
+	              }
 	      };
 	
 	    }] );
