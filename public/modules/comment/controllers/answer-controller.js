@@ -17,7 +17,11 @@
                     product_id : $scope.$parent.pro
                   };
 
-                    $http.post('/comment/'+$scope.$parent.com , message); //responce by io.emit from server
+                    $http.post('/comment/'+$scope.$parent.com , message).then(
+                      function (responce) {
+                        $scope.message = '';
+                      }
+                    ); //responce by io.emit from server
               }
       };
 
