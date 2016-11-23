@@ -16277,7 +16277,7 @@
 	              case 'answer':
 	                    for (var i = 0; i < that.all_comment.length; i++) {
 	                      if(  that.all_comment[i]._id == comment._id ){
-	                        $scope.$apply(that.all_comment[i].answer.unshift( comment.data ));
+	                        $scope.$apply(that.all_comment[i].answer.push( comment.data ));
 	                      }
 	                    }
 	                break;
