@@ -20,7 +20,7 @@ what's next for me?
 ```git clone https://github.com/promin04/pramool.git```
 
 2. Install bower
-```npm install bower```
+```npm install bower -g```
 
 3. Install backend package with npm
 ```npm install```
@@ -29,7 +29,7 @@ what's next for me?
 ```bower install```
 
 5. Install frontend package with bower
-```npm install webpack --save-dev```
+```npm install webpack -g```
 
 6. Run ```webpack```
 
