@@ -15,6 +15,7 @@
 
       $scope.$watch('user',function(newValue, oldValue) {
         that.bider[0].name = newValue;
+        that.creator = { username : newValue };
       });
       $scope.$parent.$watch('product.input',function(newValue, oldValue) {
         that.name = newValue.name;
