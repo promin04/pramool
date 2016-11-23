@@ -34,15 +34,18 @@ require("../../modules/comment/controllers/comment-controller.js");
 require("../../modules/comment/directives/answer-directive.js");
 require("../../modules/comment/controllers/answer-controller.js");
 
+require("../../modules/store/store-app.js");
 require("../../modules/store/config/store-config.js");
 require("../../modules/store/controllers/main-controller.js");
 require("../../modules/store/controllers/side-controller.js");
 require("../../modules/store/controllers/bottom-controller.js");
+require("../../modules/store/controllers/store-controller.js");
+require("../../modules/store/controllers/store-completed-controller.js");
 require("../../modules/store/config/store-config-run.js");
 require("../../modules/store/services/following.js");
 require("../../modules/store/services/notification.js");
-require("../../modules/store/store.js");
-require("../../modules/store/store-completed.js");
+require("../../modules/store/directives/store.js");
+require("../../modules/store/directives/store-completed.js");
 
 require("../../modules/dashboard/config/dashboard-config.js");
 require("../../modules/dashboard/services/followedProduct.js");

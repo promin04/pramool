@@ -1,5 +1,5 @@
 (function () {
-    angular.module('store',['timer','gallery','addProduct','comment','ngSanitize'])
+    angular.module('store')
       .config(['$stateProvider','$urlRouterProvider',function ($stateProvider,$urlRouterProvider) {
 
           $stateProvider

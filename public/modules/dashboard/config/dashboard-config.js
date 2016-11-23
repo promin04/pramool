@@ -8,8 +8,11 @@
           templateUrl:'./modules/dashboard/views/dashboard.jade',
           resolve:{
             following:['followed',function (followed) {
+                        var result = followed.product();
 
-                 return followed.product();
+                        console.log(result,'followed.product()');
+
+                 return result;
             }]
           }
         })
@@ -19,10 +22,9 @@
               myProduct:{
                 templateUrl:'./modules/dashboard/views/myProduct0.jade',
                 controller:['following','$timeout','deleteProduct','$rootScope','$scope',function (following,$timeout,deleteProduct,$rootScope,$scope) {
+                  console.log(following,'followed');
                   var that = this;
-                  this.product = following.data.filter(function (each) {
-                    return each.creator.username === $rootScope.user
-                  });
+                  this.product = following.myProduct;
                   console.log(this.product,'myProduct');
 
                   this.removeProduct = function ( _id , img , index ) {
@@ -73,34 +75,17 @@
                 controller:['following','$timeout','$rootScope','$scope',function ( following , $timeout , $rootScope, $scope ) {
                   var that = this;
 
-                  this.product =  following.data.filter(function (each) {
-                    return each.creator.username !== $rootScope.user
-                  });
+                  this.product =   following.myFollow;
                   console.log(this.product,'following');
 
-                  this.subscribe = this.product.filter(function (each) {
 
-                    for( var i=0 ; i<each.following.length ; i++ ){
-
-                      if (each.following[i].username === $rootScope.user) {
-                        return 1;
-                      }else if (i === each.following.length-1) {
-                        return 0;
-                      }
-                    }
-
-                  });
-                  console.log(this.subscribe,'subscribe');
 
                   //countdown service
                   this.countdown = function () {
-                    if(that.subscribe.length>0){
-                      for(var i = 0 ; i < that.subscribe.length ; i++){
-                        that.subscribe[i].bidEnd = that.subscribe[i].bidEnd - 1000 ;
-                      }
+                    for(var i = 0 ; i < that.product.length ; i++){
+                      that.product[i].bidEnd = that.product[i].bidEnd - 1000 ;
+
                     }
-
-
                     $scope.timeout =  $timeout(function () {
                             that.countdown();
                     }, 1000);
