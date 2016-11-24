@@ -191,41 +191,61 @@ module.exports = {
       var offer = function ( product ) {
               var currentTime = moment();
 
-              if (req.user == undefined) {
+              if (!req.user) {
+                console.log('Need login');
+                // Unauthorized
                 return res.status(401).json({
-                       error: 'You should login before take offer'
-                }); // Unauthorized
+                       error: 'Need login'
+                });
               }
-             if(req.body.price < product.bider[0].price && product.bidEnd < currentTime){
-               console.log('Cannot be add new offer');
-               return res.status(406).end(); //Not Acceptable
+              else if (req.user.username === product.creator.username) {
+                console.log('Creator cannot offer');
+                //Not Acceptable
+                return res.status(406).json({
+                       error: 'Creator cannot offer'
+                });
+              }
+              else if (req.user.username === product.bider[0].name) {
+                console.log('Winner cannot offer');
+                //Not Acceptable
+                return res.status(406).json({
+                       error: 'Winner cannot offer'
+                });
+              }
+             else if(req.body.price < product.bider[0].price && product.bidEnd < currentTime){
+               console.log('Cannot offer');
+               return res.status(406).json({
+                      error: 'Cannot offer'
+               });
+               //Not Acceptable
+               return res.status(406).end();
              } else {
 
-               if ( moment(product.bidEnd).diff(moment()) < 900000 ) {
-                 //900000ms =15min
-                 var   update = {
-                       $push : {
-                                 bider : {
-                                   name: req.user.username,
-                                   price: req.body.price,
-                                   time: moment()
-                                 }
-                       },
-                       $set : {
-                                bidEnd : moment().add( 15 , 'minutes')
-                       }
-                     };
-               } else {
-                 var   update = {
-                       $push : {
-                                 bider : {
-                                   name: req.user.username,
-                                   price: req.body.price,
-                                   time: moment()
-                                 }
-                       }
-                     };
-               }
+                     if ( moment(product.bidEnd).diff(moment()) < 900000 ) {
+                       //900000ms =15min
+                       var   update = {
+                             $push : {
+                                       bider : {
+                                         name: req.user.username,
+                                         price: req.body.price,
+                                         time: moment()
+                                       }
+                             },
+                             $set : {
+                                      bidEnd : moment().add( 15 , 'minutes')
+                             }
+                           };
+                     } else {
+                       var   update = {
+                             $push : {
+                                       bider : {
+                                         name: req.user.username,
+                                         price: req.body.price,
+                                         time: moment()
+                                       }
+                             }
+                           };
+                     }
 
                var condition = { _id : product._id };
 
@@ -279,7 +299,7 @@ module.exports = {
        var id = req.params.id ;
        Product.findOne(
          { _id : id } ,
-         { bider : { $slice: -1 } ,  _id : 1 , bidEnd : 1 }
+         { bider : { $slice: -1 } ,  _id : 1 , bidEnd : 1 , creator : 1 }
        )
        .lean()
        .exec(
@@ -368,11 +388,29 @@ module.exports = {
                            break;
                          default: update ={};
                        }
+                       var option = { fields: {
+                                                createAt : false ,
+                                                bider : { $slice: -1 }
+                                              },
+                                       new : true
+                                     };
 
-
-                       Product.findOneAndUpdate(condition,update,{ new : true },function (err,data) {
+                       Product.findOneAndUpdate(condition,update,option,function (err,data) {
                          console.log('already followProduct',data);
-                          //req.product = data;
+                         // set req.product for next middle ware
+                         var result ={
+                           _id : data._id,
+                           name : data.name,
+                           creator : data.creator,
+                           img : data.img[data.coverImg.index].link,
+                           bider : {
+                             time: moment(data.bider[0].time).fromNow(),
+                             price:data.bider[0].price,
+                             name:data.bider[0].name
+                           },
+                           following : data.following
+                         }
+                         req.product = result;
                           return next();
                        });
              }else {

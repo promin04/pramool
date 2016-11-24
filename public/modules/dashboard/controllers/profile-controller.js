@@ -3,6 +3,8 @@
     .controller( 'profileController' ,[ 'modalService' , '$scope' , '$http' ,function ( modalService , $scope , $http ) {
       var option = {
         animation : true ,
+        windowClass: 'noAnimate',
+        backdropClass: 'noAnimate',
         templateUrl : './modules/dashboard/views/editAvatar.jade',
         controller : ['$http','$rootScope','imgur', '$uibModalInstance' ,function ( $http , $rootScope , imgur , $uibModalInstance ) {
             var that = this;

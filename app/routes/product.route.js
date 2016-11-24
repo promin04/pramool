@@ -12,7 +12,7 @@ module.exports = function (app) {
      .get( product.detail , product.read )
      .post( product.offer , following.setBiderFollow ,  product.followProduct , following.notification , product.send )
      .delete( product.delete , comment.delete , following.setPreDelete , following.notification , product.end );
-//  app.param( 'id', product.detail );
+
 
   app.route( '/completed' )
       .get( product.completed );

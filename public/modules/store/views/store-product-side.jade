@@ -21,7 +21,7 @@
     br
     |{{product.bider[product.bider.length-1].time}}
   form(name = 'add' , ng-submit='product.offer()' , style = 'text-align:center' ,  novalidate='' , ng-if='product.bidEnd>0')
-      span(ng-show='add.price.$invalid && add.price.$touched') Price should be more than {{product.bider[product.bider.length-1].price}} .
+      span.product-side-error(ng-show='add.price.$invalid && add.price.$touched') Price should be more than {{product.bider[product.bider.length-1].price}} .
       br
       input(type = 'number' , name = 'price' , ng-model = 'product.price' min='{{product.bider[product.bider.length-1].price}}+1' , integer=''  placeholder = "Place your offer's price" )
       br
@@ -32,3 +32,7 @@
   , type='button', ng-disabled="product.creator.username == user")
     span.glyphicon.glyphicon-star
     |FOLLOW
+.product-side-noti.col-sm-4.col-xs-12
+  .noAnimate(uib-alert='', ng-repeat='alert in product.alerts', ng-class="'alert-' + (alert.type || 'danger')", dismiss-on-timeout="2500" , close='product.closeAlert($index)')
+    span.glyphicon.glyphicon-exclamation-sign.product-side-noti-sign(aria-hidden='true')
+    b {{alert.msg}}

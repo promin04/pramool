@@ -7,6 +7,8 @@
 
              var option = {
                type: 'logIn',
+               windowClass: 'noAnimate',
+               backdropClass: 'noAnimate',
                animation : true,
                templateUrl : './modules/header/views/signin-modal.jade',
                controller : ['modalService','$http','$rootScope','$uibModalInstance',function (modalService,$http,$rootScope,$uibModalInstance) {
@@ -30,6 +32,8 @@
                        this.openSignup = function () {
                          var option = {
                            type: 'signUp',
+                           windowClass: 'noAnimate',
+                           backdropClass: 'noAnimate',
                            animation : true,
                            templateUrl : './modules/header/views/signup-modal.jade',
                            controller: ['$http','modalService',function ($http,modalService) {

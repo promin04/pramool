@@ -10,6 +10,7 @@
       this.creator = product.creator;
       this.active = product.active;
       this.description = product.description;
+
       //following service
       this.following = function (productId) {
         if(!that.active){
@@ -17,7 +18,7 @@
               following.follow( productId , 'follow' )
               .then(function (res) {
                 console.log(res,'active true');
-                that.active = true;
+                that.active = true; //active button
                 $rootScope.notification_virtual = res;
                 });
             }else {
@@ -33,6 +34,25 @@
         }
       };
 
+      this.offer = function () {
+        if($rootScope.user == undefined && !$rootScope.user){
+          return modalAuthService.open();
+        }else if ( this.price > product.bider[product.bider.length-1].price) {
+
+          $http.post('/product/'+$stateParams.id,{price : this.price})
+            .then(
+                  function (response) {
+                        that.price = '';
+                        that.addAlert( 'Your offer is send' , 'success' );
+                  },
+                  function (error) {
+                        console.log(error,'error');
+                        that.addAlert( error.data.error );
+                  }
+          );
+
+        }
+      };
       //countdown service
       this.countdown = function () {
         if(that.bidEnd>0){
@@ -44,41 +64,24 @@
               $timeout.cancel($scope.timeout);
           }
       }
-
-      this.offer = function () {
-
-        if (typeof this.price == 'undefined' || this.price<=product.bider[product.bider.length-1].price) {
-            console.log($rootScope.user !== undefined,'error');
-
-            if($rootScope.user == undefined){
-              modalAuthService.open();
-            }
-        }else {
-
-                      if($rootScope.user !== undefined){
-                              console.log('offer',$rootScope.user);
-                              $http.post('/product/'+$stateParams.id,{price : this.price}).then(function (response) {
-
-                              if(response.data.error){
-                                    //service from main module
-                                    //open login modal
-                                    modalAuthService.open();
-                              } else {
-                                    that.price = '';
-                                    that.active = true; //for active follow buttom
-                              }
-
-
-                              });
-                    }else {
-                            //service from main module
-                            //open login modal
-                            modalAuthService.open();
-                    }
-        }
-      };
       /////initial app
       this.countdown();
+
+      ///alerts system
+      this.alerts =[];
+
+       this.addAlert = function( message , type) {
+         this.alerts.push({ type: type , msg: message});
+         console.log(this.alerts,'this.alerts');
+       };
+
+       this.closeAlert = function(index) {
+         this.alerts.splice(index, 1);
+       };
+
+
+
+
       ////////web socket
       var roomName = that._id;
 

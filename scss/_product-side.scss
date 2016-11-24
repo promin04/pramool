@@ -6,7 +6,21 @@
   border-bottom: 2px solid  $grey;
   border-radius: 8px;
 }
+.product-side-error {
+  color: red;
+}
 
+.product-side-noti {
+  position: fixed;
+    bottom: 0px;
+    left: 33%;
+    text-align: center;
+}
+@media screen and (max-width: 767px) {
+  .product-side-noti {
+      left: 0;
+  }
+}
 .product-side-description-guide {
   text-align: left;
 }
@@ -15,7 +29,10 @@
   margin-top: 12px;
   width: 175px;
 }
-
+.product-side-noti-sign {
+  font-size: 18px;
+  margin-right: 8px;
+}
 .product-side{
     text-align: center;
 
