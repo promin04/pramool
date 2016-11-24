@@ -17,7 +17,8 @@
         if ($rootScope.user !== undefined || $rootScope.user){
               var message = $scope.message;
               //check is there message
-              if (!$scope.message[0]) {
+              if (!$scope.message) {
+
                 return null;
               }
               var messages = {
@@ -57,12 +58,12 @@
                         $scope.$apply(that.all_comment.unshift(comment.data));
                 break;
             }
-            console.log(comment,'comment');
+
 
           });
         $http.get( '/comment/' + $scope.com ).then(function (res) {
           that.all_comment = res.data.comment.reverse() ;
-          console.log(res.data ,'commnet');
+
         });
       };
 

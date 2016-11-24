@@ -17,7 +17,7 @@
             if ($rootScope.user !== undefined || $rootScope.user) {
               following.follow( productId , 'follow' )
               .then(function (res) {
-                console.log(res,'active true');
+
                 that.active = true; //active button
                 $rootScope.notification_virtual = res;
                 });
@@ -27,7 +27,7 @@
         } else {
           following.unFollow(productId , 'follow' )
           .then(function (res) {
-            console.log(res,'active false');
+
             that.active = false;
             $rootScope.notification_virtual = res;
           });
@@ -46,7 +46,7 @@
                         that.addAlert( 'Your offer is send' , 'success' );
                   },
                   function (error) {
-                        console.log(error,'error');
+
                         that.addAlert( error.data.error );
                   }
           );
@@ -72,7 +72,7 @@
 
        this.addAlert = function( message , type) {
          this.alerts.push({ type: type , msg: message});
-         console.log(this.alerts,'this.alerts');
+        
        };
 
        this.closeAlert = function(index) {

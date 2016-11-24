@@ -18,17 +18,19 @@ module.exports = {
   },
 
   setComment : function (req , res , next) {
-        if( (req.user.username == req.comment.creator.username) && (req.comment.mode === 'answer') ){
-          console.log('all end');
+
+        if( (req.user.username == req.comment.creator.username) && (req.comment.mode === 'new') ){
           return res.end();
+
+        } else {
+          req.follow = {
+                        _id : req.params._id , //product_id
+                        by : 'comment',
+                        mode : req.comment.mode
+          };
+          return next();
         }
-        req.follow = {
-                      _id : req.params._id , //product_id
-                      by : 'comment',
-                      mode : req.comment.mode
-        };
-        console.log(req.follow,'req.follow setcomment');
-        return next();
+
   },
 
   setPreFollow : function (req,res,next) {

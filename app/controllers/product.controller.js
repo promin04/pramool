@@ -10,7 +10,7 @@ module.exports = {
         var add = {
           name : req.body.name,
           createAt : moment(),
-          bidEnd : moment().add(req.body.time.hours,'minutes').add(req.body.time.days, 'days'),
+          bidEnd : moment().add(req.body.time.hours,'hours').add(req.body.time.days, 'days'),
           creator : {
             _id : req.user._id ,
             username : req.user.username

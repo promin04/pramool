@@ -8,6 +8,6 @@
             return total;
       }, {});
       this.coverImg = product.coverImg.index;
-      console.log(this.picture,'this.coverImg');
+    
     }]);
 })()

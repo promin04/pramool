@@ -10,7 +10,7 @@
           $http.get('/completed').then(function(response){
             var data = response.data;
             that.product = data
-            console.log(that.product);
+
           });
       }
       //countdown service
