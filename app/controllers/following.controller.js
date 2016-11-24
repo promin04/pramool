@@ -185,7 +185,7 @@ module.exports = {
 
                   var count=1;
                   follower.forEach( function (item) {
-                  
+
                     var client; // var for client ID
                     //detect follower is online or not & set client ID
 
@@ -215,7 +215,7 @@ module.exports = {
 
                         if(count === follower.length){
                           console.log('final');
-                          return res.end(); // check last process to call
+                          return next(); // check last process to call
                         }
                       });
 
@@ -263,7 +263,7 @@ module.exports = {
               if(err) return next(err);
               if(count === follower.length) {
                 console.log('final');
-                return res.end(); // check last process to call next()
+                return next(); // check last process to call next()
               }
             });
 

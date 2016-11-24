@@ -16588,8 +16588,8 @@
 	                                    //open login modal
 	                                    modalAuthService.open();
 	                              } else {
-	
-	                                    that.active = true;
+	                                    that.price = '';
+	                                    that.active = true; //for active follow buttom
 	                              }
 	
 	
@@ -16611,6 +16611,8 @@
 	      socket.on('offer',function (offer) {
 	        console.log(offer,'client offer');
 	        that.bider.push(offer.data);
+	        that.bidEnd = offer.bidEnd;
+	
 	      });
 	      /////check follow when log-in
 	var clearWatchUser = $rootScope.$watch('user',function (newValue, oldValue) {
@@ -16692,6 +16694,7 @@
 	        result = id.match(re);
 	        if(result){
 	          that.product[i].bider.push(offer.data);
+	          that.product[i].bidEnd = offer.bidEnd;
 	          console.log('update completed',that.product[i]);
 	        }
 	      }
@@ -16965,9 +16968,6 @@
 	          resolve:{
 	            following:['followed',function (followed) {
 	                        var result = followed.product();
-	
-	                        console.log(result,'followed.product()');
-	
 	                 return result;
 	            }]
 	          }
@@ -16978,10 +16978,9 @@
 	              myProduct:{
 	                templateUrl:'./modules/dashboard/views/myProduct0.jade',
 	                controller:['following','$timeout','deleteProduct','$rootScope','$scope',function (following,$timeout,deleteProduct,$rootScope,$scope) {
-	                  console.log(following,'followed');
+	
 	                  var that = this;
 	                  this.product = following.myProduct;
-	                  console.log(this.product,'myProduct');
 	
 	                  this.removeProduct = function ( _id , img , index ) {
 	                    deleteProduct.delete( _id , img )
@@ -17003,11 +17002,30 @@
 	                  }
 	                  //initial app
 	                  this.countdown();
+	                  ////////web socket
+	                  socket.emit('join','store');
+	                  socket.on('offer',function (offer) {
+	                    var id;
+	                    var result = [];
+	                    var re = new RegExp(offer.product_id, 'i');
+	                    for( var i = 0 ; i < that.product.length ; i++ ){
+	                      id = that.product[i]._id;
+	                      result = id.match(re);
+	                      if(result){
+	                        that.product[i].bider.push(offer.data);
+	                        that.product[i].bidEnd = offer.bidEnd;
+	                        console.log('update completed',that.product[i]);
+	                      }
+	                    }
+	
+	                  });
 	                  //clear all
 	                  $scope.$on('$destroy', function (event) {
 	                    console.log('destroy');
-	                    socket.removeAllListeners();
-	                     $timeout.cancel($scope.timeout);
+	                    //socket.removeAllListeners();
+	                    socket.removeListener('offer');
+	                    socket.emit('leave','store');
+	                    $timeout.cancel($scope.timeout);
 	                  });
 	                  //set masonry layout
 	                  $timeout(function () {
@@ -17035,7 +17053,6 @@
 	                  console.log(this.product,'following');
 	
 	
-	
 	                  //countdown service
 	                  this.countdown = function () {
 	                    for(var i = 0 ; i < that.product.length ; i++){
@@ -17048,11 +17065,30 @@
 	                  }
 	                  //initial app
 	                  this.countdown();
+	                  ////////web socket
+	                  socket.emit('join','store');
+	                  socket.on('offer',function (offer) {
+	                    var id;
+	                    var result = [];
+	                    var re = new RegExp(offer.product_id, 'i');
+	                    for( var i = 0 ; i < that.product.length ; i++ ){
+	                      id = that.product[i]._id;
+	                      result = id.match(re);
+	                      if(result){
+	                        that.product[i].bider.push(offer.data);
+	                        that.product[i].bidEnd = offer.bidEnd;
+	                        console.log('update completed',that.product[i]);
+	                      }
+	                    }
+	
+	                  });
 	                  //clear all
 	                  $scope.$on('$destroy', function (event) {
 	                    console.log('destroy');
-	                    socket.removeAllListeners();
-	                     $timeout.cancel($scope.timeout);
+	                    //socket.removeAllListeners();
+	                    socket.removeListener('offer');
+	                    socket.emit('leave','store');
+	                    $timeout.cancel($scope.timeout);
 	                  });
 	                  //set masonry layout
 	                  $timeout(function () {

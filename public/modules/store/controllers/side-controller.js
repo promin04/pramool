@@ -64,8 +64,8 @@
                                     //open login modal
                                     modalAuthService.open();
                               } else {
-
-                                    that.active = true;
+                                    that.price = '';
+                                    that.active = true; //for active follow buttom
                               }
 
 
@@ -87,6 +87,8 @@
       socket.on('offer',function (offer) {
         console.log(offer,'client offer');
         that.bider.push(offer.data);
+        that.bidEnd = offer.bidEnd;
+
       });
       /////check follow when log-in
 var clearWatchUser = $rootScope.$watch('user',function (newValue, oldValue) {

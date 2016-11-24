@@ -38,6 +38,7 @@
         result = id.match(re);
         if(result){
           that.product[i].bider.push(offer.data);
+          that.product[i].bidEnd = offer.bidEnd;
           console.log('update completed',that.product[i]);
         }
       }
