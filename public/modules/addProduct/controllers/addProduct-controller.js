@@ -2,7 +2,7 @@
   angular.module( 'addProduct' )
     .controller( 'addProductController' , ['$http','imgur','$state','$timeout','$scope',
     function ( $http , imgur , $state , $timeout , $scope , modalService ) {
-      console.log($scope , 'long do');
+    
             var that = this;
             var imgWidth;
             var imgHeight;
@@ -31,7 +31,7 @@
               this.picture.splice(index,1);
               if(index < this.pointer){
                 this.pointer -= 1;
-              } else if (index === this.pointer && this.picture.length>0) {
+              } else if (index === this.pointer && !this.picture[index+1] && this.picture[index-1]) {
                   this.pointer -= 1;
                 }
 
@@ -40,12 +40,14 @@
             }
 
             this.prepare = function (files) {
-              console.log(files);
+                  console.log(files,'files');
+                  var sortArray = [];
                   if(Array.isArray(files) && files.length<5-this.picture.length){
                     for(var i = 0 ; i < files.length ; i++){
-                    var fileReader = new FileReader();
+
                     //freeze i for each loop
                     (function (order,index) {
+                    var fileReader = new FileReader();
                     fileReader.onload = function (e) {
 
                     var img64 = {
@@ -53,14 +55,27 @@
                                   link : fileReader.result,
                                   order : order
                     };
+                    //sort order to similar as raw files
+                    if( files.length > sortArray.length){
+                      sortArray.push(img64);
+                      console.log(files.length,sortArray.length,'all files');
+                      if(files.length === sortArray.length){
+                        console.log('work');
+                        sortArray.sort(function (a , b) {
+                          return a.order-b.order
+                        });
+                        $scope.$apply(that.picture = that.picture.concat(sortArray));
 
-                    $scope.$apply(that.picture.push(img64));
-                    console.log(that.picture);
+                        console.log(that.picture,'that.picture');
+                      }
+                    }
+
+
                     };
-
+                    fileReader.readAsDataURL(files[i]);
                   })(order,i)
                     order++; //increase every loop to sort by order later
-                    fileReader.readAsDataURL(files[i]); //encode file to base64
+                     //encode file to base64
                   }
 
                   } else {

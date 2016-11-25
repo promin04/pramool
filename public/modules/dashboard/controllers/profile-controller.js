@@ -6,22 +6,32 @@
         windowClass: 'noAnimate',
         backdropClass: 'noAnimate',
         templateUrl : './modules/dashboard/views/editAvatar.jade',
-        controller : ['$http','$rootScope','imgur', '$uibModalInstance' ,function ( $http , $rootScope , imgur , $uibModalInstance ) {
+        controller : ['$http','$rootScope','imgur', '$uibModalInstance' , '$scope' ,
+        function ( $http , $rootScope , imgur , $uibModalInstance , $scope ) {
             var that = this;
             var order = 1;
             this.oldPic = angular.copy($scope.avatarImage.img);
             this.picture = angular.copy($scope.avatarImage.img);
             this.pointer = angular.copy($scope.avatarImage.pointer)||'0';
+
+            $scope.$watch('editAvatar.pointer',function (newValue, oldValue) {
+
+              if ( (newValue == oldValue) ) {
+                that.setCover(+newValue);
+              }
+            });
+
             this.processBar = 0;
 
-
             this.prepare = function (files) {
-                  console.log('work');
+                  console.log(files,'files');
+                  var sortArray = [];
                   if(Array.isArray(files) && files.length<5-this.picture.length){
                     for(var i = 0 ; i < files.length ; i++){
-                    var fileReader = new FileReader();
+
                     //freeze i for each loop
                     (function (order,index) {
+                    var fileReader = new FileReader();
                     fileReader.onload = function (e) {
 
                     var img64 = {
@@ -30,13 +40,27 @@
                                   order : order,
 
                     };
-                    $scope.$apply(that.picture.push(img64));
-                    console.log(that.picture,that.oldPic,$rootScope.avatarImage.img);
-                    };
 
+                    //sort order to similar as raw files
+                    if( files.length > sortArray.length){
+                      sortArray.push(img64);
+                      console.log(files.length,sortArray.length,'all files');
+                      if(files.length === sortArray.length){
+                        console.log('work');
+                        sortArray.sort(function (a , b) {
+                          return a.order-b.order
+                        });
+                        that.picture = that.picture.concat(sortArray);
+                        console.log(that.picture,'that.picture');
+                      }
+                    }
+
+
+                    };
+                    fileReader.readAsDataURL(files[i]); //encode file to base64
                   })(order,i)
                     order++; //increase every loop to sort by order later
-                    fileReader.readAsDataURL(files[i]); //encode file to base64
+
                   }
 
                   } else {
@@ -147,6 +171,7 @@
 
             this.setCover = function (index) {
               this.pointer = index;
+              console.log(this.pointer,'setcover');
             }
 
 

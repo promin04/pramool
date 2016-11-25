@@ -1,8 +1,8 @@
 .content-header
   h3
-    |product you were followed.
+    |Following
 .follow-box.col-sm-10.col-xs-12
-    h3(ng-if='store.product.length===0' , ng-style='{"text-align":"center"}') There isn't your product. Let's
+    .follow-box-text(ng-if='store.product.length===0' , ng-style='{"text-align":"center"}') There isn't your product. Let's
       a(ui-sref='newProduct')  Create new .
 
     .follow-body.row( ng-repeat='product in store.product' )

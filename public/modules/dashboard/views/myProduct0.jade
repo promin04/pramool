@@ -2,7 +2,7 @@
   h3
     |My Product
 .follow-box.col-sm-10.col-xs-12
-    h3(ng-if='store.product.length===0' , ng-style='{"text-align":"center"}') There isn't your product. Let's
+    .follow-box-text(ng-if='store.product.length===0' , ng-style='{"text-align":"center"}') There isn't your product. Let's
       a(ui-sref='newProduct')  Create new .
 
     .follow-body.row( ng-repeat='product in store.product' )
@@ -23,7 +23,7 @@
               |Detail
             .button.warning.hollow.btn.follow-status-button-edit
               |Edit
-              
+
       .follow-console.col-xs-3
         span.follow-remove.glyphicon.glyphicon-remove(ng-click='preDelete = !preDelete' , ng-class="{'active' : preDelete}")
         .follow-status.col-xs-12

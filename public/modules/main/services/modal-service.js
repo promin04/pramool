@@ -17,14 +17,6 @@
                                         closed();
                                   });
 
-                                  $timeout(function () {
-                                     var element = document.getElementById("myId");
-                                     if(element){
-                                       element.focus();
-                                     }
-                                  },200)
-                                  console.log('logIn');
-
                               }
 
                  break;

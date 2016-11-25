@@ -13,12 +13,12 @@
 }
 
   .comment-avatar {
-    width: 55px;
-    height: 55px;
+    width: 40px;
+    height: 45px;
     float: left;
     img {
-      max-width: 100%;
-      max-height: 100%;
+      width: 100%;
+      height: 100%;
       border-radius: 10px;
     }
   }
@@ -50,7 +50,7 @@
 
   .comment-box.unclicked:hover {
     cursor: pointer;
-    box-shadow: 0px 0px 10px #40a5e3; 
+    box-shadow: 0px 0px 10px #40a5e3;
   }
 
   .comment-submit {

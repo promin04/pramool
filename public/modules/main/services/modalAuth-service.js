@@ -17,7 +17,7 @@
                      this.login = function () {
                        $http.post('/signin',modalLogin.user).then(
                          function success(response) {
-                              console.log('loginnnnn',response.data);
+                          
                              $rootScope.user = response.data.username;
                              $rootScope.avatarImage = response.data.avatarImage;
                              $uibModalInstance.close();
@@ -47,7 +47,7 @@
 
                              this.signup = function () {
                                $http.post('/signup',modalSignup.user).then(function (response) {
-                                 console.log('complete signup');
+
                                  modalSignup.modalClose();
                                });
                              };

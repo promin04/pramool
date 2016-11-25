@@ -58,6 +58,7 @@ require("../../modules/gallery/controllers/gallery-controller.js");
 
 require("../../modules/main/main.js");
 require("../../modules/main/config/main-config.js");
+require("../../modules/main/directives/focus-directive.js");
 require("../../modules/main/services/modal-service.js");
 require("../../modules/main/services/modalAuth-service.js");
 require("../../modules/main/services/user-service.js");

@@ -12,7 +12,7 @@
           |*Require 6-16 characters.
         span(ng-show='loginForm.username.$error.pattern && loginForm.username.$touched' ng-style='{"font-size":"10px", "color":"red"}')
           |*No allow special character.
-        input#myId(name='username' , ng-model = 'login.user.username' , type='text' , placeholder='username' ,ng-style='{"width":"100%"}' , required='' , minlength='6' , maxlength='16' , pattern='[a-zA-Z0-9]{1,16}')
+        input(focus='' , name='username' , ng-model = 'login.user.username' , type='text' , placeholder='username' ,ng-style='{"width":"100%"}' , required='' , minlength='6' , maxlength='16' , pattern='[a-zA-Z0-9]{1,16}')
       div
         span(ng-show='(loginForm.password.$error.minlength || loginForm.password.$error.maxlength) && loginForm.password.$touched' ng-style='{"font-size":"10px" , "margin-right":"8px" , "color":"red"}')
           |*Require 6-16 characters.

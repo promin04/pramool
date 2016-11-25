@@ -104,7 +104,7 @@
     .content-header
       h3 Preview your Product
     .row
-      .product-main.col-sm-8( ng-include= "'./modules/store/views/store-product-main.jade'" )
+      gallery.gallery.col-sm-8(pic='product.picture' , pointer='product.pointer')
       .product-sidebar.col-sm-4( ng-include= "'./modules/store/views/store-product-side.jade'" ng-controller = 'sidebarReviewController as product' )
     .add-product-button
       button.btn.btn-primary.btn-lg( ng-style="{'margin-bottom':'15px' , 'margin-top':'15px'}" ng-click='product.add()' , ng-hide="product.state==10") Create New Product

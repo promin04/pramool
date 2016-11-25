@@ -6,7 +6,7 @@
   form(name='signupForm' , ng-submit = 'signup.signup()' novalidate='')
     div
       label(for = 'username') Username:
-      input(name = 'username', ng-model = 'signup.user.username' , type = 'text' , placeholder = 'username' , ng-style = '{"margin-left":"5px"}' ,
+      input(focus='' , name = 'username', ng-model = 'signup.user.username' , type = 'text' , placeholder = 'username' , ng-style = '{"margin-left":"5px"}' ,
       required='' , minlength='6' , maxlength='16' , pattern='[a-zA-Z0-9]{1,16}' ,
       uib-popover-template = "'./modules/header/views/username-popover.jade'" , popover-trigger = "'focus'" , popover-placement='top' ,
       popover-enable='(signupForm.username.$error.pattern || signupForm.username.$error.minlength || signupForm.username.$error.maxlength || signupForm.username.$error.required) && signupForm.username.$touched')

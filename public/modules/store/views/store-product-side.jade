@@ -19,7 +19,7 @@
     br
     | By {{product.bider[product.bider.length-1].name}}
     br
-    |{{product.bider[product.bider.length-1].time}}
+    .past-ago{{product.bider[product.bider.length-1].time}}
   form(name = 'add' , ng-submit='product.offer()' , style = 'text-align:center' ,  novalidate='' , ng-if='product.bidEnd>0')
       span.product-side-error(ng-show='add.price.$invalid && add.price.$touched') Price should be more than {{product.bider[product.bider.length-1].price}} .
       br
