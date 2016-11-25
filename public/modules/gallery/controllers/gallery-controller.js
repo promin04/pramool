@@ -68,7 +68,7 @@
 
                           slides[slideIndex].style.display = "block";
 
-                          dots[slideIndex].className = "active";
+                          dots[slideIndex].className = "dot active";
                         });
 
 

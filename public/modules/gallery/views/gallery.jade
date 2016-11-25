@@ -7,5 +7,6 @@
   a.prev(ng-click='plusSlides(-1)') ❮
   a.next(ng-click='plusSlides(1)') ❯
 
-.slideshow-sample(style='text-align:center')
-  img.dot(ng-src='{{value2.link}}',style='width:25%',height='auto' , ng-click='currentSlide(value2.order-1)' , ng-repeat='(key2,value2) in pic')
+.slideshow-sample
+  .dot(ng-style='{"width":"25%" , "height":"100%" }' , ng-repeat='(key2,value2) in pic')
+    img(ng-src='{{value2.link}}' , ng-click='currentSlide(value2.order-1)' )
