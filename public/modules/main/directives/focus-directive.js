@@ -4,10 +4,14 @@
     return {
       restrict: 'A',
       link: function (scope, element, attrs) {
+        $( document ).ready(function() {
+            element.focus();
+      });
+      /*
         $timeout(function () {
           element.focus();
         }, 1000);
-
+        */
       }
 
     };
