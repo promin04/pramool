@@ -6,7 +6,7 @@
       link: function (scope, element, attrs) {
         $timeout(function () {
           element.focus();
-        }, 100);
+        }, 1000);
 
       }
 
