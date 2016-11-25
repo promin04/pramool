@@ -1,13 +1,29 @@
 # pramool (Demo)
 **Introduction**
 
-Pramool is a auction website where responce your offer in the real-time
+Pramool is a auction website where responce your bid in the real-time
 by web socket.
 
 There are 3 main features for now.
-- Take offer
-- comment
-- notification
+
+**Bid**
+
+- **User** will be a follower automatically when user bid a new height price.
+- **Seller** can not bid.
+- **User** who take a new height price can not bid repeatedly untill other user bid a new height price.
+
+**Comment**
+
+- Last comment will be shown at the first comment.
+- Last reply will be shown at the Last of parent's comment.
+
+**Notification**
+
+- Notice to **Seller** when user comment.
+- Notice to **Seller** when product was create.
+- Notice to **All follower** and **Seller** when user take a price new bid.
+- Notice to **All follower** and **Seller** when product was deleted.
+- Notice to **Commentator** when user reply.
 
 what's next for me?
 - About security & web token(JWT)
