@@ -3,9 +3,9 @@
     .controller('galleryController', ['$scope',function ($scope) {
         var slides = $scope.pic;
         $scope.$watch('pic',function (newValue, oldValue) {
-            if (newValue.length === 1 && oldValue.length === 0) {
+
               $scope.currentSlide($scope.pointer); //bug at start
-            }
+        
           //disappear new image was added in gallery for showing cover image
           if(newValue.length > oldValue.length && newValue.length>1){
             angular.element(document).ready(function () {
