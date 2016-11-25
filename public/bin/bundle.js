@@ -18028,25 +18028,30 @@
 
 /***/ },
 /* 178 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
-	(function () {
+	/* WEBPACK VAR INJECTION */(function($) {(function () {
 	  angular.module('main')
 	    .directive('focus',['$timeout',function ($timeout) {
 	    return {
 	      restrict: 'A',
 	      link: function (scope, element, attrs) {
+	        $( document ).ready(function() {
+	            element.focus();
+	      });
+	      /*
 	        $timeout(function () {
 	          element.focus();
-	        }, 100);
-	
+	        }, 1000);
+	        */
 	      }
 	
 	    };
 	  }]);
 	
 	})();
-
+	
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(118)))
 
 /***/ },
 /* 179 */

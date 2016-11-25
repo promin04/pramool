@@ -4,7 +4,7 @@
     return {
       restrict: 'A',
       link: function (scope, element, attrs) {
-        $( document ).ready(function() {
+        $( element ).ready(function() {
             element.focus();
       });
       /*
