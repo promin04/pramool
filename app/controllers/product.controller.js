@@ -103,9 +103,10 @@ module.exports = {
      console.log('product delete');
      if( req.user ){
                        var condition = { _id : req.params.id };
-                       Product.findOne(condition,'name creator bidEnd comment_id',function (err ,data) {
-                         var result = data;
-                         console.log(result,'result');
+                       Product.findOne(condition,'name creator bidEnd comment_id following',function (err ,data) {
+
+                          req.product = data;
+                         console.log(data,'result');
                          if(data.bidEnd+0 > moment()+0 ){
                            var forTimecheck = {
                              _id : data._id,
@@ -117,11 +118,10 @@ module.exports = {
                           if(req.user.username === data.creator.username){
 
                             Product.remove(condition,function (err) {
-                              req.Product = result;
-                              return next();
-                              //res.json(result);
-                            });
 
+                              return next();
+
+                            });
 
                           }else {
                             console.log('error delete',req.user.username , data.creator.username);

@@ -7,7 +7,7 @@
         .form-group
           label(for='name') Product's name
             br
-            input(type = 'text' , id = 'name' , name='name' , ng-model="product.input.name" ng-init="product.input.name = ''", required='')
+            input(type = 'text' , focus='' , id = 'name' , name='name' , ng-model="product.input.name" ng-init="product.input.name = ''", required='')
         .form-group
           label(for='file') Gallery image (Maximum 4 image files)
           br
@@ -90,7 +90,7 @@
             img(id ='preview-img', ng-src = '{{product.picture[product.pointer].link||"http://placehold.it/300x250"}}')
 
           div(class = 'product-detail')
-            h4 {{product.stuff.name || "Name"}}
+            h4 {{product.input.name || "Name"}}
             div( class = 'product-auction' )
               timer( milisec = '{{(product.input.time.days*86400000)+(product.input.time.hours*3600000)}}' )
               div(class = 'product-price')

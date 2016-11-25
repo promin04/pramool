@@ -131,7 +131,7 @@ module.exports = {
     },
 
     delete : function ( req , res , next ) {
-      console.log('comment delete');
+      console.log('comment delete',req.product);
       var condition = { _id : req.product.comment_id };
       Comment.remove( condition , function (err) {
         if(err) next(err);
