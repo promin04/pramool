@@ -8,19 +8,19 @@
       |LOG IN
     form(name='loginForm' , ng-submit = 'login.login()' novalidate='')
       div(ng-style='{"margin-bottom":"10px"}')
-        span(ng-show='(loginForm.username.$error.minlength || loginForm.username.$error.maxlength) && loginForm.username.$touched' ng-style='{"font-size":"10px" , "margin-right":"8px", "color":"red"}')
+        span(ng-visible='(loginForm.username.$error.minlength || loginForm.username.$error.maxlength || loginForm.username.$error.required) && loginForm.username.$touched' ng-style='{"font-size":"10px" , "margin-right":"8px", "color":"red"}')
           |*Require 6-16 characters.
-        span(ng-show='loginForm.username.$error.pattern && loginForm.username.$touched' ng-style='{"font-size":"10px", "color":"red"}')
+        span(ng-visible='loginForm.username.$error.pattern && loginForm.username.$touched' ng-style='{"font-size":"10px", "color":"red"}')
           |*No allow special character.
         input(focus='' , name='username' , ng-model = 'login.user.username' , type='text' , placeholder='username' ,ng-style='{"width":"100%"}' , required='' , minlength='6' , maxlength='16' , pattern='[a-zA-Z0-9]{1,16}')
       div
-        span(ng-show='(loginForm.password.$error.minlength || loginForm.password.$error.maxlength) && loginForm.password.$touched' ng-style='{"font-size":"10px" , "margin-right":"8px" , "color":"red"}')
+        span(ng-visible='(loginForm.password.$error.minlength || loginForm.password.$error.maxlength || loginForm.username.$error.required) && loginForm.password.$touched' ng-style='{"font-size":"10px" , "margin-right":"8px" , "color":"red"}')
           |*Require 6-16 characters.
-        span(ng-show='loginForm.password.$error.pattern && loginForm.username.$touched' ng-style='{"font-size":"10px" , "color":"red"}')
+        span(ng-visible='loginForm.password.$error.pattern && loginForm.username.$touched' ng-style='{"font-size":"10px" , "color":"red"}')
           |*No allow special character.
         input(name='password' , ng-model = 'login.user.password' , type='password' , placeholder='password',ng-style='{"width":"100%"}' , required='' , minlength='6' , maxlength='16' , pattern='[a-zA-Z0-9]{1,16}')
-      div(ng-style='{"margin-top":"30px"}')
-        span(ng-show='login.errorMessage' ng-style='{"font-size":"14px" , "color":"red"}')
+      div(ng-style='{"margin-top":"10px"}')
+        span(ng-visible='login.errorMessage' ng-style='{"font-size":"14px" , "color":"red"}')
           |{{login.errorMessage}}
         input.btn.btn-primary.btn-block(type='submit' , value='Log in')
   .register.col-xs-12.col-sm-6

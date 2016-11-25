@@ -3,7 +3,7 @@
     span(aria-hidden='true') ×
   h4#signUpLabel.modal-title(ng-style='{"text-align":"center"}') Create new Account
 .modal-body(ng-style='{"text-align":"center"}')
-  form(name='signupForm' , ng-submit = 'signup.signup()' novalidate='')
+  form(name='signupForm' , ng-submit = 'signup.signup(!signupForm.$valid)' novalidate='')
     div
       label(for = 'username') Username:
       input(focus='' , name = 'username', ng-model = 'signup.user.username' , type = 'text' , placeholder = 'username' , ng-style = '{"margin-left":"5px"}' ,
@@ -37,5 +37,7 @@
       uib-popover-template = "'./modules/header/views/email-popover.jade'" , popover-trigger = "'focus'" , popover-placement='top' ,
       popover-enable='signupForm.email.$error.required && signupForm.email.$touched')
     div(ng-style = '{"margin-top":"16px"}')
-      input.btn.btn-success.btn-block(type = 'submit' , value = 'Register')
+      span(ng-visible='!signupForm.$valid && signup.pressButton' ng-style='{"font-size":"14px" , "color":"red"}')
+        |Please type your information correctly.
+      input.btn.btn-success.btn-block(type = 'submit' , value = 'Register' , ng-disabled='!signupForm.$valid && signup.pressButton')
 .modal-footer

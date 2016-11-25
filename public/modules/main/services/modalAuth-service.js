@@ -10,14 +10,14 @@
                windowClass: 'noAnimate',
                backdropClass: 'noAnimate',
                animation : true,
-               templateUrl : './modules/header/views/signin-modal.jade',
+               templateUrl : './modules/main/views/signin-modal.jade',
                controller : ['modalService','$http','$rootScope','$uibModalInstance',function (modalService,$http,$rootScope,$uibModalInstance) {
                      var modalLogin = this;
                      this.errorMessage = '';
                      this.login = function () {
                        $http.post('/signin',modalLogin.user).then(
                          function success(response) {
-                          
+
                              $rootScope.user = response.data.username;
                              $rootScope.avatarImage = response.data.avatarImage;
                              $uibModalInstance.close();
@@ -28,14 +28,14 @@
                          }
                      );
                  };
-
+                       this.pressButton = false;
                        this.openSignup = function () {
                          var option = {
                            type: 'signUp',
                            windowClass: 'noAnimate',
                            backdropClass: 'noAnimate',
                            animation : true,
-                           templateUrl : './modules/header/views/signup-modal.jade',
+                           templateUrl : './modules/main/views/signup-modal.jade',
                            controller: ['$http','modalService',function ($http,modalService) {
                              var modalSignup = this ;
                              this.modalClose = function () {
@@ -45,8 +45,14 @@
                               });
                              }
 
-                             this.signup = function () {
-                               $http.post('/signup',modalSignup.user).then(function (response) {
+                             this.signup = function (formInvalid) {
+                               var user = modalSignup.user;
+                               var validate = formInvalid || false;
+                               if ( validate ) {
+                                 this.pressButton = true;
+                                 return ;
+                               }
+                               $http.post('/signup', user).then(function (response) {
 
                                  modalSignup.modalClose();
                                });

@@ -5,6 +5,7 @@ require("../../lib/angular/angular.min.js");
 require("../../lib/angular-animate/angular-animate.min.js");
 require("../../lib/angular-bootstrap/ui-bootstrap-tpls.min.js");
 require("../../lib/ng-file-upload/ng-file-upload-all.min.js");
+require("../../lib/ng-visible-invisible/dist/ng-visible-invisible.min.js");
 require("../../lib/angular-ui-router/release/angular-ui-router.min.js");
 require("../../lib/angular-sanitize/angular-sanitize.min.js");
 require("../../lib/masonry/dist/masonry.pkgd.min.js");
