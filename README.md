@@ -11,6 +11,7 @@ There are 3 main features for now.
 - **User** will be a follower automatically when user bid a new height price.
 - **Seller** can not bid.
 - **User** who take a new height price can not bid repeatedly untill other user bid a new height price.
+- If **User** bid a new height and time remaining less than 15 minutes. The time remaining will be reset to 15 minutes.
 
 **Comment**
 
