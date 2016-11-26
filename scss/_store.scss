@@ -1,8 +1,10 @@
 
   .vertical {
+    max-width: 202px;
+  
     .product-img {
       width: 170px;
-      max-height: 340px;
+      max-height: 300px;
     }
     img {
       max-width: 100%;
@@ -11,9 +13,11 @@
   }
 
   .horizontal {
+    max-width: 300px;
+
     .product-img {
       height: 170px;
-      max-width: 340px;
+      max-width: 268px;
     }
     img {
       max-width: 100%;

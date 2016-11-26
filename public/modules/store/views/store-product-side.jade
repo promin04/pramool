@@ -1,6 +1,6 @@
 .product-side
   .description
-    h2 {{product.name}}
+    h4(ng-bind-html = 'product.name')
     h4(ng-style='{"background-color" : " #e1e1e1"}') Description
     .product-side-description
       p(ng-bind-html = 'product.description.detail')

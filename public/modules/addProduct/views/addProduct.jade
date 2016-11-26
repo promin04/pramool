@@ -7,7 +7,7 @@
         .form-group
           label(for='name') Product's name
             br
-            input(type = 'text' , id = 'name' , name='name' , ng-model="product.input.name" ng-init="product.input.name = ''", required='')
+            input(type = 'text' , id = 'name' , name='name' , ng-model="product.input.name" ng-init="product.input.name = ''", required='' , ng-maxlength="36")
         .form-group
           label(for='file') Gallery image (Maximum 4 image files)
           br
@@ -69,7 +69,7 @@
               | Used second hand
         .form-group
           label Condition (option)
-          .short-description( name = 'description' contenteditable = '' ng-model='product.input.description.detail'  ng-init="product.input.description.detail = ''"  ng-class = '{unclicked : comment.state_clicked}')
+          .short-description( name = 'description' contenteditable = '' ng-model='product.input.description.detail'  ng-init="product.input.description.detail = ''"  ng-class = '{unclicked : comment.state_clicked}' ng-maxlength="36")
           br
 
         button.btn.btn-default.btn-lg(ng-disabled='!myForm.$valid' , ng-hide="product.state==10" , ng-style="{'margin-bottom':'30px'}" ng-click='product.preview()') Submit
@@ -90,7 +90,7 @@
             img(id ='preview-img', ng-src = '{{product.picture[product.pointer].link||"http://placehold.it/300x250"}}')
 
           div(class = 'product-detail')
-            h4 {{product.input.name || "Name"}}
+            h4(ng-bind-html = 'product.input.name || "Name"')
             div( class = 'product-auction' )
               timer( milisec = '{{(product.input.time.days*86400000)+(product.input.time.hours*3600000)}}' )
               div(class = 'product-price')
