@@ -69,7 +69,7 @@
               | Used second hand
         .form-group
           label Condition (option)
-          .short-description( name = 'description' contenteditable = '' ng-model='product.input.description.detail'  ng-init="product.input.description.detail = ''"  ng-class = '{unclicked : comment.state_clicked}' ng-maxlength="36")
+          .short-description( name = 'description' contenteditable = '' ng-model='product.input.description.detail'  ng-init="product.input.description.detail = ''"  ng-class = '{unclicked : comment.state_clicked}' ng-maxlength="66")
           br
 
         button.btn.btn-default.btn-lg(ng-disabled='!myForm.$valid' , ng-hide="product.state==10" , ng-style="{'margin-bottom':'30px'}" ng-click='product.preview()') Submit
