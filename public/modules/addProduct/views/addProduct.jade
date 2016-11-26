@@ -7,7 +7,17 @@
         .form-group
           label(for='name') Product's name
             br
-            input(type = 'text' , id = 'name' , name='name' , ng-model="product.input.name" ng-init="product.input.name = ''", required='' , ng-maxlength="36")
+            span(ng-visible='(!myForm.name.$valid || myForm.name.$error.required) && myForm.name.$touched' ng-style='{"font-size":"10px" , "margin-right":"8px", "color":"red"}')
+              |*Require 1-36 characters.
+            br
+            input.add-produt-name(type = 'text' , id = 'name' , name='name' , ng-model="product.input.name" ng-init="product.input.name = ''", required='' , ng-maxlength="36")
+        .form-group
+          label Short Description (option)
+          br
+          span(ng-visible='(!myForm.description.$valid || myForm.description.$error.required) && myForm.description.$touched' ng-style='{"font-size":"10px" , "margin-right":"8px", "color":"red"}')
+            |*Require 1-66 characters.
+          br
+          .short-description( name = 'description' contenteditable = '' ng-model='product.input.description.detail'  ng-init="product.input.description.detail = ''"  ng-class = '{unclicked : comment.state_clicked}' ng-maxlength="66")
         .form-group
           label(for='file') Gallery image (Maximum 4 image files)
           br
@@ -46,6 +56,9 @@
         .form-group
           label Size ( millimeter )
           br
+          span(ng-visible='(myForm.width.$error.required || myForm.long.$error.required || myForm.height.$error.required) && (myForm.width.$touched || myForm.long.$touched || myForm.height.$touched)' ng-style='{"font-size":"10px" , "margin-right":"8px", "color":"red"}')
+            |*Require width , long and height.
+          br
           input(type = 'number' , name = 'width', ng-model = "product.input.description.size.width"  , min = "0" , max="9999", placeholder = "width" ,  required='')
           |&nbsp; x &nbsp;
           input(type = 'number' , name = 'long', ng-model = "product.input.description.size.long"  , min = "0" , max="9999" ,placeholder = "long" ,  required='')
@@ -55,7 +68,7 @@
           label(for='weight')
             | Weight ( gram )
           br
-          input(type = 'number' , name = 'weight', ng-model = "product.input.description.weight"  , min = "0" , max="99999" , ng-init="product.input.description.weight=1" , required='')
+          input(type = 'number' , name = 'weight', ng-model = "product.input.description.weight"  , min = "1" , max="99999" , ng-init="product.input.description.weight=1" , required='')
         .form-group
           label New one or Second hand ?
           br
@@ -67,9 +80,7 @@
             label
               input(type='radio', value='Second hand' ng-model = "product.input.description.condition")
               | Used second hand
-        .form-group
-          label Condition (option)
-          .short-description( name = 'description' contenteditable = '' ng-model='product.input.description.detail'  ng-init="product.input.description.detail = ''"  ng-class = '{unclicked : comment.state_clicked}' ng-maxlength="66")
+
           br
 
         button.btn.btn-default.btn-lg(ng-disabled='!myForm.$valid' , ng-hide="product.state==10" , ng-style="{'margin-bottom':'30px'}" ng-click='product.preview()') Submit

@@ -14,7 +14,7 @@
 
       // Listen for change events to enable binding
 
-      element.on('keyup ', function(event) {
+      element.on('keyup change blur', function(event) {
         var html = element.html();
         html = html
         .replace( new RegExp('<div><br></div>', 'g') , '<br />' )

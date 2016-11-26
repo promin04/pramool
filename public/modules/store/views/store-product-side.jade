@@ -33,6 +33,6 @@
     span.glyphicon.glyphicon-star
     |FOLLOW
 .product-side-noti.col-sm-4.col-xs-12
-  .noAnimate(uib-alert='', ng-repeat='alert in product.alerts', ng-class="'alert-' + (alert.type || 'danger')", close='product.closeAlert($index)' , dismiss-on-timeout='2500')
+  .noAnimate(uib-alert='', ng-repeat='alert in product.alerts', ng-class="'alert-' + (alert.type || 'danger')", close='product.closeAlert($index)' , dismiss-on-timeout='4000')
     span.glyphicon.glyphicon-exclamation-sign.product-side-noti-sign(aria-hidden='true')
     b {{alert.msg}}
