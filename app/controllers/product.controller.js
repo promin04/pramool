@@ -433,7 +433,7 @@ module.exports = {
  },
 
 search : function (req , res , next ) {
-  var condition = { name : { $regex : req.query.searchText } };
+  var condition = { name : { $regex : req.query.searchText , $options: 'i' } };
   Product.find( condition , '_id name bider bidEnd img coverImg' )
   .lean()
   .exec(
