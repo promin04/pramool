@@ -15,7 +15,7 @@
                      var modalLogin = this;
                      this.errorMessage = '';
                      this.login = function () {
-                       $http.post('/signin',modalLogin.user).then(
+                       $http.post('/api/signin',modalLogin.user).then(
                          function success(response) {
 
                              $rootScope.user = response.data.username;
@@ -52,7 +52,7 @@
                                  this.pressButton = true;
                                  return ;
                                }
-                               $http.post('/signup', user).then(function (response) {
+                               $http.post('/api/signup', user).then(function (response) {
 
                                  modalSignup.modalClose();
                                });

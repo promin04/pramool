@@ -15584,7 +15584,7 @@
 	  angular.module('search')
 	    .service('search',['$http',function ($http) {
 	      this.get = function (name) {
-	        return $http.get(`/search?searchText=${name}`);
+	        return $http.get(`/api/search?searchText=${name}`);
 	      }
 	    }]);
 	})()
@@ -15727,9 +15727,8 @@
 
 	(function () {
 	  angular.module('header',['search'])
-	    .config(['$stateProvider','$urlRouterProvider',function ($stateProvider,$urlRouterProvider) {
-	      $urlRouterProvider
-	        .otherwise('/');
+	    .config(['$stateProvider',function ($stateProvider) {
+	
 	      $stateProvider
 	        .state('auction',{
 	          url : '/',
@@ -15775,7 +15774,7 @@
 	      this.notification = {};
 	      this.signout = function () {
 	
-	        $http.get('/signout').then(function () {
+	        $http.get('/api/signout').then(function () {
 	            $rootScope.user = null;
 	            $rootScope.avatarImage = null;
 	            socket.emit('clientLogout');
@@ -15796,7 +15795,7 @@
 	            $el.attr( "noti", "user.notification" );
 	            $compile($el)($scope);
 	            if( this.notification.unread ){
-	                  $http.get('/read-notification').then(function (response) {
+	                  $http.get('/api/read-notification').then(function (response) {
 	                     that.notification.unread = response.data.unread;
 	                  });
 	            }
@@ -15810,7 +15809,7 @@
 	
 	          that.username = newValue;
 	          if(!oldValue && newValue) {
-	              $http.get('/get-notification/1&0').then(function (response) {
+	              $http.get('/api/get-notification/1&0').then(function (response) {
 	                var unread = response.data.unread;
 	                var notification = response.data.notification.reverse();
 	                var num = response.data.num;
@@ -15870,7 +15869,7 @@
 	            busy = true;
 	            console.log('yes');
 	            scope.noti.page++;
-	            $http.get('/get-notification/'+scope.noti.page+'&'+scope.noti.new).then(function (response) {
+	            $http.get('/api/get-notification/'+scope.noti.page+'&'+scope.noti.new).then(function (response) {
 	
 	              var notification = response.data.notification.reverse();
 	              scope.noti.notification = scope.noti.notification.concat(notification);
@@ -15910,7 +15909,7 @@
 	  angular.module( 'addProduct' )
 	    .controller( 'addProductController' , ['$http','imgur','$state','$timeout','$scope',
 	    function ( $http , imgur , $state , $timeout , $scope , modalService ) {
-	    
+	
 	            var that = this;
 	            var imgWidth;
 	            var imgHeight;
@@ -16016,7 +16015,7 @@
 	                      pro.coverImg = that.pointer;
 	                  }
 	
-	                $http.post('/product',pro).then(function (res) {
+	                $http.post('/api/product',pro).then(function (res) {
 	                  $state.go('auction');
 	                });
 	                }
@@ -16295,7 +16294,7 @@
 	                mode : 'new',
 	                product_id : $scope.pro
 	              };
-	            $http.post('/comment/'+$scope.com , messages).then(
+	            $http.post('/api/comment/'+$scope.com , messages).then(
 	              function (responce) {
 	                $scope.message = '';
 	              }
@@ -16330,7 +16329,7 @@
 	
 	
 	          });
-	        $http.get( '/comment/' + $scope.com ).then(function (res) {
+	        $http.get( '/api/comment/' + $scope.com ).then(function (res) {
 	          that.all_comment = res.data.comment.reverse() ;
 	
 	        });
@@ -16434,7 +16433,7 @@
 	                    product_id : $scope.$parent.pro
 	                  };
 	
-	                    $http.post('/comment/'+$scope.$parent.com , message).then(
+	                    $http.post('/api/comment/'+$scope.$parent.com , message).then(
 	                      function (responce) {
 	                        $scope.message = '';
 	                      }
@@ -16484,7 +16483,7 @@
 	
 	              resolve: {
 	                product : ['$http','$stateParams','$rootScope','following','$state',function ($http,$stateParams,$rootScope,following,$state) {
-	                              return $http.get('/product/'+$stateParams.id)
+	                              return $http.get('/api/product/'+$stateParams.id)
 	                                .then(
 	                                  function (response) {
 	                                    var result = response.data;
@@ -16593,7 +16592,7 @@
 	          return modalAuthService.open();
 	        }else if ( this.price > product.bider[product.bider.length-1].price) {
 	
-	          $http.post('/product/'+$stateParams.id,{price : this.price})
+	          $http.post('/api/product/'+$stateParams.id,{price : this.price})
 	            .then(
 	                  function (response) {
 	                        that.price = '';
@@ -16626,7 +16625,7 @@
 	
 	       this.addAlert = function( message , type) {
 	         this.alerts.push({ type: type , msg: message});
-	        
+	
 	       };
 	
 	       this.closeAlert = function(index) {
@@ -16696,7 +16695,7 @@
 	    this.product = [];
 	
 	    this.getNew = function () {
-	      $http.get('/product').then(function(response) {
+	      $http.get('/api/product').then(function(response) {
 	        var data = response.data;
 	        that.product = data;
 	      });
@@ -16770,7 +16769,7 @@
 	
 	
 	      this.getComplete = function () {
-	          $http.get('/completed').then(function(response){
+	          $http.get('/api/completed').then(function(response){
 	            var data = response.data;
 	            that.product = data
 	
@@ -16881,7 +16880,7 @@
 	    .service('following',['$http',function ($http) {
 	
 	      this.follow = function ( product_id , follow_by ) {
-	        return  $http.post('/following',{
+	        return  $http.post('/api/following',{
 	          _id : product_id,
 	          mode: 'follow',
 	          by : follow_by
@@ -16893,7 +16892,7 @@
 	      };
 	
 	      this.unFollow = function ( product_id , follow_by ) {
-	        return  $http.post('/following',{
+	        return  $http.post('/api/following',{
 	          _id : product_id,
 	          mode: 'unfollow',
 	          by : follow_by
@@ -16935,7 +16934,7 @@
 	    .service('notification',['$http',function ($http) {
 	
 	      this.getlist = function () {
-	        return  $http.get('/get-following')
+	        return  $http.get('/api/get-following')
 	        .then(function (response) {
 	            console.log('already follow',response.data);
 	            return response.data;
@@ -17150,7 +17149,7 @@
 	    .service('followed',['$http','$state','$rootScope',function ($http,$state,$rootScope) {
 	        this.product = function () {
 	
-	        return  $http.get('/following').then(
+	        return  $http.get('/api/following').then(
 	                  function (response) {
 	                     var result = response.data;
 	                     var myProduct = [];
@@ -17206,7 +17205,7 @@
 	                              if(index === arrayImg.length-1){
 	                                console.log('start delete');
 	
-	                                  $http.delete('/product/'+_id).then(function (response) {
+	                                  $http.delete('/api/product/'+_id).then(function (response) {
 	                                          console.log('All done',response);
 	                                          defer.resolve(response);
 	                                        });
@@ -17388,7 +17387,7 @@
 	                      pro.pointer = that.pointer;
 	                  }
 	                  console.log(pro,'before save');
-	                $http.post('/user-avatar-update',pro).then(function (res) {
+	                $http.post('/api/user-avatar-update',pro).then(function (res) {
 	                  console.log('user-avatar-update res',res.data);
 	                  $rootScope.avatarImage = res.data.avatarImage;
 	                  $uibModalInstance.close();
@@ -18070,15 +18069,15 @@
 
 	(function () {
 	  angular.module('main')
-	  .config(['$animateProvider', '$locationProvider' , function ($animateProvider , $locationProvider) {
+	  .config(['$animateProvider', '$locationProvider' , '$urlRouterProvider' ,
+	  function ($animateProvider , $locationProvider , $urlRouterProvider) {
 	
 	       $animateProvider.classNameFilter(/^((?!(noAnimate)).)*$/);
 	
-	       $locationProvider.html5Mode({
-	        enabled: true,
-	        requireBase: true,
-	        rewriteLinks: true
-	      });
+	       $locationProvider.html5Mode(true).hashPrefix('!');
+	
+	      $urlRouterProvider
+	        .otherwise('/');
 	    }
 	  ]);
 	}
@@ -18182,7 +18181,7 @@
 	                     var modalLogin = this;
 	                     this.errorMessage = '';
 	                     this.login = function () {
-	                       $http.post('/signin',modalLogin.user).then(
+	                       $http.post('/api/signin',modalLogin.user).then(
 	                         function success(response) {
 	
 	                             $rootScope.user = response.data.username;
@@ -18219,7 +18218,7 @@
 	                                 this.pressButton = true;
 	                                 return ;
 	                               }
-	                               $http.post('/signup', user).then(function (response) {
+	                               $http.post('/api/signup', user).then(function (response) {
 	
 	                                 modalSignup.modalClose();
 	                               });
@@ -18259,7 +18258,7 @@
 	      this.getUser = function () {
 	            if(!$rootScope.user){
 	              var defer = $q.defer();
-	              $http.get('/user').then(function (response) {
+	              $http.get('/api/user').then(function (response) {
 	
 	                if(response.data){
 	                  $rootScope.user = response.data.username;

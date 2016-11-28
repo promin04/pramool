@@ -7,7 +7,7 @@
 
 
       this.getComplete = function () {
-          $http.get('/completed').then(function(response){
+          $http.get('/api/completed').then(function(response){
             var data = response.data;
             that.product = data
 

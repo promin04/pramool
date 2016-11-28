@@ -15,7 +15,7 @@
             busy = true;
             console.log('yes');
             scope.noti.page++;
-            $http.get('/get-notification/'+scope.noti.page+'&'+scope.noti.new).then(function (response) {
+            $http.get('/api/get-notification/'+scope.noti.page+'&'+scope.noti.new).then(function (response) {
 
               var notification = response.data.notification.reverse();
               scope.noti.notification = scope.noti.notification.concat(notification);

@@ -17,7 +17,7 @@
                     product_id : $scope.$parent.pro
                   };
 
-                    $http.post('/comment/'+$scope.$parent.com , message).then(
+                    $http.post('/api/comment/'+$scope.$parent.com , message).then(
                       function (responce) {
                         $scope.message = '';
                       }

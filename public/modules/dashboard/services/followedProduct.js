@@ -3,7 +3,7 @@
     .service('followed',['$http','$state','$rootScope',function ($http,$state,$rootScope) {
         this.product = function () {
 
-        return  $http.get('/following').then(
+        return  $http.get('/api/following').then(
                   function (response) {
                      var result = response.data;
                      var myProduct = [];

@@ -2,7 +2,7 @@
   angular.module( 'addProduct' )
     .controller( 'addProductController' , ['$http','imgur','$state','$timeout','$scope',
     function ( $http , imgur , $state , $timeout , $scope , modalService ) {
-    
+
             var that = this;
             var imgWidth;
             var imgHeight;
@@ -108,7 +108,7 @@
                       pro.coverImg = that.pointer;
                   }
 
-                $http.post('/product',pro).then(function (res) {
+                $http.post('/api/product',pro).then(function (res) {
                   $state.go('auction');
                 });
                 }

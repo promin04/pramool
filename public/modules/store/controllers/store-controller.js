@@ -7,7 +7,7 @@
     this.product = [];
 
     this.getNew = function () {
-      $http.get('/product').then(function(response) {
+      $http.get('/api/product').then(function(response) {
         var data = response.data;
         that.product = data;
       });

@@ -26,7 +26,7 @@
                 mode : 'new',
                 product_id : $scope.pro
               };
-            $http.post('/comment/'+$scope.com , messages).then(
+            $http.post('/api/comment/'+$scope.com , messages).then(
               function (responce) {
                 $scope.message = '';
               }
@@ -61,7 +61,7 @@
 
 
           });
-        $http.get( '/comment/' + $scope.com ).then(function (res) {
+        $http.get( '/api/comment/' + $scope.com ).then(function (res) {
           that.all_comment = res.data.comment.reverse() ;
 
         });

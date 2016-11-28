@@ -1,8 +1,7 @@
 (function () {
   angular.module('header',['search'])
-    .config(['$stateProvider','$urlRouterProvider',function ($stateProvider,$urlRouterProvider) {
-      $urlRouterProvider
-        .otherwise('/');
+    .config(['$stateProvider',function ($stateProvider) {
+
       $stateProvider
         .state('auction',{
           url : '/',

@@ -21,7 +21,7 @@
                               if(index === arrayImg.length-1){
                                 console.log('start delete');
 
-                                  $http.delete('/product/'+_id).then(function (response) {
+                                  $http.delete('/api/product/'+_id).then(function (response) {
                                           console.log('All done',response);
                                           defer.resolve(response);
                                         });

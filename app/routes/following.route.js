@@ -1,11 +1,11 @@
 module.exports = function (app) {
   var following = require('../controllers/following.controller.js');
 
-  app.route( '/get-notification/:page&:new' )
+  app.route( '/api/get-notification/:page&:new' )
      .get( following.getNotification , following.send );
 
 
-  app.route( '/read-notification' )
+  app.route( '/api/read-notification' )
      .get( following.readNotification , following.send );
 
 }

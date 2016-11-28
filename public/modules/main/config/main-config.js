@@ -1,14 +1,14 @@
 (function () {
   angular.module('main')
-  .config(['$animateProvider', '$locationProvider' , function ($animateProvider , $locationProvider) {
+  .config(['$animateProvider', '$locationProvider' , '$urlRouterProvider' ,
+  function ($animateProvider , $locationProvider , $urlRouterProvider) {
 
        $animateProvider.classNameFilter(/^((?!(noAnimate)).)*$/);
 
-       $locationProvider.html5Mode({
-        enabled: true,
-        requireBase: true,
-        rewriteLinks: true
-      });
+       $locationProvider.html5Mode(true).hashPrefix('!');
+
+      $urlRouterProvider
+        .otherwise('/');
     }
   ]);
 }

@@ -3,7 +3,7 @@
     .service('following',['$http',function ($http) {
 
       this.follow = function ( product_id , follow_by ) {
-        return  $http.post('/following',{
+        return  $http.post('/api/following',{
           _id : product_id,
           mode: 'follow',
           by : follow_by
@@ -15,7 +15,7 @@
       };
 
       this.unFollow = function ( product_id , follow_by ) {
-        return  $http.post('/following',{
+        return  $http.post('/api/following',{
           _id : product_id,
           mode: 'unfollow',
           by : follow_by

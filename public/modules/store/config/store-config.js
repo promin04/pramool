@@ -22,7 +22,7 @@
 
               resolve: {
                 product : ['$http','$stateParams','$rootScope','following','$state',function ($http,$stateParams,$rootScope,following,$state) {
-                              return $http.get('/product/'+$stateParams.id)
+                              return $http.get('/api/product/'+$stateParams.id)
                                 .then(
                                   function (response) {
                                     var result = response.data;

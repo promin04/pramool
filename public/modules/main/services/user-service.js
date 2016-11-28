@@ -5,7 +5,7 @@
       this.getUser = function () {
             if(!$rootScope.user){
               var defer = $q.defer();
-              $http.get('/user').then(function (response) {
+              $http.get('/api/user').then(function (response) {
 
                 if(response.data){
                   $rootScope.user = response.data.username;

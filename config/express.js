@@ -33,7 +33,11 @@ module.exports = function (express,app,io) {
     require('../app/routes/following.route.js')(app);
     require('../app/routes/user.route.js')(app);
     require('../app/routes/comment.route.js')(app);
+
     //set static flies
     app.use(express.static('./public'));
-
+    //page no found
+    app.use(function(req, res, next){
+    res.status(404).redirect('/404');
+});
 }

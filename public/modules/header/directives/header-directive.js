@@ -22,7 +22,7 @@
       this.notification = {};
       this.signout = function () {
 
-        $http.get('/signout').then(function () {
+        $http.get('/api/signout').then(function () {
             $rootScope.user = null;
             $rootScope.avatarImage = null;
             socket.emit('clientLogout');
@@ -43,7 +43,7 @@
             $el.attr( "noti", "user.notification" );
             $compile($el)($scope);
             if( this.notification.unread ){
-                  $http.get('/read-notification').then(function (response) {
+                  $http.get('/api/read-notification').then(function (response) {
                      that.notification.unread = response.data.unread;
                   });
             }
@@ -57,7 +57,7 @@
 
           that.username = newValue;
           if(!oldValue && newValue) {
-              $http.get('/get-notification/1&0').then(function (response) {
+              $http.get('/api/get-notification/1&0').then(function (response) {
                 var unread = response.data.unread;
                 var notification = response.data.notification.reverse();
                 var num = response.data.num;

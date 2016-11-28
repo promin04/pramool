@@ -155,7 +155,7 @@
                       pro.pointer = that.pointer;
                   }
                   console.log(pro,'before save');
-                $http.post('/user-avatar-update',pro).then(function (res) {
+                $http.post('/api/user-avatar-update',pro).then(function (res) {
                   console.log('user-avatar-update res',res.data);
                   $rootScope.avatarImage = res.data.avatarImage;
                   $uibModalInstance.close();
