@@ -1,18 +1,24 @@
 (function () {
   angular.module('main')
-  .service('imgur',['$http',function ($http) {
-    this.post = function (file ,processBar, callback ,array_remain) {
+  .service('imgur',['$http', '$q' ,function ( $http , $q ) {
+
+    this.post = function ( file , processBar , array_remain ) {
 
       console.log(file);
-
       var arrayData = [];
+      var deferred = $q.defer();
       if(!file[0]){
-        return callback( arrayData , file , array_remain );
+        //send data
+        deferred.resolve({
+          file : file ,
+          arrayData : arrayData ,
+          array_remain : array_remain
+        });
+        //return promise to chain then
+        return deferred.promise;
       }
       for(var i = 0 ; i < file.length ; i++){
 
-
-      console.log(i,'i');
         //closure fn
       (function (index) {
         //due to title cannot set 0 that result = 'null', so it must i+1 (if i=0)
@@ -39,24 +45,49 @@
         };
 
           $http(demo).then(function(response) {
-              //success
+                //success
+                    arrayData.push(response.data.data);
+                    processBar(arrayData.length,file.length);
+                    if(arrayData.length === file.length){
 
-              arrayData.push(response.data.data);
-              processBar(arrayData.length,file.length);
-              if(arrayData.length === file.length){
-                arrayData.sort(function(a, b){
-                  return a.title-b.title});
-                console.log(arrayData);
-                return callback( arrayData , file , array_remain );
-              }
-          }, function(reject) {
-            console.log('error',reject);
-          });
+                      arrayData.sort(
+                        function(a, b){
+                            return a.title-b.title
+                      });
+                      //send data when last loop
+                      deferred.resolve({
+                        file : file ,
+                        arrayData : arrayData ,
+                        array_remain : array_remain
+                      });
 
+                      console.log(arrayData);
+                    }
+            }, function(reject) {
+              console.log('error',reject);
+            });
 
 })(i);
     }
+    //return promise to chain then
+    return deferred.promise;
     }
 
+    this.remove = function ( array_remove ) {
+      var route = '';
+      for (var i = 0; i < array_remove.length; i++) {
+        (function () {
+          route = 'https://api.imgur.com/3/image/' + array_remove[i].deletehash;
+          $http.delete( route ,{
+                    headers: {
+                      Authorization: 'Client-ID 18f8382f95b805f',
+                    }
+          }).then(function (res) {
+            console.log(res.data ,'delete ' + i);
+          });
+        })(i)
+
+      }
+    }
   }])
 })()

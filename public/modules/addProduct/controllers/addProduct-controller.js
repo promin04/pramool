@@ -7,6 +7,7 @@
             var imgWidth;
             var imgHeight;
             var order = 1;
+            this.editMode = false; 
             this.picFile = null;
             this.state = null;
             this.picture = [];

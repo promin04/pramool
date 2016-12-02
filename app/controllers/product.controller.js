@@ -443,6 +443,36 @@ search : function (req , res , next ) {
         next();
       }
   );
+},
+
+edit : function (req , res , next) {
+  if(req.product){
+      var condition = { _id : req.product._id };
+  }else if (req.params.id) {
+    var condition = { _id : req.params.id };
+  }
+  var update = {
+    $set :  {
+        name : req.body.name,
+        bidEnd : moment().add(req.body.time.hours,'hours').add(req.body.time.days, 'days'),
+        description : req.body.description,
+        img : req.body.img,
+        coverImg : {
+          index : req.body.coverImg,
+          autoW : (coverImgObj.width/coverImgObj.height)*170 ,
+          autoH : (coverImgObj.height/coverImgObj.width)*170
+        },
+        bider :[{
+          name : req.user.username,
+          price : req.body.price,
+          time : moment()
+        }]
+      }
+  }
+  Product.findOneAndUpdate( condition , update , {new : true}).exec(
+    function (err,data) {
+    res.end();
+  });
 }
 
 

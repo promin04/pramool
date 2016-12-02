@@ -51,6 +51,7 @@ require("../../modules/store/directives/store-completed.js");
 require("../../modules/dashboard/config/dashboard-config.js");
 require("../../modules/dashboard/services/followedProduct.js");
 require("../../modules/dashboard/services/deleteProduct.js");
+require("../../modules/dashboard/services/imgManager.js");
 require("../../modules/dashboard/controllers/profile-controller.js");
 
 require("../../modules/timer/timer.js");

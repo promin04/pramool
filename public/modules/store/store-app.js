@@ -1,4 +1,4 @@
 (function () {
-    angular.module('store',['timer','gallery','addProduct','comment','ngSanitize']);
+    angular.module('store',['timer','gallery','addProduct','comment','ngSanitize','dashboard']);
 
 })()

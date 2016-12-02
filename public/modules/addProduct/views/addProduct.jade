@@ -2,7 +2,8 @@
   .row.add-product-slide-1
     .add-product-box.col-sm-6
       .content-header
-        h3 Create a new Product
+        h3(ng-if='!product.editMode') Create a new Product
+        h3(ng-if='product.editMode') Edit & re-Offer
       form(name = 'myForm')
         .form-group
           label(for='name') Product's name

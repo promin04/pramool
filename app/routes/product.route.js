@@ -13,7 +13,10 @@ module.exports = function (app) {
      .post( product.offer , following.setBiderFollow ,  product.followProduct , following.notification , product.send )
      .delete( product.delete , comment.delete , following.setPreDelete , following.notification , product.end );
 
-
+ app.route( '/api/product/:id/edit' )
+    .get( product.detail , product.read )
+    .post( product.edit );
+    
   app.route( '/api/completed' )
       .get( product.completed );
 
@@ -23,5 +26,7 @@ module.exports = function (app) {
 
   app.route('/api/search')
       .get( product.search , product.read , product.send );
+
+
 
 };

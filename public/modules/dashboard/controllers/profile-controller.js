@@ -88,20 +88,7 @@
             }
 
             this.remove = function ( array_remove ) {
-              var route = '';
-              for (var i = 0; i < array_remove.length; i++) {
-                (function () {
-                  route = 'https://api.imgur.com/3/image/' + array_remove[i].deletehash;
-                  $http.delete( route ,{
-                            headers: {
-                              Authorization: 'Client-ID 18f8382f95b805f',
-                            }
-                  }).then(function (res) {
-                    console.log('delete ' + i);
-                  });
-                })(i)
-
-              }
+              imgur.remove( array_remove );
             }
 
             this.compare = function ( oldPic , newPic ) {
@@ -113,7 +100,7 @@
               // filter remove and add
               for (var i = 0; i < oldPic.length; i++) {
                 for (var j = 0 ; j < newPic.length; j++) {
-                      console.log(oldPic[i].deletehash , newPic[j].deletehash ,i,j,'checkkkkk');
+                      //console.log(oldPic[i].deletehash , newPic[j].deletehash ,i,j,'checkkkkk');
                       if(oldPic[i].deletehash === newPic[j].deletehash){
                         var removeIndex = lists.remove.findIndex(function (currentValue) {
                                           return currentValue.deletehash ===  oldPic[i].deletehash
@@ -121,7 +108,7 @@
                         var removeAdd = lists.add.findIndex(function (currentValue) {
                                           return currentValue.deletehash ===  oldPic[i].deletehash
                                         });
-                        console.log(removeIndex,removeAdd,'indexxxx');
+                        //console.log(removeIndex,removeAdd,'indexxxx');
                         var remaining = lists.remove.splice( removeIndex , 1 );
                                         lists.add.splice( removeAdd , 1 );
                                         lists.remain.push( remaining[0] );
@@ -129,7 +116,7 @@
                       }
                 }
               }
-              console.log(lists,'lists 55555');
+              //console.log(lists,'lists 55555');
               return lists;
             }
 
@@ -166,7 +153,13 @@
                 var processBar = function (complete,total) {
                   that.processBar = complete/total*100;
                 }
-                  imgur.post( array_add , processBar , createPro ,array_remain );
+                //imgur service API for save 64bit to imgur host
+                imgur.post( array_add , processBar ,array_remain )
+                  .then( function (res) {
+
+                            createPro( res.arrayData , res.file , res.array_remain );
+                        }
+                  );
             };
 
             this.setCover = function (index) {
