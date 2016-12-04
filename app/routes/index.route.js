@@ -7,5 +7,6 @@ module.exports = function (app) {
   app.get('/completed',index.render);
   app.get('/product/*',index.render);
   app.get('/new-product',index.render);
+  app.get('/dashboard',index.render);
   app.get('/404',index.render);
 };

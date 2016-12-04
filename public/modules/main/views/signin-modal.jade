@@ -1,31 +1,70 @@
 .modal-header
+
     button.close(type='button', ng-click='$dismiss()', aria-label='Close')
+
       span(aria-hidden='true') ×
+
     h4#signInLabel.modal-title(ng-style='{"text-align":"center"}') Welcome to Showroom
+
 .modal-body.row
+
   .login.col-xs-12.col-sm-6(ng-style='{"border-right":"1px solid #c7c7c7"}')
-    h4(ng-style='{"text-align":"center"}')
-      |LOG IN
+
     form(name='loginForm' , ng-submit = 'login.login()' novalidate='')
-      div(ng-style='{"margin-bottom":"10px"}')
-        span(ng-visible='(loginForm.username.$error.minlength || loginForm.username.$error.maxlength || loginForm.username.$error.required) && loginForm.username.$touched' ng-style='{"font-size":"10px" , "margin-right":"8px", "color":"red"}')
-          |*Require 6-16 characters.
-        span(ng-visible='loginForm.username.$error.pattern && loginForm.username.$touched' ng-style='{"font-size":"10px", "color":"red"}')
-          |*No allow special character.
-        input(focus='' , name='username' , ng-model = 'login.user.username' , type='text' , placeholder='username' ,ng-style='{"width":"100%"}' , required='' , minlength='6' , maxlength='16' , pattern='[a-zA-Z0-9]{1,16}')
-      div
-        span(ng-visible='(loginForm.password.$error.minlength || loginForm.password.$error.maxlength || loginForm.username.$error.required) && loginForm.password.$touched' ng-style='{"font-size":"10px" , "margin-right":"8px" , "color":"red"}')
-          |*Require 6-16 characters.
-        span(ng-visible='loginForm.password.$error.pattern && loginForm.username.$touched' ng-style='{"font-size":"10px" , "color":"red"}')
-          |*No allow special character.
-        input(name='password' , ng-model = 'login.user.password' , type='password' , placeholder='password',ng-style='{"width":"100%"}' , required='' , minlength='6' , maxlength='16' , pattern='[a-zA-Z0-9]{1,16}')
+      .outter-noborder
+        .container-noborder(ng-style='{"margin-top":"25px" , "display":"block"}')
+
+          label(for='username' , ng-style='myStyle' ng-init="myStyle={'position': 'absolute' , 'left': '0px' , 'top': '-15px' ,'color':'#40a5e3' ,'font-weight': '700' ,'font-size': '16px', 'transition': 'all 450ms cubic-bezier(0.23, 1, 0.32, 1)'}")
+            |Username
+          .row
+            .col-xs-12.col-md-6(ng-show='(loginForm.username.$error.minlength || loginForm.username.$error.maxlength || loginForm.username.$error.required) && loginForm.username.$dirty && loginForm.username.$touched' ng-style='{"font-size":"10px" , "padding":"0", "color":"red"}')
+              |*Require 6-16 characters.
+
+            .col-xs-12.col-md-6(ng-show='loginForm.username.$error.pattern && loginForm.username.$dirty && loginForm.username.$touched' ng-style='{"font-size":"10px", "padding":"0" ,"color":"red"}')
+              |*No allow special character.
+
+          input.noborder(focus='',
+            ng-focus="myStyle={'position': 'absolute' , 'left': '0px' , 'top': '-20px','color':'#40a5e3' , 'font-weight': '700','font-size': '16px' , 'transition': 'all 450ms cubic-bezier(0.23, 1, 0.32, 1)'}" ,
+            ng-blur=" !loginForm.username.$viewValue.length ? \
+              myStyle = {'position': 'absolute' , 'left': 'calc(50% - 33px)' , 'bottom': '0' ,'color':'#878686' , 'font-weight': '100','font-size': '14px' , 'transition': 'all 450ms cubic-bezier(0.23, 1, 0.32, 1)'}\
+              :\
+              myStyle = {'position': 'absolute' , 'left': '0px' , 'top': '-20px','color':'#878686' , 'font-weight': '700','font-size': '16px' , 'transition': 'all 450ms cubic-bezier(0.23, 1, 0.32, 1)'}" ,
+            id='username',
+            name='username',
+            ng-model = 'login.user.username',
+            type='text',
+            ng-style='{"width":"100%"}',
+            required='',
+            minlength='6',
+            maxlength='16',
+            pattern='[a-zA-Z0-9]{1,16}')
+          hr
+          hr
+      .outter-noborder
+        .container-noborder(ng-style='{"display":"block"}')
+          .row
+            .col-xs-12.col-md-6(ng-show='(loginForm.password.$error.minlength || loginForm.password.$error.maxlength || loginForm.password.$error.required) && loginForm.password.$dirty && loginForm.password.$touched' ng-style='{"font-size":"10px" , "padding":"0" , "color":"red"}')
+              |*Require 6-16 characters.
+
+            .col-xs-12.col-md-6(ng-show='loginForm.password.$error.pattern && loginForm.password.$dirty && loginForm.password.$touched' ng-style='{"font-size":"10px" , "padding":"0" , "color":"red"}')
+              |*No allow special character.
+
+          input.noborder(name='password' , ng-model = 'login.user.password' , type='password' , placeholder='password',ng-style='{"width":"100%"}' , required='' , minlength='6' , maxlength='16' , pattern='[a-zA-Z0-9]{1,16}')
+          hr
+          hr
       div(ng-style='{"margin-top":"10px"}')
+
         span(ng-visible='login.errorMessage' ng-style='{"font-size":"14px" , "color":"red"}')
           |{{login.errorMessage}}
-        input.btn.btn-primary.btn-block(type='submit' , value='Log in')
+
+        input.noborder.btn.btn-primary.btn-block(type='submit' , value='Log in')
+
   .register.col-xs-12.col-sm-6
+
     h4(ng-style='{"text-align":"center"}')
       | OR
+
     .btn.btn-success.btn-block(ng-click='login.openSignup()')
       |Create new Account
+
 .modal-footer

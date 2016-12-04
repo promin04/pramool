@@ -1,31 +1,25 @@
 (function () {
   angular.module('dashboard')
-    .service('imgManager',['$http' , 'imgur' , '$scope',
-    function ($http , imgur , $scope ) {
+    .service('imgManager',['$http','imgur','$q',function ($http,imgur,$q) {
 
       var that = this;
       var order = 1;
       this.oldPic = [];
-      this.picture = []
+      this.picture = [];
       this.pointer = 0;
 
       this.set = function ( oldPic , picture , pointer ) {
+        var order = 1;
         this.oldPic = oldPic;
         this.picture = picture;
         this.pointer = pointer;
-        var order = 1;
+        console.log(oldPic , picture , pointer);
       }
-
-      $scope.$watch('editAvatar.pointer',function (newValue, oldValue) {
-
-        if ( (newValue == oldValue) ) {
-          that.setCover(+newValue);
-        }
-      });
 
       this.processBar = 0;
 
       this.prepare = function (files) {
+            var deferred = $q.defer();
             console.log(files,'files');
             var sortArray = [];
             if(Array.isArray(files) && files.length<5-this.picture.length){
@@ -36,133 +30,115 @@
               var fileReader = new FileReader();
               fileReader.onload = function (e) {
 
-              var img64 = {
-                            name : files[index].name,
-                            link : fileReader.result,
-                            order : order,
+                  var img64 = {
+                                name : files[index].name,
+                                link : fileReader.result,
+                                order : order,
 
-              };
+                  };
 
-              //sort order to similar as raw files
-              if( files.length > sortArray.length){
-                sortArray.push(img64);
-                console.log(files.length,sortArray.length,'all files');
-                if(files.length === sortArray.length){
-                  console.log('work');
-                  sortArray.sort(function (a , b) {
-                    return a.order-b.order
-                  });
-                  that.picture = that.picture.concat(sortArray);
-                  console.log(that.picture,'that.picture');
-                }
-              }
+                  //sort order to similar as raw files
+                  if( files.length > sortArray.length ){
+                    sortArray.push(img64);
+                    console.log(files.length,sortArray.length,'all files');
+                    if( files.length === sortArray.length ){
+                      console.log('work');
+                      sortArray.sort(function (a , b) {
+                        return a.order-b.order
+                      });
+                      that.picture = that.picture.concat( sortArray );
+                      deferred.resolve( { picture : that.picture } );
+                      console.log(that.picture,'that.picture');
+                    }
+                  }
 
 
               };
               fileReader.readAsDataURL(files[i]); //encode file to base64
             })(order,i)
               order++; //increase every loop to sort by order later
-
             }
-
-            } else {
-              this.state = 1; //show error gallery image
+            return deferred.promise;
             }
       };
 
       this.picRemove = function (index) {
-
-        this.picture.splice(index,1);
+        var test = this.picture.splice(index,1);
         if(index < this.pointer){
           this.pointer -= 1;
+          return {
+            picture : that.picture ,
+            pointer : that.pointer
+          };
         } else if (index === this.pointer && !this.picture[index+1] && this.picture[index-1]) {
             this.pointer -= 1;
+            return {
+              picture : that.picture ,
+              pointer : that.pointer
+            };
+          }else {
+            return {
+              picture : that.picture ,
+              pointer : that.pointer
+            };
           }
-
-        console.log(this.pointer,'point');
-
       }
+
+
 
       this.combine = function ( oldPic, newPic) {
-        var lists_remove_add = this.compare( oldPic , newPic );
-        this.remove( lists_remove_add.remove );
-        this.add( lists_remove_add.add , lists_remove_add.remain );
-      }
+        console.log('work');
+        var compare = function ( oldPic , newPic ) {
+          console.log('1');
+          var lists = {
+            remove : oldPic,
+            add : newPic,
+            remain : []
+          };
+          // filter remove and add
+          for (var i = 0; i < oldPic.length; i++) {
+            for (var j = 0 ; j < newPic.length; j++) {
 
-      this.remove = function ( array_remove ) {
-        imgur.remove( array_remove );
-      }
+                  if(oldPic[i].deletehash === newPic[j].deletehash){
+                    var removeIndex = lists.remove.findIndex(function (currentValue) {
+                                      return currentValue.deletehash ===  oldPic[i].deletehash
+                                    });
+                    var removeAdd = lists.add.findIndex(function (currentValue) {
+                                      return currentValue.deletehash ===  oldPic[i].deletehash
+                                    });
 
-      this.compare = function ( oldPic , newPic ) {
-        var lists = {
-          remove : oldPic,
-          add : newPic,
-          remain : []
-        };
-        // filter remove and add
-        for (var i = 0; i < oldPic.length; i++) {
-          for (var j = 0 ; j < newPic.length; j++) {
-
-                if(oldPic[i].deletehash === newPic[j].deletehash){
-                  var removeIndex = lists.remove.findIndex(function (currentValue) {
-                                    return currentValue.deletehash ===  oldPic[i].deletehash
-                                  });
-                  var removeAdd = lists.add.findIndex(function (currentValue) {
-                                    return currentValue.deletehash ===  oldPic[i].deletehash
-                                  });
-
-                  var remaining = lists.remove.splice( removeIndex , 1 );
-                                  lists.add.splice( removeAdd , 1 );
-                                  lists.remain.push( remaining[0] );
-                  break;
-                }
+                    var remaining = lists.remove.splice( removeIndex , 1 );
+                                    lists.add.splice( removeAdd , 1 );
+                                    lists.remain.push( remaining[0] );
+                    break;
+                  }
+            }
           }
+
+          return lists;
         }
 
-        return lists;
-      }
+        var remove = function ( array_remove ) {
+          console.log('2');
+          imgur.remove( array_remove );
+        }
 
-      this.add = function ( array_add , array_remain , url ) {
-
-          this.state = 10; //show complete bar&hide submit button
-          var pro = {
-            img : [],
-            pointer : 0
-          };
-          var data ={};
-
-          var createPro = function (array_add , file , array_remain) {
-            var arrayData = array_remain.concat( array_add );
-            console.log(arrayData, array_remain , array_add ,'arrayData');
-            for(var i = 0 ; i<arrayData.length ; i++){
-                data = {
-                    name : arrayData[i].name,
-                    link : arrayData[i].link,
-                    deletehash : arrayData[i].deletehash
-                };
-                pro.img.push(data);
-                pro.pointer = that.pointer;
+        var add = function ( array_add , array_remain ) {
+          console.log('3');
+            var processBar = function (complete,total) {
+              that.processBar = complete/total*100;
             }
-            console.log(pro,'before save');
-          $http.post(url , pro).then(function (res) {
-            console.log('user-avatar-update res',res.data);
-          });
-          }
+            //imgur service API for save 64bit to imgur host
+            //return promise to chain 'then'
+            return imgur.post( array_add , processBar ,array_remain );
 
-          var processBar = function (complete,total) {
-            that.processBar = complete/total*100;
-          }
-          //imgur service API for save 64bit to imgur host
-          imgur.post( array_add , processBar ,array_remain )
-            .then( function (res) {
-                      createPro( res.arrayData , res.file , res.array_remain );
-                  }
-            );
-      };
+        };
 
-      this.setCover = function (index) {
-        this.pointer = index;
-        console.log(this.pointer,'setcover');
+        // 1.compare 2.remove 3.add
+        var lists_remove_add = compare( oldPic , newPic );
+        remove( lists_remove_add.remove );
+        var promise = add( lists_remove_add.add , lists_remove_add.remain );
+        return promise;
       }
 
     }])

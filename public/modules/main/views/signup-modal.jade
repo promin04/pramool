@@ -4,40 +4,81 @@
   h4#signUpLabel.modal-title(ng-style='{"text-align":"center"}') Create new Account
 .modal-body(ng-style='{"text-align":"center"}')
   form(name='signupForm' , ng-submit = 'signup.signup(!signupForm.$valid)' novalidate='')
-    div
-      label(for = 'username') Username:
-      input(focus='' , name = 'username', ng-model = 'signup.user.username' , type = 'text' , placeholder = 'username' , ng-style = '{"margin-left":"5px"}' ,
-      required='' , minlength='6' , maxlength='16' , pattern='[a-zA-Z0-9]{1,16}' ,
-      uib-popover-template = "'./modules/header/views/username-popover.jade'" , popover-trigger = "'focus'" , popover-placement='top' ,
-      popover-enable='(signupForm.username.$error.pattern || signupForm.username.$error.minlength || signupForm.username.$error.maxlength || signupForm.username.$error.required) && signupForm.username.$touched')
 
-    div
-      label(for = 'password') Password:
-      input(name = 'password' , ng-model = 'signup.user.password' , type = 'password' , placeholder = 'password' , ng-style = '{"margin-left":"5px"}',
-      required='' , minlength='6' , maxlength='16' , pattern='[a-zA-Z0-9]{1,16}' ,
-      uib-popover-template = "'./modules/header/views/password-popover.jade'" , popover-trigger = "'focus'" , popover-placement='top' ,
-      popover-enable='(signupForm.password.$error.pattern || signupForm.password.$error.minlength || signupForm.password.$error.maxlength || signupForm.password.$error.required) && signupForm.password.$touched')
+    .outter-noborder(ng-style = '{"margin-top":"25px"}')
+      .container-noborder
+          input.noborder(focus='',
+            name = 'username',
+            ng-model = 'signup.user.username',
+            type = 'text' , placeholder = 'Username' ,
+            ng-style = '{"margin-left":"5px"}' ,
+            required='' , minlength='6' , maxlength='16' , pattern='[a-zA-Z0-9]{1,16}')
+          hr
+          hr
+
+    .outter-noborder
+      .container-noborder
+        input.noborder(name = 'password',
+          ng-model = 'signup.user.password',
+          type = 'password',
+          placeholder = 'Password',
+          ng-style = '{"margin-left":"5px"}',
+          required='' , minlength='6' , maxlength='16' , pattern='[a-zA-Z0-9]{1,16}')
+        hr
+        hr
     br
-    div
-      label(for = 'firstname') Firstname:
-      input(name = 'firstname' , ng-model = 'signup.user.firstname' , type = 'text' , placeholder = 'firstname' , ng-style = '{"margin-left":"5px"}' ,
-      required='' , minlength='1' , maxlength='16' , pattern='[a-zA-Z0-9]{1,16}' ,
-      uib-popover-template = "'./modules/header/views/firstname-popover.jade'" , popover-trigger = "'focus'" , popover-placement='top' ,
-      popover-enable='(signupForm.firstname.$error.pattern || signupForm.firstname.$error.minlength || signupForm.firstname.$error.maxlength || signupForm.firstname.$error.required) && signupForm.firstname.$touched')
-    div
-      label(for = 'lastname') Lastname:
-      input(name = 'lastname' , ng-model = 'signup.user.lastname', type = 'text' , placeholder = 'lastname',ng-style = '{"margin-left":"5px"}' ,
-      required='' , minlength='1' , maxlength='16' , pattern='[a-zA-Z0-9]{1,16}' ,
-      uib-popover-template = "'./modules/header/views/lastname-popover.jade'" , popover-trigger = "'focus'" , popover-placement='top' ,
-      popover-enable='(signupForm.lastname.$error.pattern || signupForm.lastname.$error.minlength || signupForm.lastname.$error.maxlength || signupForm.lastname.$error.required) && signupForm.lastname.$touched')
-    div
-      label(for = 'email') Email:
-      input(name = 'email' , ng-model = 'signup.user.email', type = 'email' , placeholder = 'youremail@email.com',ng-style = '{"margin-left":"35px"}' ,
-      required='' ,
-      uib-popover-template = "'./modules/header/views/email-popover.jade'" , popover-trigger = "'focus'" , popover-placement='top' ,
-      popover-enable='signupForm.email.$error.required && signupForm.email.$touched')
-    div(ng-style = '{"margin-top":"16px"}')
-      span(ng-visible='!signupForm.$valid && signup.pressButton' ng-style='{"font-size":"14px" , "color":"red"}')
-        |Please type your information correctly.
-      input.btn.btn-success.btn-block(type = 'submit' , value = 'Register' , ng-disabled='!signupForm.$valid && signup.pressButton')
+
+    .outter-noborder
+      .container-noborder
+        input.noborder(name = 'firstname',
+          ng-model = 'signup.user.firstname',
+          type = 'text',
+          placeholder = 'Firstname',
+          ng-style = '{"margin-left":"5px"}' ,
+          required='' , minlength='1' , maxlength='16' , pattern='[a-zA-Z0-9]{1,16}')
+        hr
+        hr
+
+    .outter-noborder
+      .container-noborder
+        input.noborder(name = 'lastname',
+          ng-model = 'signup.user.lastname',
+          type = 'text',
+          placeholder = 'Lastname',
+          ng-style = '{"margin-left":"5px"}' ,
+          required='' , minlength='1' , maxlength='16' , pattern='[a-zA-Z0-9]{1,16}')
+        hr
+        hr
+
+    .outter-noborder
+      .container-noborder
+        input.noborder(name = 'email',
+          ng-model = 'signup.user.email',
+          type = 'email',
+          placeholder = 'youremail@email.com',
+          ng-style = '{"margin-left":"5px"}',
+          required='')
+        hr
+        hr
+
+    .outter-noborder
+      div(ng-show='(signupForm.username.$error.required || signupForm.username.$error.minlength || signupForm.username.$error.maxlength) && signupForm.username.$touched && signupForm.username.$dirty' ng-style='{"font-size":"11px" , "color":"red" ,"margin-bottom":"8px"}')
+        |*Username is required 6-16 characters.
+      div(ng-show='signupForm.username.$error.pattern && signupForm.username.$touched && signupForm.username.$dirty' ng-style='{"font-size":"11px", "color":"red ,"margin-bottom":"8px""}')
+        |*Username isn't allow special character.
+      div(ng-show='(signupForm.password.$error.required || signupForm.password.$error.minlength || signupForm.password.$error.maxlength) && signupForm.password.$touched && signupForm.password.$dirty' ng-style='{"font-size":"11px" , "color":"red" ,"margin-bottom":"8px"}')
+        |*Password is required 6-16 characters.
+      div(ng-show='signupForm.password.$error.pattern && signupForm.password.$touched && signupForm.password.$dirty' ng-style='{"font-size":"11px", "color":"red" ,"margin-bottom":"8px"}')
+        |*Password isn't allow special character.
+      div(ng-show='(signupForm.firstname.$error.required || signupForm.firstname.$error.minlength || signupForm.firstname.$error.maxlength) && signupForm.firstname.$touched && signupForm.firstname.$dirty' ng-style='{"font-size":"11px" , "color":"red" ,"margin-bottom":"8px"}')
+        |*Firstname is required 1-16 characters.
+      div(ng-show='signupForm.firstname.$error.pattern && signupForm.firstname.$touched && signupForm.firstname.$dirty' ng-style='{"font-size":"11px", "color":"red" ,"margin-bottom":"8px"}')
+        |*Firstname isn't allow special character.
+      div(ng-show='(signupForm.lastname.$error.required || signupForm.lastname.$error.minlength || signupForm.lastname.$error.maxlength) && signupForm.lastname.$touched && signupForm.lastname.$dirty' ng-style='{"font-size":"11px" , "color":"red" ,"margin-bottom":"8px"}')
+        |*Lastname is required 1-16 characters.
+      div(ng-show='signupForm.lastname.$error.pattern && signupForm.lastname.$touched && signupForm.lastname.$dirty' ng-style='{"font-size":"11px", "color":"red" ,"margin-bottom":"8px"}')
+        |*Lastname isn't allow special character.
+      div(ng-show='(signupForm.email.$error.required ) && signupForm.email.$touched && signupForm.email.$dirty' ng-style='{"font-size":"11px" , "color":"red" ,"margin-bottom":"8px"}')
+        |*E-mail is required.
+      input.btn.btn-success.btn-block(type = 'submit' , value = 'Register' , ng-disabled='!signupForm.$valid && signup.pressButton' , ng-style='{"margin-top":"15px"}')
 .modal-footer
