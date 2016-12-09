@@ -1,7 +1,19 @@
 var User = require('mongoose').model('User');
 var passport = require('passport');
 var jwt = require('jsonwebtoken');
-exports.signup = function (req,res,next) {
+
+module.exports = {
+  signup ,
+  signout,
+  getUsername,
+  login,
+  setAvatar
+};
+
+//-------------------------------------------------------------------------------
+//signup
+//------------------------------------------------------------------------------
+function signup(req,res,next) {
     if(!req.user){
       var user = new User(req.body);
       console.log(req.body);
@@ -26,12 +38,20 @@ exports.signup = function (req,res,next) {
     }
 }
 
-exports.signout = function(req, res){
+
+//-------------------------------------------------------------------------------
+//signout
+//------------------------------------------------------------------------------
+function signout(req, res){
     req.logout();
     res.redirect('/');
 }
 
-exports.username = function (req,res) {
+
+//-------------------------------------------------------------------------------
+//getUsername
+//------------------------------------------------------------------------------
+function getUsername(req,res) {
   if(req.user){
     var user = {
       username : req.user.username,
@@ -41,11 +61,13 @@ exports.username = function (req,res) {
   } else {
     res.end();
   }
-
-
 }
 
-exports.login = function(req, res , next){
+
+//-------------------------------------------------------------------------------
+//login
+//------------------------------------------------------------------------------
+function login(req, res , next){
   passport.authenticate('local', function(err, user, info) {
     if (err) { return next(err); }
     if (!user) {
@@ -64,8 +86,11 @@ exports.login = function(req, res , next){
   })(req, res, next);
 }
 
-exports.setAvatar = function(req, res , next){
-  
+//-------------------------------------------------------------------------------
+//setAvatar
+//------------------------------------------------------------------------------
+function setAvatar(req, res , next){
+
   var condition = { _id : req.user._id };
   var update = {
     $set : { avatarImage : req.body }

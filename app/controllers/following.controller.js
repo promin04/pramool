@@ -2,344 +2,383 @@ var Following = require('mongoose').model('Following');
 var Product = require('mongoose').model('Product');
 
 module.exports = {
-  createFollow : function (req,res) {
-    var following = new Following({
-      user : {
-              user_id : req.user._id ,
-              username : req.user.username
-              },
-      following : [],
-      unread : 0,
-      notification : []
-    });
-    following.save(function (err,data) {
-      res.end();
-    })
-  },
+  createFollow,
+  setComment,
+  setPreFollow,
+  setCreatorFollow,
+  setBiderFollow,
+  setPreDelete,
+  notification,
+  getNotification,
+  readNotification,
+  send
+}
 
-  setComment : function (req , res , next) {
+//-------------------------------------------------------------------------------
+//signup
+//------------------------------------------------------------------------------
+ function createFollow(req , res) {
+  var following = new Following({
+    user : {
+            user_id : req.user._id ,
+            username : req.user.username
+            },
+    following : [],
+    unread : 0,
+    notification : []
+  });
+  following.save(function (err,data) {
+    return res.end();
+  })
+}
 
-        if( (req.user.username == req.comment.creator.username) && (req.comment.mode === 'new') ){
-          return res.end();
+//-------------------------------------------------------------------------------
+//setComment
+//------------------------------------------------------------------------------
+function setComment(req , res , next) {
 
-        } else {
-          req.follow = {
-                        _id : req.params._id , //product_id
-                        by : 'comment',
-                        mode : req.comment.mode
-          };
-          return next();
-        }
+      if( (req.user.username == req.comment.creator.username) && (req.comment.mode === 'new') ){
+        return res.end();
 
-  },
-
-  setPreFollow : function (req,res,next) {
-    if (req.product) {
-      req.follow = {
-                    _id : req.product._id ,
-                    by : 'follow',
-                    mode : req.body.mode
-                  };
-      return next();
-    } else {
-      req.follow = {
-                    _id : req.body._id ,
-                    by : 'follow',
-                    mode : req.body.mode
-                  };
-      return next();
-    }
-  },
-
-  setCreatorFollow : function (req,res,next) {
-    if (req.product) {
-      req.follow = {
-                    _id : req.product._id ,
-                    by : 'creator',
-                    mode : 'follow'
-                  };
-      return next();
-    } else {
-      console.log('error need req.product');
-      return next(err);
-    }
-  },
-
-  setBiderFollow : function (req,res,next) {
-    if (req.product) {
-      req.follow = {
-                    _id : req.product._id ,
-                    by : 'bider',
-                    mode : 'follow'
-                  };
-      return next();
-    } else {
-      console.log('error need req.product');
-      return next(err);
-    }
-  },
-
-    setPreDelete : function (req,res,next) {
-      console.log('setPreDelete');
-      if (req.product) {
-        req.follow = {
-                      _id : req.product._id ,
-                      by : 'delete',
-                      mode : 'follow'
-                    };
-        return next();
       } else {
-        console.log('error need req.product');
-        return next(err);
+        req.follow = {
+                      _id : req.params._id , //product_id
+                      by : 'comment',
+                      mode : req.comment.mode
+        };
+        return next();
       }
-    },
+}
 
-  notification : function (req,res,next) {
-    console.log('notification');
-    var notification = {};
-    var follower = [];
-    var condition;
-    var option;
-    var update;
+//-------------------------------------------------------------------------------
+//setPreFollow
+//------------------------------------------------------------------------------
+function setPreFollow(req,res,next) {
+  if (req.product) {
+    req.follow = {
+                  _id : req.product._id ,
+                  by : 'follow',
+                  mode : req.body.mode
+                };
+    return next();
+  } else {
+    req.follow = {
+                  _id : req.body._id ,
+                  by : 'follow',
+                  mode : req.body.mode
+                };
+    return next();
+  }
+}
 
-        switch ( req.follow.by ) {
-          case 'bider':
+//-------------------------------------------------------------------------------
+//setCreatorFollow
+//------------------------------------------------------------------------------
+function setCreatorFollow(req,res,next) {
+  if (req.product) {
+    req.follow = {
+                  _id : req.product._id ,
+                  by : 'creator',
+                  mode : 'follow'
+                };
+    return next();
+  } else {
+    console.log('error need req.product');
+    return next(err);
+  }
+}
+
+//-------------------------------------------------------------------------------
+//setBiderFollow
+//------------------------------------------------------------------------------
+function setBiderFollow(req,res,next) {
+  if (req.product) {
+    req.follow = {
+                  _id : req.product._id ,
+                  by : 'bider',
+                  mode : 'follow'
+                };
+    return next();
+  } else {
+    console.log('error need req.product');
+    return next(err);
+  }
+}
+
+//-------------------------------------------------------------------------------
+//setPreDelete
+//------------------------------------------------------------------------------
+function setPreDelete(req,res,next) {
+  console.log('setPreDelete');
+  if (req.product) {
+    req.follow = {
+                  _id : req.product._id ,
+                  by : 'delete',
+                  mode : 'follow'
+                };
+    return next();
+  } else {
+    console.log('error need req.product');
+    return next(err);
+  }
+}
+
+//-------------------------------------------------------------------------------
+//notification
+//------------------------------------------------------------------------------
+function notification( req , res , next ) {
+  console.log('notification');
+  var notification = {};
+  var follower = [];
+  var condition;
+  var option;
+  var update;
+
+      switch ( req.follow.by ) {
+        case 'bider':
+          notification =  { username : req.user.username ,
+                            type : 'bider' ,
+                            message : req.product.bider.price ,
+                            product : {
+                                        _id : req.product._id ,
+                                        name : req.product.name,
+                                        img : req.product.img
+                                      }
+                          };
+          follower = req.product.following;
+          break;
+
+        case 'creator':
+          notification =  {
+                            type : 'creator' ,
+                            product : {
+                                        _id : req.product._id ,
+                                        name : req.product.name,
+                                        img : req.product.img
+                                      }
+                          };
+          follower = [ req.product.creator ];
+          break;
+
+        case 'delete':
+          notification =  {
+                            type : 'delete' ,
+                            product : {
+                                        _id : req.product._id ,
+                                        name : req.product.name,
+
+                                      }
+                          };
+          follower = req.product.following;
+          break;
+
+        case 'close':
+          notification =  {
+                            type : 'close' ,
+                            winner : req.product.winner,
+                            product : {
+                                        _id : req.product._id ,
+                                        name : req.product.name,
+                                        img : req.product.img
+                                      }
+                          };
+          follower = req.product.following;
+          break;
+
+        case 'comment':
+          Product.findOne( { comment_id : req.follow._id } , '_id name creator coverImg img',
+          function (err , product) {
+            console.log(product,'product findOne');
+            var firstRow = req.body.message.split('<br />');
             notification =  { username : req.user.username ,
-                              type : 'bider' ,
-                              message : req.product.bider.price ,
+                              type : 'comment' ,
+                              message : firstRow[0] + '....',
                               product : {
-                                          _id : req.product._id ,
-                                          name : req.product.name,
-                                          img : req.product.img
+                                          _id : product._id ,
+                                          name : product.name,
+                                          img : product.img[ product.coverImg.index ].link
                                         }
                             };
-            follower = req.product.following;
-            break;
 
-          case 'creator':
-            notification =  {
-                              type : 'creator' ,
-                              product : {
-                                          _id : req.product._id ,
-                                          name : req.product.name,
-                                          img : req.product.img
-                                        }
-                            };
-            follower = [ req.product.creator ];
-            break;
+            switch ( req.comment.mode ) {
+              case 'answer':
+                  follower = [ { username : req.comment.replied_username } ];
+                break;
+              case 'new':
+                  follower = [ product.creator ];
+                break;
+              default: follower = [ product.creator ];
 
-          case 'delete':
-            notification =  {
-                              type : 'delete' ,
-                              product : {
-                                          _id : req.product._id ,
-                                          name : req.product.name,
+            }
 
-                                        }
-                            };
-            follower = req.product.following;
-            break;
+            /////
+                update = {
+                          $push : { notification : notification } ,
+                          $inc : { unread : 1 }
+                         };
 
-          case 'close':
-            notification =  {
-                              type : 'close' ,
-                              winner : req.product.winner,
-                              product : {
-                                          _id : req.product._id ,
-                                          name : req.product.name,
-                                          img : req.product.img
-                                        }
-                            };
-            follower = req.product.following;
-            break;
+                var count=1;
+                follower.forEach( function (item) {
 
-          case 'comment':
-            Product.findOne( { comment_id : req.follow._id } , '_id name creator coverImg img',
-            function (err , product) {
-              console.log(product,'product findOne');
-              var firstRow = req.body.message.split('<br />');
-              notification =  { username : req.user.username ,
-                                type : 'comment' ,
-                                message : firstRow[0] + '....',
-                                product : {
-                                            _id : product._id ,
-                                            name : product.name,
-                                            img : product.img[ product.coverImg.index ].link
-                                          }
-                              };
+                  var client; // var for client ID
+                  //detect follower is online or not & set client ID
 
-              switch ( req.comment.mode ) {
-                case 'answer':
-                    follower = [ { username : req.comment.replied_username } ];
-                  break;
-                case 'new':
-                    follower = [ product.creator ];
-                  break;
-                default: follower = [ product.creator ];
+                  for (var i = 0; i < GLOBAL.clients.length; i++) {
+                    if(GLOBAL.clients[i].username == item.username){
+                            client = GLOBAL.clients[i].clientId;
+                            console.log(' client ID ' , client);
+                            break;
+                    }
+                  }
 
-              }
-
-              /////
-                  update = {
-                            $push : { notification : notification } ,
-                            $inc : { unread : 1 }
+                  condition = { 'user.username' : item.username };
+                  option = {
+                             new : true ,
+                             fields : {
+                                        notification : { $slice: -1 } ,
+                                        'user.user_id': true
+                                      }
                            };
 
-                  var count=1;
-                  follower.forEach( function (item) {
+                  //self-invoke & inject parameter to freeze value for asynchronous process
+                  (function (condition , update , option , client ,count) {
+                    //save notification to database for history & offline's users
+                    Following.findOneAndUpdate( condition , update , option , function (err,data) {
+                      if(client) req.io.to(client).emit('notification' , data);   //emit notification to client that online right now
+                      if(err) return next(err);
 
-                    var client; // var for client ID
-                    //detect follower is online or not & set client ID
-
-                    for (var i = 0; i < GLOBAL.clients.length; i++) {
-                      if(GLOBAL.clients[i].username == item.username){
-                              client = GLOBAL.clients[i].clientId;
-                              console.log(' client ID ' , client);
-                              break;
+                      if(count === follower.length){
+                        console.log('final');
+                        return next(); // check last process to call
                       }
-                    }
+                    });
 
-                    condition = { 'user.username' : item.username };
-                    option = {
-                               new : true ,
-                               fields : {
-                                          notification : { $slice: -1 } ,
-                                          'user.user_id': true
-                                        }
-                             };
+                  })(condition , update , option , client , count)
+                  count++;
+                });
 
-                    //self-invoke & inject parameter to freeze value for asynchronous process
-                    (function (condition , update , option , client ,count) {
-                      //save notification to database for history & offline's users
-                      Following.findOneAndUpdate( condition , update , option , function (err,data) {
-                        if(client) req.io.to(client).emit('notification' , data);   //emit notification to client that online right now
-                        if(err) return next(err);
-
-                        if(count === follower.length){
-                          console.log('final');
-                          return next(); // check last process to call
-                        }
-                      });
-
-                    })(condition , update , option , client , count)
-                    count++;
-                  });
-
-            }
-          );
-
-            break;
-          default: notification = null;
-        }
-
-
-    update = {
-              $push : { notification : notification } ,
-              $inc : { unread : 1 }
-             };
-    var count = 1;
-    follower.forEach( function (item) {
-          var client; // var for client ID
-          //detect follower is online or not & set client ID
-
-          for (var i = 0; i < GLOBAL.clients.length; i++) {
-
-            if(GLOBAL.clients[i].username == item.username){
-                    client = GLOBAL.clients[i].clientId;
-                    console.log(' client ID ' , client);
-            }
           }
-          condition = { 'user.user_id' : item._id };
-          option = {
-                     new : true ,
-                     fields : {
-                                notification : { $slice: -1 } ,
-                                user_id: true
-                              }
-                   };
-          //self-invoke & inject parameter to freeze value for asynchronous process
-          (function (condition , update , option , client ,count) {
-            //save notification to database for history & offline's users
-            Following.findOneAndUpdate( condition , update , option , function (err,data) {
-              if(client) req.io.to(client).emit('notification' , data);   //emit notification to client that online right now
-              if(err) return next(err);
-              if(count === follower.length) {
-                console.log('final');
-                return next(); // check last process to call next()
-              }
-            });
+        );
 
-          })(condition , update , option , client , count)
-          count++;
-    });
-
-  },
-
-  getNotification : function (req,res,next) {
-    if( req.user ){
-    var condition = { 'user.user_id' : req.user._id };
-    var skip = (+req.params.page * 10) + (+req.params.new);
-    var option1 = {
-      notification : { $slice: [(-skip),10]  },
-      unread: true
-    };
-    var option2 =[
-      { $match : { 'user.user_id' : req.user._id.toString() } }
-      ,
-      {
-          $project: {
-                      size: { $size: "$notification" }
-          }
+          break;
+        default: notification = null;
       }
-  ];
-    Following.findOne( condition , option1).lean().exec(
-       function (err,data) {
-          if( err ) return next(err);
-          //console.log('getNotification',data);
-          req.follow = data;
-          Following.aggregate(option2 , function (err , num) {
+
+
+  update = {
+            $push : { notification : notification } ,
+            $inc : { unread : 1 }
+           };
+  var count = 1;
+  follower.forEach( function (item) {
+        var client; // var for client ID
+        //detect follower is online or not & set client ID
+
+        for (var i = 0; i < GLOBAL.clients.length; i++) {
+
+          if(GLOBAL.clients[i].username == item.username){
+                  client = GLOBAL.clients[i].clientId;
+                  console.log(' client ID ' , client);
+          }
+        }
+        condition = { 'user.user_id' : item._id };
+        option = {
+                   new : true ,
+                   fields : {
+                              notification : { $slice: -1 } ,
+                              user_id: true
+                            }
+                 };
+        //self-invoke & inject parameter to freeze value for asynchronous process
+        (function (condition , update , option , client ,count) {
+          //save notification to database for history & offline's users
+          Following.findOneAndUpdate( condition , update , option , function (err,data) {
+            if(client) req.io.to(client).emit('notification' , data);   //emit notification to client that online right now
             if(err) return next(err);
-
-              req.follow.num = num[0].size;
-              console.log('size',req.follow,req.follow.num);
-
-            return next();
+            if(count === follower.length) {
+              console.log('final');
+              return next(); // check last process to call next()
+            }
           });
 
+        })(condition , update , option , client , count)
+        count++;
+  });
+}
 
-      }
-    );
+//-------------------------------------------------------------------------------
+//getNotification
+//------------------------------------------------------------------------------
+function getNotification(req,res,next) {
+  if( req.user ){
+      var condition = { 'user.user_id' : req.user._id };
+      var skip = (+req.params.page * 10) + (+req.params.new);
+      var option1 = {
+        notification : { $slice: [(-skip),10]  },
+        unread: true
+      };
+      var option2 =[
+        { $match : { 'user.user_id' : req.user._id.toString() } }
+        ,
+        {
+            $project: {
+                        size: { $size: "$notification" }
+            }
+        }
+      ];
+      Following.findOne( condition , option1).lean().exec(
+         function (err,data) {
+            if( err ) return next(err);
+            //console.log('getNotification',data);
+            req.follow = data;
+            Following.aggregate(option2 , function (err , num) {
+              if(err) return next(err);
+
+                req.follow.num = num[0].size;
+                console.log('size',req.follow,req.follow.num);
+
+              return next();
+            });
 
 
-
+        }
+      );
   } else {
     console.log('get notification need login');
   }
-  },
+}
 
-  readNotification: function (req,res,next) {
-    if( req.user ){
-    var condition = { 'user.user_id' : req.user._id };
-    var update = {
-                $set : { unread : 0 }
-             };
-    var option = {
-        new : true ,
-        fields : {
-                   unread : true
-                 }
+//-------------------------------------------------------------------------------
+//readNotification
+//------------------------------------------------------------------------------
+function readNotification( req , res , next ) {
+  if( req.user ){
+  var condition = { 'user.user_id' : req.user._id };
+  var update = {
+              $set : { unread : 0 }
            };
-    Following.findOneAndUpdate( condition , update , option , function (err,data) {
-            if( err ) return next(err);
-            req.follow = data;
-            return next();
-        });
-    }
-  },
+  var option = {
+      new : true ,
+      fields : {
+                 unread : true
+               }
+         };
+  Following.findOneAndUpdate( condition , update , option , function (err,data) {
+          if( err ) return next(err);
+          req.follow = data;
+          return next();
+      });
+  }
+}
 
-  send : function (req,res) {
-    //console.log('send req.follow' , req.follow );
-     res.json(req.follow);
+//-------------------------------------------------------------------------------
+//send
+//------------------------------------------------------------------------------
+function send( req , res ) {
+  if ( req.follow ) {
+    return res.json(req.follow);
+  } else {
+    return res.end();
   }
 
 }

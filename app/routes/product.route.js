@@ -10,7 +10,7 @@ module.exports = function (app) {
   app.route( '/api/product/:id' )
      .get( product.detail , product.read )
      .post( product.offer , following.setBiderFollow ,  product.followProduct , following.notification , product.send )
-     .delete( product.delete_product , comment.delete , following.setPreDelete , following.notification , product.end );
+     .delete( product.delete_product , comment.delete_comment , following.setPreDelete , following.notification , product.end );
 
  app.route( '/api/edit/:id' )
     .get( product.detail , product.checkOwner , product.send )

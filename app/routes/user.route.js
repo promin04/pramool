@@ -12,7 +12,7 @@ module.exports = function (app) {
     .get(user.signout);
 
   app.route('/api/user')
-    .get(user.username);
+    .get(user.getUsername);
 
   app.route('/api/user-avatar-update')
     .post(user.setAvatar);
