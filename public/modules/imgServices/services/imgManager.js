@@ -9,11 +9,14 @@
       this.pointer = 0;
 
       this.set = function ( oldPic , picture , pointer ) {
-        var order = 1;
         this.oldPic = oldPic;
         this.picture = picture;
         this.pointer = pointer;
         console.log(oldPic , picture , pointer);
+      }
+
+      this.setPointer = function (index) {
+        this.pointer = index;
       }
 
       this.processBar = 0;
@@ -85,21 +88,23 @@
       }
 
        this.compare = function ( oldPic , newPic ) {
+
         var lists = {
-          remove : oldPic,
-          add : newPic,
+          remove : oldPic || that.oldPic,
+          add : newPic || that.newPic,
           remain : []
         };
+        console.log('list' , lists);
         // filter remove and add
-        for (var i = 0; i < oldPic.length; i++) {
-          for (var j = 0 ; j < newPic.length; j++) {
+        for (var i = 0; i < lists.remove.length; i++) {
+          for (var j = 0 ; j < lists.add.length; j++) {
 
-                if(oldPic[i].deletehash === newPic[j].deletehash){
+                if(lists.remove[i].deletehash === lists.add[j].deletehash){
                   var removeIndex = lists.remove.findIndex(function (currentValue) {
-                                    return currentValue.deletehash ===  oldPic[i].deletehash
+                                    return currentValue.deletehash ===  lists.remove[i].deletehash
                                   });
                   var removeAdd = lists.add.findIndex(function (currentValue) {
-                                    return currentValue.deletehash ===  oldPic[i].deletehash
+                                    return currentValue.deletehash ===  lists.remove[i].deletehash
                                   });
 
                   var remaining = lists.remove.splice( removeIndex , 1 );
@@ -109,11 +114,12 @@
                 }
           }
         }
-
+        console.log('result list' , lists);
         return lists;
       }
 
       this.remove = function ( array_remove ) {
+        console.log('remove' ,  array_remove.length);
         imgur.remove( array_remove );
       }
 
@@ -123,18 +129,19 @@
           }
           //imgur service API for save 64bit to imgur host
           //return promise to chain 'then'
-      return  imgur.post( array_add , processBar )
-                .then(
-                  function (res) {
-                    var result = {
-                      file : res.file ,
-                      arrayData : res.arrayData ,
-                      array_remain : array_remain
-                    };
+          console.log('add' ,  array_add.length);
+          return  imgur.post( array_add , processBar )
+                    .then(
+                      function (res) {
+                        var result = {
+                          file : res.file ,
+                          arrayData : res.arrayData ,
+                          array_remain : array_remain
+                        };
 
-                    return result;
-                  }
-                );
+                        return result;
+                      }
+                    );
 
       };
 

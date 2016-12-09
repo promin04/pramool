@@ -23,6 +23,7 @@
 
             this.processBar = 0;
             imgManager.set( this.oldPic , this.picture , this.pointer );
+
             this.prepare = function (files) {
              imgManager.prepare(files).then(function (res) {
                 that.picture = res.picture;
@@ -73,6 +74,7 @@
 
             this.setCover = function (index) {
               this.pointer = index;
+              imgManager.setPointer(index);
               console.log(this.pointer,'setcover');
             }
 

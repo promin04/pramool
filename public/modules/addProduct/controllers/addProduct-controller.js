@@ -1,7 +1,7 @@
 (function () {
   angular.module( 'addProduct' )
-    .controller( 'addProductController' , ['$http','imgur','$state','$timeout','$scope','$stateParams',
-    function ( $http , imgur , $state , $timeout , $scope , $stateParams ) {
+    .controller( 'addProductController' , ['$http','imgur','$state','$timeout','$scope','$stateParams','imgManager',
+    function ( $http , imgur , $state , $timeout , $scope , $stateParams , imgManager) {
 
             var that = this;
             var imgWidth;
@@ -13,9 +13,8 @@
             this.pointer = 0; //position of array picture that is a cover image.
             this.processBar = 0;
             this.classImg = true ;
-
+            imgManager.set( that.picture , that.picture , that.pointer);
             //check resolve from editMode
-
             if ( $scope.resolve ) {
               $timeout(function () {
                 console.log('work',this.picture , $scope.resolve.picture);
@@ -32,6 +31,7 @@
                 $scope.product.input.description.size.height = +$scope.resolve.description.size.height;
                 $scope.product.input.description.weight = +$scope.resolve.description.weight;
                 $scope.product.input.description.condition = $scope.resolve.description.condition;
+                imgManager.set( that.picture , that.picture , that.pointer);
               }, 100);
             }
 
@@ -49,58 +49,17 @@
 
 
             this.picRemove = function (index) {
-
-              this.picture.splice(index,1);
-              if(index < this.pointer){
-                this.pointer -= 1;
-              } else if (index === this.pointer && !this.picture[index+1] && this.picture[index-1]) {
-                  this.pointer -= 1;
-                }
-
-              console.log(this.pointer,'point');
-              this.changeClass();
+                var data = imgManager.picRemove(index);
+                this.picture = data.picture;
+                this.pointer = data.pointer;
+                console.log(this.pointer,'point');
+                this.changeClass();
             }
 
             this.prepare = function (files) {
-                  console.log(files,'files');
-                  var sortArray = [];
-                  if(Array.isArray(files) && files.length<5-this.picture.length){
-                    for(var i = 0 ; i < files.length ; i++){
-
-                    //freeze i for each loop
-                    (function (order,index) {
-                    var fileReader = new FileReader();
-                    fileReader.onload = function (e) {
-
-                    var img64 = {
-                                  name : files[index].name,
-                                  link : fileReader.result,
-                                  order : order
-                    };
-                    //sort order to similar as raw files
-                    if( files.length > sortArray.length){
-                      sortArray.push(img64);
-
-                      if(files.length === sortArray.length){
-
-                        sortArray.sort(function (a , b) {
-                          return a.order-b.order
-                        });
-                        $scope.$apply(that.picture = that.picture.concat(sortArray));
-                      }
-                    }
-
-
-                    };
-                    fileReader.readAsDataURL(files[i]);
-                  })(order,i)
-                    order++; //increase every loop to sort by order later
-                     //encode file to base64
-                  }
-
-                  } else {
-                    this.state = 1; //show error gallery image
-                  }
+             imgManager.prepare(files).then(function (res) {
+                that.picture = res.picture;
+              });
             };
 
             this.add = function () {
@@ -110,23 +69,24 @@
                   time : $scope.product.input.time ,
                   description : $scope.product.input.description , //all description such as W H L
                   img : [] ,
-                  coverImg : 0 ,
+                  coverImg : that.pointer ,
                   price : $scope.product.input.price
                 };
                 var data ={};
 
-                var createPro = function (arrayData,file) {
-                  for(var i = 0 ; i<arrayData.length ; i++){
+                var createPro = function (array_add,file,array_remain) {
+                  console.log(array_add,file,array_remain,'all');
+                  product_obj.img = product_obj.img.concat( array_remain );
+
+                  for(var i = 0 ; i<array_add.length ; i++){
                       data = {
-                          link: arrayData[i].link,
-                          deletehash: arrayData[i].deletehash,
-                          order: arrayData[i].title,
+                          link: array_add[i].link,
+                          deletehash: array_add[i].deletehash,
                           width: file[i].width,
                           height: file[i].height
                       };
                       //add images to product object
                       product_obj.img.push(data);
-                      product_obj.coverImg = that.pointer;
                   }
 
                   if (!that.editMode) {
@@ -153,16 +113,18 @@
                   that.processBar = complete/total*100;
                 }
 
-                  imgur.post( that.picture , processBar )
-                    .then(
-                      function (res) {
-                        createPro( res.arrayData , res.file );
-                      }
-                    );
+                    //imgManager API
+                    imgManager.combine( null , that.picture)
+                      .then(
+                        function (res) {
+                          createPro( res.arrayData , res.file , res.array_remain );
+                        }
+                      );
             };
 
             this.setCover = function (index) {
               this.pointer = index;
+              imgManager.setPointer(index);
               this.changeClass();
             }
 

@@ -15552,7 +15552,7 @@
 /* 125 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_LOCAL_MODULE_6__;var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_LOCAL_MODULE_5__;var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_LOCAL_MODULE_4__;var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_LOCAL_MODULE_3__;var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_LOCAL_MODULE_2__;var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_LOCAL_MODULE_1__;var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
+	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_LOCAL_MODULE_1__;var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_LOCAL_MODULE_2__;var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_LOCAL_MODULE_3__;var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_LOCAL_MODULE_4__;var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_LOCAL_MODULE_5__;var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_LOCAL_MODULE_6__;var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 	 * Masonry PACKAGED v4.1.1
 	 * Cascading grid layout library
 	 * http://masonry.desandro.com
@@ -16014,8 +16014,8 @@
 
 	/* WEBPACK VAR INJECTION */(function($) {(function () {
 	  angular.module( 'addProduct' )
-	    .controller( 'addProductController' , ['$http','imgur','$state','$timeout','$scope','$stateParams',
-	    function ( $http , imgur , $state , $timeout , $scope , $stateParams ) {
+	    .controller( 'addProductController' , ['$http','imgur','$state','$timeout','$scope','$stateParams','imgManager',
+	    function ( $http , imgur , $state , $timeout , $scope , $stateParams , imgManager) {
 	
 	            var that = this;
 	            var imgWidth;
@@ -16027,9 +16027,8 @@
 	            this.pointer = 0; //position of array picture that is a cover image.
 	            this.processBar = 0;
 	            this.classImg = true ;
-	
+	            imgManager.set( that.picture , that.picture , that.pointer);
 	            //check resolve from editMode
-	
 	            if ( $scope.resolve ) {
 	              $timeout(function () {
 	                console.log('work',this.picture , $scope.resolve.picture);
@@ -16046,6 +16045,7 @@
 	                $scope.product.input.description.size.height = +$scope.resolve.description.size.height;
 	                $scope.product.input.description.weight = +$scope.resolve.description.weight;
 	                $scope.product.input.description.condition = $scope.resolve.description.condition;
+	                imgManager.set( that.picture , that.picture , that.pointer);
 	              }, 100);
 	            }
 	
@@ -16063,58 +16063,17 @@
 	
 	
 	            this.picRemove = function (index) {
-	
-	              this.picture.splice(index,1);
-	              if(index < this.pointer){
-	                this.pointer -= 1;
-	              } else if (index === this.pointer && !this.picture[index+1] && this.picture[index-1]) {
-	                  this.pointer -= 1;
-	                }
-	
-	              console.log(this.pointer,'point');
-	              this.changeClass();
+	                var data = imgManager.picRemove(index);
+	                this.picture = data.picture;
+	                this.pointer = data.pointer;
+	                console.log(this.pointer,'point');
+	                this.changeClass();
 	            }
 	
 	            this.prepare = function (files) {
-	                  console.log(files,'files');
-	                  var sortArray = [];
-	                  if(Array.isArray(files) && files.length<5-this.picture.length){
-	                    for(var i = 0 ; i < files.length ; i++){
-	
-	                    //freeze i for each loop
-	                    (function (order,index) {
-	                    var fileReader = new FileReader();
-	                    fileReader.onload = function (e) {
-	
-	                    var img64 = {
-	                                  name : files[index].name,
-	                                  link : fileReader.result,
-	                                  order : order
-	                    };
-	                    //sort order to similar as raw files
-	                    if( files.length > sortArray.length){
-	                      sortArray.push(img64);
-	
-	                      if(files.length === sortArray.length){
-	
-	                        sortArray.sort(function (a , b) {
-	                          return a.order-b.order
-	                        });
-	                        $scope.$apply(that.picture = that.picture.concat(sortArray));
-	                      }
-	                    }
-	
-	
-	                    };
-	                    fileReader.readAsDataURL(files[i]);
-	                  })(order,i)
-	                    order++; //increase every loop to sort by order later
-	                     //encode file to base64
-	                  }
-	
-	                  } else {
-	                    this.state = 1; //show error gallery image
-	                  }
+	             imgManager.prepare(files).then(function (res) {
+	                that.picture = res.picture;
+	              });
 	            };
 	
 	            this.add = function () {
@@ -16124,23 +16083,24 @@
 	                  time : $scope.product.input.time ,
 	                  description : $scope.product.input.description , //all description such as W H L
 	                  img : [] ,
-	                  coverImg : 0 ,
+	                  coverImg : that.pointer ,
 	                  price : $scope.product.input.price
 	                };
 	                var data ={};
 	
-	                var createPro = function (arrayData,file) {
-	                  for(var i = 0 ; i<arrayData.length ; i++){
+	                var createPro = function (array_add,file,array_remain) {
+	                  console.log(array_add,file,array_remain,'all');
+	                  product_obj.img = product_obj.img.concat( array_remain );
+	
+	                  for(var i = 0 ; i<array_add.length ; i++){
 	                      data = {
-	                          link: arrayData[i].link,
-	                          deletehash: arrayData[i].deletehash,
-	                          order: arrayData[i].title,
+	                          link: array_add[i].link,
+	                          deletehash: array_add[i].deletehash,
 	                          width: file[i].width,
 	                          height: file[i].height
 	                      };
 	                      //add images to product object
 	                      product_obj.img.push(data);
-	                      product_obj.coverImg = that.pointer;
 	                  }
 	
 	                  if (!that.editMode) {
@@ -16167,16 +16127,18 @@
 	                  that.processBar = complete/total*100;
 	                }
 	
-	                  imgur.post( that.picture , processBar )
-	                    .then(
-	                      function (res) {
-	                        createPro( res.arrayData , res.file );
-	                      }
-	                    );
+	                    //imgManager API
+	                    imgManager.combine( null , that.picture)
+	                      .then(
+	                        function (res) {
+	                          createPro( res.arrayData , res.file , res.array_remain );
+	                        }
+	                      );
 	            };
 	
 	            this.setCover = function (index) {
 	              this.pointer = index;
+	              imgManager.setPointer(index);
 	              this.changeClass();
 	            }
 	
@@ -17393,6 +17355,7 @@
 	
 	            this.processBar = 0;
 	            imgManager.set( this.oldPic , this.picture , this.pointer );
+	
 	            this.prepare = function (files) {
 	             imgManager.prepare(files).then(function (res) {
 	                that.picture = res.picture;
@@ -17443,6 +17406,7 @@
 	
 	            this.setCover = function (index) {
 	              this.pointer = index;
+	              imgManager.setPointer(index);
 	              console.log(this.pointer,'setcover');
 	            }
 	
@@ -18341,11 +18305,14 @@
 	      this.pointer = 0;
 	
 	      this.set = function ( oldPic , picture , pointer ) {
-	        var order = 1;
 	        this.oldPic = oldPic;
 	        this.picture = picture;
 	        this.pointer = pointer;
 	        console.log(oldPic , picture , pointer);
+	      }
+	
+	      this.setPointer = function (index) {
+	        this.pointer = index;
 	      }
 	
 	      this.processBar = 0;
@@ -18417,21 +18384,23 @@
 	      }
 	
 	       this.compare = function ( oldPic , newPic ) {
+	
 	        var lists = {
-	          remove : oldPic,
-	          add : newPic,
+	          remove : oldPic || that.oldPic,
+	          add : newPic || that.newPic,
 	          remain : []
 	        };
+	        console.log('list' , lists);
 	        // filter remove and add
-	        for (var i = 0; i < oldPic.length; i++) {
-	          for (var j = 0 ; j < newPic.length; j++) {
+	        for (var i = 0; i < lists.remove.length; i++) {
+	          for (var j = 0 ; j < lists.add.length; j++) {
 	
-	                if(oldPic[i].deletehash === newPic[j].deletehash){
+	                if(lists.remove[i].deletehash === lists.add[j].deletehash){
 	                  var removeIndex = lists.remove.findIndex(function (currentValue) {
-	                                    return currentValue.deletehash ===  oldPic[i].deletehash
+	                                    return currentValue.deletehash ===  lists.remove[i].deletehash
 	                                  });
 	                  var removeAdd = lists.add.findIndex(function (currentValue) {
-	                                    return currentValue.deletehash ===  oldPic[i].deletehash
+	                                    return currentValue.deletehash ===  lists.remove[i].deletehash
 	                                  });
 	
 	                  var remaining = lists.remove.splice( removeIndex , 1 );
@@ -18441,11 +18410,12 @@
 	                }
 	          }
 	        }
-	
+	        console.log('result list' , lists);
 	        return lists;
 	      }
 	
 	      this.remove = function ( array_remove ) {
+	        console.log('remove' ,  array_remove.length);
 	        imgur.remove( array_remove );
 	      }
 	
@@ -18455,18 +18425,19 @@
 	          }
 	          //imgur service API for save 64bit to imgur host
 	          //return promise to chain 'then'
-	      return  imgur.post( array_add , processBar )
-	                .then(
-	                  function (res) {
-	                    var result = {
-	                      file : res.file ,
-	                      arrayData : res.arrayData ,
-	                      array_remain : array_remain
-	                    };
+	          console.log('add' ,  array_add.length);
+	          return  imgur.post( array_add , processBar )
+	                    .then(
+	                      function (res) {
+	                        var result = {
+	                          file : res.file ,
+	                          arrayData : res.arrayData ,
+	                          array_remain : array_remain
+	                        };
 	
-	                    return result;
-	                  }
-	                );
+	                        return result;
+	                      }
+	                    );
 	
 	      };
 	
