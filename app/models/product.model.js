@@ -7,7 +7,10 @@ var ProductSchema = new Schema({
                  required: true,
                  index: true
      },
-    createAt : Object,
+    createAt : {
+      _id : String ,
+      username : String
+    },
     bidEnd : Object,
     creator : Object,
     description : {

@@ -1,0 +1,11 @@
+
+
+.row
+  gallery.gallery.col-sm-8(pic='product.picture' , pointer='product.pointer')
+  .product-sidebar.col-sm-4( ng-include= "'./modules/store/views/store-product-side.jade'" ng-controller = 'sidebarReviewController as product' )
+.add-product-button
+  button.btn.btn-primary.btn-lg( ng-style="{'margin-bottom':'15px' , 'margin-top':'15px'}" ng-click='product.add()' , ng-hide="product.state==10") Create New Product
+  button.btn.btn-default.btn-lg( ng-style="{'margin-bottom':'15px' , 'margin-left':'30px' , 'margin-top':'15px'}" ng-click='product.previewBack()' , ng-hide="product.state==10") Go Back
+.progress(ng-show="$parent.product.state==10")
+  .progress-bar.progress-bar-success(role='progressbar', aria-valuenow='{{product.processBar}}', aria-valuemin='0', aria-valuemax='100', style='width:{{product.processBar}}%')
+    | {{$parent.product.processBar}}%

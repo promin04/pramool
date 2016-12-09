@@ -9,11 +9,7 @@
         if($rootScope.user == undefined)
           $state.go('auction');
         }
-        //fixed hidden overflow-y when change state
-        $rootScope.body = 'bodylock';
-        $timeout(function () {
-          $rootScope.body = '';
-        },600)
+
 
         if ($rootScope.user == undefined) {
 

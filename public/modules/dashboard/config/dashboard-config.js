@@ -1,23 +1,21 @@
 (function () {
-  angular.module('dashboard',['timer'])
+  angular.module('dashboard')
     .config(['$stateProvider',function ($stateProvider) {
       $stateProvider
         .state('dashboard',{
           url:'/dashboard',
+          abstract: true,
           templateUrl:'./modules/dashboard/views/dashboard.jade',
           resolve:{
             following:['followed',function (followed) {
                         var result = followed.product();
                  return result;
             }]
-          },
-          controller: ['$state' , function ($state) {
-              $state.go('dashboard.myProduct');
-          }],
-          controllerAs: 'dashboard'
+          }
+
         })
           .state('dashboard.myProduct',{
-
+            url:'',
             templateUrl:'./modules/dashboard/views/myProduct0.jade',
             controller:['following','$timeout','deleteProduct','$rootScope','$scope',function (following,$timeout,deleteProduct,$rootScope,$scope) {
 
@@ -84,7 +82,7 @@
 
           })
           .state('dashboard.following',{
-
+            url: "/following",
             templateUrl:'./modules/dashboard/views/following0.jade',
             controller:['following','$timeout','$rootScope','$scope',function ( following , $timeout , $rootScope, $scope ) {
               var that = this;

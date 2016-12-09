@@ -14,7 +14,7 @@ div
       |Comment after service.
 
   uib-tabset(active='activeJustified')
-    uib-tab(index='0', heading='My Product' , ui-sref = 'dashboard.myProduct')
+    uib-tab(index='0', heading='My Product' , ui-sref = 'dashboard.myProduct' , ui-sref-active="{'active' : '.myProduct'}")
       .my-product(ui-view="")
-    uib-tab(index='1', heading='Following', ui-sref = 'dashboard.following')
+    uib-tab(index='1', heading='Following', ui-sref = 'dashboard.following' , ui-sref-active="{'active' : '.following'}")
       .following(ui-view="")

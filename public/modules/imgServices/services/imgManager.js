@@ -1,5 +1,5 @@
 (function () {
-  angular.module('dashboard')
+  angular.module('imgServices')
     .service('imgManager',['$http','imgur','$q',function ($http,imgur,$q) {
 
       var that = this;
@@ -84,60 +84,65 @@
           }
       }
 
+       this.compare = function ( oldPic , newPic ) {
+        var lists = {
+          remove : oldPic,
+          add : newPic,
+          remain : []
+        };
+        // filter remove and add
+        for (var i = 0; i < oldPic.length; i++) {
+          for (var j = 0 ; j < newPic.length; j++) {
 
+                if(oldPic[i].deletehash === newPic[j].deletehash){
+                  var removeIndex = lists.remove.findIndex(function (currentValue) {
+                                    return currentValue.deletehash ===  oldPic[i].deletehash
+                                  });
+                  var removeAdd = lists.add.findIndex(function (currentValue) {
+                                    return currentValue.deletehash ===  oldPic[i].deletehash
+                                  });
+
+                  var remaining = lists.remove.splice( removeIndex , 1 );
+                                  lists.add.splice( removeAdd , 1 );
+                                  lists.remain.push( remaining[0] );
+                  break;
+                }
+          }
+        }
+
+        return lists;
+      }
+
+      this.remove = function ( array_remove ) {
+        imgur.remove( array_remove );
+      }
+
+      this.add = function ( array_add , array_remain ) {
+          var processBar = function (complete,total) {
+            that.processBar = complete/total*100;
+          }
+          //imgur service API for save 64bit to imgur host
+          //return promise to chain 'then'
+      return  imgur.post( array_add , processBar )
+                .then(
+                  function (res) {
+                    var result = {
+                      file : res.file ,
+                      arrayData : res.arrayData ,
+                      array_remain : array_remain
+                    };
+
+                    return result;
+                  }
+                );
+
+      };
 
       this.combine = function ( oldPic, newPic) {
-        console.log('work');
-        var compare = function ( oldPic , newPic ) {
-          console.log('1');
-          var lists = {
-            remove : oldPic,
-            add : newPic,
-            remain : []
-          };
-          // filter remove and add
-          for (var i = 0; i < oldPic.length; i++) {
-            for (var j = 0 ; j < newPic.length; j++) {
-
-                  if(oldPic[i].deletehash === newPic[j].deletehash){
-                    var removeIndex = lists.remove.findIndex(function (currentValue) {
-                                      return currentValue.deletehash ===  oldPic[i].deletehash
-                                    });
-                    var removeAdd = lists.add.findIndex(function (currentValue) {
-                                      return currentValue.deletehash ===  oldPic[i].deletehash
-                                    });
-
-                    var remaining = lists.remove.splice( removeIndex , 1 );
-                                    lists.add.splice( removeAdd , 1 );
-                                    lists.remain.push( remaining[0] );
-                    break;
-                  }
-            }
-          }
-
-          return lists;
-        }
-
-        var remove = function ( array_remove ) {
-          console.log('2');
-          imgur.remove( array_remove );
-        }
-
-        var add = function ( array_add , array_remain ) {
-          console.log('3');
-            var processBar = function (complete,total) {
-              that.processBar = complete/total*100;
-            }
-            //imgur service API for save 64bit to imgur host
-            //return promise to chain 'then'
-            return imgur.post( array_add , processBar ,array_remain );
-
-        };
-
         // 1.compare 2.remove 3.add
-        var lists_remove_add = compare( oldPic , newPic );
-        remove( lists_remove_add.remove );
-        var promise = add( lists_remove_add.add , lists_remove_add.remain );
+        var lists_remove_add = this.compare( oldPic , newPic );
+        this.remove( lists_remove_add.remove );
+        var promise = this.add( lists_remove_add.add , lists_remove_add.remain );
         return promise;
       }
 

@@ -65,7 +65,7 @@ exports.login = function(req, res , next){
 }
 
 exports.setAvatar = function(req, res , next){
-  console.log(req.body,'check bodyyyyyyyyyyyy');
+  
   var condition = { _id : req.user._id };
   var update = {
     $set : { avatarImage : req.body }

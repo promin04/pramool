@@ -3,7 +3,7 @@
     |My Product
 .follow-box.col-sm-10.col-xs-12
     .follow-box-text(ng-if='store.product.length===0' , ng-style='{"text-align":"center"}') There isn't your product. Let's
-      a(ui-sref='newProduct')  Create new .
+      a(ui-sref='newProduct.form')  Create new .
 
     .follow-body.row( ng-repeat='product in store.product' )
       .follow-modal-remove(ng-show = "preDelete" )
@@ -21,7 +21,7 @@
           .follow-status-button.col-xs-12
             a.button.hollow.btn.follow-status-button-detail( ui-sref = 'product.detail( {id: product._id} )' )
               |Detail
-            .button.warning.hollow.btn.follow-status-button-edit(ng-click = '')
+            a.button.warning.hollow.btn.follow-status-button-edit(ui-sref = 'edit.form( {id: product._id} )')
               |Edit
 
       .follow-console.col-xs-3

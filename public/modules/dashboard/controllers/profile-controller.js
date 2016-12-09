@@ -6,8 +6,8 @@
         windowClass: 'noAnimate',
         backdropClass: 'noAnimate',
         templateUrl : './modules/dashboard/views/editAvatar.jade',
-        controller : ['$http','$rootScope','imgur', '$uibModalInstance' , '$scope' , 'imgManager' ,
-        function ( $http , $rootScope , imgur , $uibModalInstance , $scope , imgManager ) {
+        controller : ['$http','$rootScope' , '$uibModalInstance' , '$scope' , 'imgManager' ,
+        function ( $http , $rootScope , $uibModalInstance , $scope , imgManager ) {
             var that = this;
             var order = 1;
             this.oldPic = angular.copy($scope.avatarImage.img);
@@ -22,7 +22,7 @@
             });
 
             this.processBar = 0;
-            imgManager.set( this.oldPic , this.picture , this.pointer )
+            imgManager.set( this.oldPic , this.picture , this.pointer );
             this.prepare = function (files) {
              imgManager.prepare(files).then(function (res) {
                 that.picture = res.picture;
@@ -38,10 +38,10 @@
             this.combine = function ( oldPic, newPic) {
               //createPro is callback for imgManager API
               var createPro = function (array_add , file , array_remain) {
-                var pro = {
-                            img : [],
-                            pointer : 0
-                          };
+                var avatar_obj = {
+                                    img : [],
+                                    pointer : 0
+                                  };
                 var data ={};
                 var arrayData = array_remain.concat( array_add );
                 for(var i = 0 ; i<arrayData.length ; i++){
@@ -50,10 +50,10 @@
                               link : arrayData[i].link,
                               deletehash : arrayData[i].deletehash
                             };
-                    pro.img.push(data);
-                    pro.pointer = that.pointer;
+                    avatar_obj.img.push(data);
+                    avatar_obj.pointer = that.pointer;
                 }
-                $http.post('/api/user-avatar-update',pro)
+                $http.post('/api/user-avatar-update', avatar_obj )
                   .then(
                       function (res) {
                         $rootScope.avatarImage = res.data.avatarImage;
@@ -65,7 +65,7 @@
               imgManager.combine(oldPic, newPic)
                 .then(
                   function (res) {
-                    createPro( res.arrayData , res.file , res.array_remain);
+                    createPro( res.arrayData , res.file , res.array_remain );
                   }
                 );
 

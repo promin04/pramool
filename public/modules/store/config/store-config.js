@@ -3,14 +3,6 @@
       .config(['$stateProvider','$urlRouterProvider',function ($stateProvider,$urlRouterProvider) {
 
           $stateProvider
-          .state('newProduct', {
-              url: '/new-product',
-              template: '<div add-product class="add-product"></div>' //or templateUrl: 'someFile.html'
-          })
-          .state('editProduct', {
-              url: '/edit-product',
-              template: '<div add-product class="edit-product"></div>' //or templateUrl: 'someFile.html'
-          })
           .state('404', {
               url: '/404',
               templateUrl:'./modules/store/views/404.jade'
@@ -61,8 +53,7 @@
                 },
               }
             });
-            //defer url when use state.current (prevent from empty value)
-            $urlRouterProvider.deferIntercept();
+
 
       }
     ]);

@@ -5,6 +5,6 @@ require('../../../scss/style.scss');
 
 (function () {
 
-  var app = angular.module('main',['ui.router','ngAnimate','ng-visible-invisible','ui.bootstrap','ngFileUpload','header','store','dashboard']);
+  var app = angular.module('main',['ui.router','ngAnimate','ng-visible-invisible','ui.bootstrap','ngFileUpload','header','store','dashboard','addProduct','editProduct']);
 
 })();

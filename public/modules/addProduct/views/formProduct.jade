@@ -1,0 +1,109 @@
+.row
+  .add-product-box.col-sm-6
+    form(name = 'myForm')
+      .form-group
+        label(for='name') Product's name
+        br
+        span(ng-visible='(!myForm.name.$valid || myForm.name.$error.required) && myForm.name.$touched' ng-style='{"font-size":"10px" , "margin-right":"8px", "color":"red"}')
+          |*Require 1-36 characters.
+        br
+        input.add-produt-name(type = 'text' , id = 'name' , name='name' , ng-model="product.input.name" ng-init="product.input.name = product.input.name || '' ", required='' , ng-maxlength="36")
+      .form-group
+        label Short Description (option)
+        br
+        span(ng-visible='(!myForm.description.$valid || myForm.description.$error.required) && myForm.description.$touched' ng-style='{"font-size":"10px" , "margin-right":"8px", "color":"red"}')
+          |*Require 1-66 characters.
+        br
+        .short-description( name = 'description' contenteditable = '' ng-model='product.input.description.detail'  ng-init="product.input.description.detail = product.input.description.detail || '' "  ng-class = '{unclicked : comment.state_clicked}' ng-maxlength="66")
+      .form-group
+        label(for='file') Gallery image (Maximum 4 image files)
+        br
+        |*recommend .jpg
+        br
+        br
+        div(ng-show="product.state==1" , ng-style="{'color':'red'}")|Maximum 4 image files
+        .inputfile-btn.btn.btn-primary
+          span
+            span.glyphicon.glyphicon-plus
+            |Browse image
+          input.inputfile-upload(type = 'file',id = 'file' , name = 'file' , ngf-select="product.prepare(product.picFile)" , ng-model="product.picFile", accept="image/*" , multiple="true" , ngf-max-size="1MB" , ngf-max-files="4" , required='')
+        .form-img-space
+          .form-img(ng-show='product.picture[0]', class='{{ ($index === product.pointer) ? "cover" : "" }}' , ng-repeat='one in product.picture')
+
+            //image-Onload that detect width and height then return
+            img(ng-src='{{one.link}}', image-Onload='' , picture ='product.picture' , index = '{{$index}}' , callback = 'product.changeClass()')
+            .form-img-cover(  ng-click = "product.setCover($index)" )
+              span.glyphicon.glyphicon-picture
+            .form-img-remove( ng-click = "product.picRemove($index)" )
+              span.glyphicon.glyphicon-remove( ng-style = "{'color' : 'red'}" )
+
+      .form-group
+        label(for='price') Start price
+        br
+        input(type = 'number' , name = 'price', ng-model="product.input.price" , ng-init="product.input.price = product.input.price || 1", min = "0" , max="99999")
+        | &nbsp; THB
+      .form-group
+        label(for='days') Time for auction
+        br
+        input(type = 'number' , id='days', name = 'days', ng-model="product.input.time.days" , ng-init="product.input.time.days = product.input.time.days || 1" , min="0" , max="30" ,  required='')
+        | &nbsp; days : &nbsp;
+
+        input(type = 'number' , name = 'hours', ng-model="product.input.time.hours", ng-init="product.input.time.hours = product.input.time.hours || 0"  , min="0" , max="23" , required='')
+        | &nbsp; hours
+      .form-group
+        label Size ( millimeter )
+        br
+        span(ng-visible='(myForm.width.$error.required || myForm.long.$error.required || myForm.height.$error.required) && (myForm.width.$touched || myForm.long.$touched || myForm.height.$touched)' ng-style='{"font-size":"10px" , "margin-right":"8px", "color":"red"}')
+          |*Require width , long and height.
+        br
+        input(type = 'number' , name = 'width', ng-model = "product.input.description.size.width"  , min = "0" , max="9999", placeholder = "width" ,  required='')
+        |&nbsp; x &nbsp;
+        input(type = 'number' , name = 'long', ng-model = "product.input.description.size.long"  , min = "0" , max="9999" ,placeholder = "long" ,  required='')
+        |&nbsp; x &nbsp;
+        input(type = 'number' , name = 'height', ng-model="product.input.description.size.height"  , min="0" , max="9999" , placeholder = "height" ,  required='')
+      .form-group
+        label(for='weight')
+          | Weight ( gram )
+        br
+        input(type = 'number' , name = 'weight', ng-model = "product.input.description.weight"  , min = "1" , max="99999" , ng-init="product.input.description.weight = product.input.description.weight || 1" , required='')
+      .form-group
+        label New one or Second hand ?
+        br
+        .radio
+          label
+            input(type='radio', value='new' name='New' ng-model = "product.input.description.condition" ng-init=" product.input.description.condition = product.input.description.condition || 'new' ")
+            | New
+        .radio
+          label
+            input(type='radio', value='Second hand' ng-model = "product.input.description.condition")
+            | Used second hand
+
+        br
+
+      button.btn.btn-default.btn-lg( ng-hide="product.state==10" , ng-style="{'margin-bottom':'30px'}" ng-click='product.preview()') Submit
+
+      .progress(ng-show="product.state==10")
+        .progress-bar.progress-bar-success(role='progressbar', aria-valuenow='{{product.processBar}}', aria-valuemin='0', aria-valuemax='100', style='width:{{product.processBar}}%')
+          | {{product.processBar}}%
+    .preview-product-small.col-sm-6
+    .preview-min
+      .grid-item.product-box(ng-class='[ \
+      { "vertical" : product.classImg } ,\
+      { "horizontal" : !product.classImg }]')
+
+        .product-img(\
+        ng-style= '{\
+        "height":(product.coverImg.autoH > product.coverImg.autoW ?product.coverImg.autoH:null)+"px" ,\
+        "width":(product.coverImg.autoH < product.coverImg.autoW ?product.coverImg.autoW:null)+"px" } ')
+          img(id ='preview-img', ng-src = '{{product.picture[product.pointer].link||"http://placehold.it/300x250"}}')
+
+        div(class = 'product-detail')
+          h4(ng-bind-html = 'product.input.name || "Name"')
+          div( class = 'product-auction' )
+            timer( milisec = '{{(product.input.time.days*86400000)+(product.input.time.hours*3600000)}}' )
+            div(class = 'product-price')
+              |{{product.input.price}} THB
+              br
+              | By {{user}}
+              br
+              |a few second ago.

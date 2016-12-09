@@ -1,8 +1,8 @@
 (function () {
-  angular.module('main')
+  angular.module('imgServices')
   .service('imgur',['$http', '$q' ,function ( $http , $q ) {
 
-    this.post = function ( file , processBar , array_remain ) {
+    this.post = function ( file , processBar ) {
 
       console.log(file);
       var arrayData = [];
@@ -11,8 +11,7 @@
         //send data
         deferred.resolve({
           file : file ,
-          arrayData : arrayData ,
-          array_remain : array_remain
+          arrayData : arrayData
         });
         //return promise to chain then
         return deferred.promise;
@@ -57,8 +56,7 @@
                       //send data when last loop
                       deferred.resolve({
                         file : file ,
-                        arrayData : arrayData ,
-                        array_remain : array_remain
+                        arrayData : arrayData
                       });
 
                       console.log(arrayData);

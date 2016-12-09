@@ -3,7 +3,7 @@
     |Following
 .follow-box.col-sm-10.col-xs-12
     .follow-box-text(ng-if='store.product.length===0' , ng-style='{"text-align":"center"}') There isn't your product. Let's
-      a(ui-sref='newProduct')  Create new .
+      a(ui-sref='newProduct.form')  Create new .
 
     .follow-body.row( ng-repeat='product in store.product' )
       a.follow-img.col-xs-4( ui-sref = 'product.detail( {id: product._id} )' )

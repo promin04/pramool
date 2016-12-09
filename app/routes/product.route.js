@@ -7,16 +7,15 @@ module.exports = function (app) {
      .post( comment.create , product.create  , comment.update , following.setCreatorFollow , following.notification , product.send )
      .get( product.list );
 
-
   app.route( '/api/product/:id' )
      .get( product.detail , product.read )
      .post( product.offer , following.setBiderFollow ,  product.followProduct , following.notification , product.send )
      .delete( product.delete , comment.delete , following.setPreDelete , following.notification , product.end );
 
- app.route( '/api/product/:id/edit' )
-    .get( product.detail , product.read )
-    .post( product.edit );
-    
+ app.route( '/api/edit/:id' )
+    .get( product.detail , product.checkOwner , product.send )
+    .post( product.checkOwner , product.edit );
+
   app.route( '/api/completed' )
       .get( product.completed );
 

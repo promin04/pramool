@@ -7,8 +7,7 @@
 
        $locationProvider.html5Mode(true).hashPrefix('!');
 
-      $urlRouterProvider
-        .otherwise('/');
+      $urlRouterProvider.otherwise('/');
     }
   ]);
 }

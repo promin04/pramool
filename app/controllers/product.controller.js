@@ -473,6 +473,40 @@ edit : function (req , res , next) {
     function (err,data) {
     res.end();
   });
+},
+
+checkOwner : function (req , res , next) {
+  if (req.product && req.user) {
+    //Case 1 there are req.product && req.user
+      if (req.product.creator._id.toString() != req.user._id.toString()) {
+        res.redirect('/');
+        return res.status(401).end();
+      }else if (req.product.creator.username != req.user.username) {
+        res.redirect('/');
+        return res.status(401).end();
+      }
+      return next();
+  }else if (req.params && req.user) {
+
+      //Case 2 there are req.params && req.user ,
+      //so we have to find product data for checking owner.
+      req.product =
+        (
+          function () {
+            this.detail(req,res,next);
+          }
+        )
+        (req , res , function () { return req.product; });
+
+        //Run this function again for case1
+      return  (function () {
+          this.checkOwner(req , res , next);
+      })(req , res , next);
+
+  }else {
+      //Case 3 No any info
+        return res.status(401).end();
+  }
 }
 
 

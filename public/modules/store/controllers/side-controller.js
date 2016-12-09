@@ -39,7 +39,7 @@
           return modalAuthService.open();
         }else if ( this.price > product.bider[product.bider.length-1].price) {
 
-          $http.post('/api/product/'+$stateParams.id,{price : this.price})
+          $http.post(`/api/product/${$stateParams.id}`,{price : this.price})
             .then(
                   function (response) {
                         that.price = '';

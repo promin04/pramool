@@ -1,3 +1,3 @@
 (function () {
-  angular.module('addProduct',['timer','gallery','comment','ngSanitize']);
+  angular.module('addProduct',['timer','gallery','comment','ngSanitize','imgServices']);
 })()

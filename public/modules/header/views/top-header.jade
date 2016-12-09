@@ -13,7 +13,7 @@
         | Log In
       .logout.button.btn.btn-danger( ng-click='user.signout()' , ng-show='user.username')
         |Log Out
-      .user(ng-show='user.username' ui-sref='dashboard' ui-sref-active="active")
+      .user(ng-show='user.username' , ui-sref='dashboard.myProduct' , ui-sref-active="{'active' : 'dashboard'}")
         img.user-icon(ng-src = '{{avatarImage.img[avatarImage.pointer].link || "http://www.premiumdxb.com/assets/img/avatar/default-avatar.jpg"}}')
         span.user-name
           | {{user.username}}
@@ -22,10 +22,10 @@
         a(href='', id="dropdown" , uib-dropdown-toggle='')
           span.menu.glyphicon.glyphicon-menu-hamburger(ng-show='user.username')
         ul.dropdown-menu(uib-dropdown-menu='', aria-labelledby='dropdown')
-          a(ui-sref='newProduct')
+          a(ui-sref='newProduct.form')
             li
               |Add Product
-          a(ui-sref='dashboard')
+          a(ui-sref='dashboard.myProduct')
             li
               |Dashboard
           li( ng-click='user.signout()')
