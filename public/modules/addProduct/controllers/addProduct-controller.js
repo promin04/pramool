@@ -10,6 +10,7 @@
             this.editMode = false;
             this.state = null;
             this.picture = [];
+            this.oldPic = [];
             this.pointer = 0; //position of array picture that is a cover image.
             this.processBar = 0;
             this.classImg = true ;
@@ -22,7 +23,8 @@
                 that.editMode = true;
                 $scope.product.input.name = $scope.resolve.name.toString();
                 $scope.product.input.price = +$scope.resolve.price;
-                that.picture = $scope.resolve.picture;
+                that.picture = angular.copy( $scope.resolve.picture );
+                that.oldPic = angular.copy( $scope.resolve.picture );
                 that.pointer = +$scope.resolve.pointer;
                 $scope.product.input.description.detail = $scope.resolve.description.detail.toString();
                 $scope.product.input.description.size = {};
@@ -114,12 +116,15 @@
                 }
 
                     //imgManager API
-                    imgManager.combine( null , that.picture)
-                      .then(
-                        function (res) {
-                          createPro( res.arrayData , res.file , res.array_remain );
-                        }
-                      );
+
+                      imgManager.combine( that.oldPic , that.picture)
+                        .then(
+                          function (res) {
+                            createPro( res.arrayData , res.file , res.array_remain );
+                          }
+                        );
+
+
             };
 
             this.setCover = function (index) {

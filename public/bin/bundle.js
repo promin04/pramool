@@ -15668,31 +15668,37 @@
 	       this.compare = function ( oldPic , newPic ) {
 	
 	        var lists = {
-	          remove : oldPic || that.oldPic,
-	          add : newPic || that.newPic,
+	          remove : angular.copy(oldPic) ,
+	          add : angular.copy(newPic),
 	          remain : []
 	        };
-	        console.log('list' , lists);
+	
 	        // filter remove and add
-	        for (var i = 0; i < lists.remove.length; i++) {
-	          for (var j = 0 ; j < lists.add.length; j++) {
+	        for (var i = 0; i < oldPic.length; i++) {
 	
-	                if(lists.remove[i].deletehash === lists.add[j].deletehash){
-	                  var removeIndex = lists.remove.findIndex(function (currentValue) {
-	                                    return currentValue.deletehash ===  lists.remove[i].deletehash
-	                                  });
-	                  var removeAdd = lists.add.findIndex(function (currentValue) {
-	                                    return currentValue.deletehash ===  lists.remove[i].deletehash
-	                                  });
+	          check_newPic: {
 	
-	                  var remaining = lists.remove.splice( removeIndex , 1 );
-	                                  lists.add.splice( removeAdd , 1 );
-	                                  lists.remain.push( remaining[0] );
-	                  break;
-	                }
+	            for (var j = 0 ; j < newPic.length; j++) {
+	
+	              if(oldPic[i].deletehash === newPic[j].deletehash){
+	                         var removeIndex = lists.remove.findIndex(function (currentValue) {
+	                                           return currentValue.deletehash ===  newPic[j].deletehash
+	                                         });
+	                         var removeAdd = lists.add.findIndex(function (currentValue) {
+	                                           return currentValue.deletehash ===  oldPic[i].deletehash
+	                                         });
+	
+	                         var remaining = lists.remove.splice( removeIndex , 1 );
+	                         lists.add.splice( removeAdd , 1 );
+	                         lists.remain.push( remaining[0] );
+	                         break check_newPic;
+	                  }
+	            }
+	
 	          }
+	
 	        }
-	        console.log('result list' , lists);
+	
 	        return lists;
 	      }
 	
@@ -16294,6 +16300,7 @@
 	            this.editMode = false;
 	            this.state = null;
 	            this.picture = [];
+	            this.oldPic = [];
 	            this.pointer = 0; //position of array picture that is a cover image.
 	            this.processBar = 0;
 	            this.classImg = true ;
@@ -16306,7 +16313,8 @@
 	                that.editMode = true;
 	                $scope.product.input.name = $scope.resolve.name.toString();
 	                $scope.product.input.price = +$scope.resolve.price;
-	                that.picture = $scope.resolve.picture;
+	                that.picture = angular.copy( $scope.resolve.picture );
+	                that.oldPic = angular.copy( $scope.resolve.picture );
 	                that.pointer = +$scope.resolve.pointer;
 	                $scope.product.input.description.detail = $scope.resolve.description.detail.toString();
 	                $scope.product.input.description.size = {};
@@ -16398,12 +16406,15 @@
 	                }
 	
 	                    //imgManager API
-	                    imgManager.combine( null , that.picture)
-	                      .then(
-	                        function (res) {
-	                          createPro( res.arrayData , res.file , res.array_remain );
-	                        }
-	                      );
+	
+	                      imgManager.combine( that.oldPic , that.picture)
+	                        .then(
+	                          function (res) {
+	                            createPro( res.arrayData , res.file , res.array_remain );
+	                          }
+	                        );
+	
+	
 	            };
 	
 	            this.setCover = function (index) {
