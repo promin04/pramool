@@ -1,7 +1,9 @@
 # pramool (Demo)
 **Screenshot**
 
-![Alt text](http://imgur.com/a/qLi8o "Auction page")
+
+
+![Alt text](http://i.imgur.com/rGB1UzSg.jpg)
 
 **Introduction**
 
