@@ -12,12 +12,11 @@ by web socket.
 
 Everyone can create sign-in by Log-in button or using My test account below.
 
-ID: testing
-Password: 012345
+**ID:** testing
 
+**Password:** 012345
 
-
-There are 6 main features for now.
+# Main features.
 
 **Bid**
 
@@ -38,6 +37,10 @@ There are 6 main features for now.
 - Notice to **All follower** and **Seller** when user take a price new bid.
 - Notice to **All follower** and **Seller** when product was deleted.
 - Notice to **Commentator** when user reply.
+
+**Search by name of product**
+
+- Located on top header. ( case insensitive )
 
 **Add & Edit your auction product**
 
