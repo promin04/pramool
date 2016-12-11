@@ -15,6 +15,7 @@
             this.processBar = 0;
             this.classImg = true ;
             imgManager.set( that.picture , that.picture , that.pointer);
+            /*
             //check resolve from editMode
             if ( $scope.resolve ) {
               $timeout(function () {
@@ -35,7 +36,7 @@
                 $scope.product.input.description.condition = $scope.resolve.description.condition;
                 imgManager.set( that.picture , that.picture , that.pointer);
               }, 100);
-            }
+            }*/
 
             this.changeClass = function () {
 
