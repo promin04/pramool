@@ -18,7 +18,7 @@
             //check resolve from editMode
             if ( $scope.resolve ) {
               $timeout(function () {
-                console.log('work',this.picture , $scope.resolve.picture);
+                console.log('$scope.resolve',$scope.resolve);
                 //set value and type depend on input to evoid ng-model type error
                 that.editMode = true;
                 $scope.product.input.name = $scope.resolve.name.toString();

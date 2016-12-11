@@ -15676,26 +15676,26 @@
 	        // filter remove and add
 	        for (var i = 0; i < oldPic.length; i++) {
 	
-	          check_newPic: {
+	                check_newPic: {
 	
-	            for (var j = 0 ; j < newPic.length; j++) {
+	                      for (var j = 0 ; j < newPic.length; j++) {
 	
-	              if(oldPic[i].deletehash === newPic[j].deletehash){
-	                         var removeIndex = lists.remove.findIndex(function (currentValue) {
-	                                           return currentValue.deletehash ===  newPic[j].deletehash
-	                                         });
-	                         var removeAdd = lists.add.findIndex(function (currentValue) {
-	                                           return currentValue.deletehash ===  oldPic[i].deletehash
-	                                         });
+	                            if(oldPic[i].deletehash === newPic[j].deletehash){
+	                                       var removeIndex = lists.remove.findIndex(function (currentValue) {
+	                                                         return currentValue.deletehash ===  newPic[j].deletehash
+	                                                       });
+	                                       var removeAdd = lists.add.findIndex(function (currentValue) {
+	                                                         return currentValue.deletehash ===  oldPic[i].deletehash
+	                                                       });
 	
-	                         var remaining = lists.remove.splice( removeIndex , 1 );
-	                         lists.add.splice( removeAdd , 1 );
-	                         lists.remain.push( remaining[0] );
-	                         break check_newPic;
-	                  }
-	            }
+	                                       var remaining = lists.remove.splice( removeIndex , 1 );
+	                                       lists.add.splice( removeAdd , 1 );
+	                                       lists.remain.push( remaining[0] );
+	                                       break check_newPic;
+	                            }
+	                        }
 	
-	          }
+	                }
 	
 	        }
 	
@@ -16308,7 +16308,7 @@
 	            //check resolve from editMode
 	            if ( $scope.resolve ) {
 	              $timeout(function () {
-	                console.log('work',this.picture , $scope.resolve.picture);
+	                console.log('$scope.resolve',$scope.resolve);
 	                //set value and type depend on input to evoid ng-model type error
 	                that.editMode = true;
 	                $scope.product.input.name = $scope.resolve.name.toString();
