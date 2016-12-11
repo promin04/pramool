@@ -23,9 +23,6 @@
             clear_setInterval = setInterval(
                       function(){
                         if ( $scope.product.input.name.length === 0 ) {
-                          console.log('ss');
-                          $timeout(function () {
-                            console.log('$scope.resolve',$scope.resolve);
                             //set value and type depend on input to evoid ng-model type error
                             that.editMode = true;
                             $scope.product.input.name = $scope.resolve.name.toString();
@@ -41,15 +38,13 @@
                             $scope.product.input.description.weight = +$scope.resolve.description.weight;
                             $scope.product.input.description.condition = $scope.resolve.description.condition;
                             imgManager.set( that.picture , that.picture , that.pointer);
-                          }, 100);
-                        }else {
-                          console.log('clear');
-                          clearTimeout(clear_setInterval);
 
+                        }else {
+                          clearInterval(clear_setInterval);
                         }
 
 
-                     }, 1000);
+                     }, 500);
 
 
             }
@@ -160,7 +155,7 @@
 
             $scope.$on('$destroy', function (event) {
               console.log('destroy');
-                clearTimeout(clear_setInterval);
+                clearInterval(clear_setInterval);
                 $( window ).off('resize');
                 $(".short-description").off('keyup');
             });
