@@ -7,6 +7,7 @@
             var imgWidth;
             var imgHeight;
             var order = 1;
+            var clear_setInterval;
             this.editMode = false;
             this.state = null;
             this.picture = [];
@@ -15,28 +16,43 @@
             this.processBar = 0;
             this.classImg = true ;
             imgManager.set( that.picture , that.picture , that.pointer);
-            /*
+
             //check resolve from editMode
             if ( $scope.resolve ) {
-              $timeout(function () {
-                console.log('$scope.resolve',$scope.resolve);
-                //set value and type depend on input to evoid ng-model type error
-                that.editMode = true;
-                $scope.product.input.name = $scope.resolve.name.toString();
-                $scope.product.input.price = +$scope.resolve.price;
-                that.picture = angular.copy( $scope.resolve.picture );
-                that.oldPic = angular.copy( $scope.resolve.picture );
-                that.pointer = +$scope.resolve.pointer;
-                $scope.product.input.description.detail = $scope.resolve.description.detail.toString();
-                $scope.product.input.description.size = {};
-                $scope.product.input.description.size.width = +$scope.resolve.description.size.width;
-                $scope.product.input.description.size.long =  +$scope.resolve.description.size.long;
-                $scope.product.input.description.size.height = +$scope.resolve.description.size.height;
-                $scope.product.input.description.weight = +$scope.resolve.description.weight;
-                $scope.product.input.description.condition = $scope.resolve.description.condition;
-                imgManager.set( that.picture , that.picture , that.pointer);
-              }, 100);
-            }*/
+
+            clear_setInterval = setInterval(
+                      function(){
+                        if ( $scope.product.input.name.length === 0 ) {
+                          console.log('ss');
+                          $timeout(function () {
+                            console.log('$scope.resolve',$scope.resolve);
+                            //set value and type depend on input to evoid ng-model type error
+                            that.editMode = true;
+                            $scope.product.input.name = $scope.resolve.name.toString();
+                            $scope.product.input.price = +$scope.resolve.price;
+                            that.picture = angular.copy( $scope.resolve.picture );
+                            that.oldPic = angular.copy( $scope.resolve.picture );
+                            that.pointer = +$scope.resolve.pointer;
+                            $scope.product.input.description.detail = $scope.resolve.description.detail.toString();
+                            $scope.product.input.description.size = {};
+                            $scope.product.input.description.size.width = +$scope.resolve.description.size.width;
+                            $scope.product.input.description.size.long =  +$scope.resolve.description.size.long;
+                            $scope.product.input.description.size.height = +$scope.resolve.description.size.height;
+                            $scope.product.input.description.weight = +$scope.resolve.description.weight;
+                            $scope.product.input.description.condition = $scope.resolve.description.condition;
+                            imgManager.set( that.picture , that.picture , that.pointer);
+                          }, 100);
+                        }else {
+                          console.log('clear');
+                          clearTimeout(clear_setInterval);
+
+                        }
+
+
+                     }, 1000);
+
+
+            }
 
             this.changeClass = function () {
 
@@ -144,6 +160,7 @@
 
             $scope.$on('$destroy', function (event) {
               console.log('destroy');
+                clearTimeout(clear_setInterval);
                 $( window ).off('resize');
                 $(".short-description").off('keyup');
             });
