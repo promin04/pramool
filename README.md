@@ -1,16 +1,23 @@
 # pramool (Demo)
 **Screenshot**
 
-
-
 ![Alt text](http://i.imgur.com/rGB1UzSg.jpg)
 
-**Introduction**
+![Alt text](http://i.imgur.com/U8GgtUFg.jpg)
+
+# Introduction
 
 Pramool is a auction website where responce your bid in the real-time
 by web socket.
 
-There are 3 main features for now.
+Everyone can create sign-in by Log-in button or using My test account below.
+
+ID: testing
+Password: 012345
+
+
+
+There are 6 main features for now.
 
 **Bid**
 
@@ -32,12 +39,24 @@ There are 3 main features for now.
 - Notice to **All follower** and **Seller** when product was deleted.
 - Notice to **Commentator** when user reply.
 
+**Add & Edit your auction product**
+
+- Add product by Add product button in auction page or dropdown lists for mobile.
+
+**Change your avatar**
+
+- Change it by button in dashboard page.
+
+**Follow this auction**
+
+- Follow the auction that you interest by Follow button in product detail page.
+
 what's next for me?
 - About security & web token(JWT)
 - Payment gateway
 - Test drive deverlopment
 
-**How to Start** 
+# How to Start 
 
 1. Clone the repo
 ```git clone https://github.com/promin04/pramool.git```
