@@ -28,6 +28,7 @@ require("../../modules/search/directives/searchPage-directive.js");
 require("../../modules/header/config/header-config.js");
 require("../../modules/header/directives/header-directive.js");
 require("../../modules/header/directives/scroll-directive.js");
+require("../../modules/header/controllers/authenticate-controller.js");
 
 require("../../modules/addProduct/addProduct-app.js");
 require("../../modules/addProduct/config/addProduct-config.js");

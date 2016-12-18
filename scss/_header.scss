@@ -2,13 +2,10 @@
 
 header {
     background: $grey;
-
     padding: 0 !important;
     margin: 0;
     border-bottom: 2px solid  $darkgary;
-
     width: 100%;
-
 }
 
 top-header {
@@ -19,14 +16,29 @@ top-header {
     font-family: 'Baloo Bhai', cursive;
 }
 
-
-
 .logo {
-  text-align: left;
-  font-size: 16px;
+  text-align: center;
+  font-size: 20px;
+  font-family: 'Oswald', sans-serif;
+  line-height: 0.9;
   .logo-small {
-    font-size: 12px;
+    line-height: 0.5;
+    left: 45px;
+    position: relative;
+    transition: left 0.8s;
+    animation-name: logo;
+    animation-duration: 0.8s;
+    animation-iteration-count: 1;
   }
+}
+
+@keyframes logo {
+    from {
+      left: 0px;
+    }
+    to {
+      left: 45px;
+    }
 }
 
 .search-form {
